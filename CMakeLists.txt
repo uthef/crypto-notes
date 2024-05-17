@@ -17,11 +17,11 @@ if(WIN32)
     )
     add_definitions(-D_WIN=1)
 else()
-    set(SQLITE_PATH ${CMAKE_SOURCE_DIR}/libs/linux/libsqlcipher.so.0.8.6)
-    # set(ICU_PATHS
-    #     /usr/lib/libicui18n.so
-    #     /usr/lib/libicuuc.so
-    # )
+    set(SQLITE_PATH ${CMAKE_SOURCE_DIR}/libs/linux/sqlite3-sqlcipher-icu.o)
+    set(ICU_PATHS
+        /usr/lib/libicui18n.so
+        /usr/lib/libicuuc.so
+    )
 endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
@@ -68,13 +68,11 @@ qt_add_qml_module(crypto-notes
         ui/window.qml
 )
 
-if(WIN32)
-    find_package(OpenSSL REQUIRED)
-    target_link_libraries(crypto-notes PRIVATE
-        OpenSSL::SSL
-        ${ICU_PATHS}
-    )
-endif()
+find_package(OpenSSL REQUIRED)
+target_link_libraries(crypto-notes PRIVATE
+    OpenSSL::SSL
+    ${ICU_PATHS}
+)
 
 target_link_libraries(crypto-notes PRIVATE
     Qt6::Quick
