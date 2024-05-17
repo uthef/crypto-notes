@@ -21,7 +21,7 @@ if(WIN32)
     configure_file(libs/win/libicudt74.dll libicudt74.dll COPYONLY)
     configure_file(libs/win/libicuuc74.dll libicuuc74.dll COPYONLY)
     configure_file(libs/win/libcrypto-3-x64.dll libcrypto-3-x64.dll COPYONLY)
-
+    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/src/icon.rc")
     add_definitions(-D_WIN=1)
 else()
     set(SQLITE_PATH ${CMAKE_SOURCE_DIR}/libs/linux/sqlite3-sqlcipher-icu.o)
@@ -43,6 +43,7 @@ include_directories(
 qt_standard_project_setup()
 
 qt_add_executable(crypto-notes
+    ${app_icon_resource_windows}
     res.qrc
     src/main.cpp
     headers/appcontext.h
@@ -75,6 +76,7 @@ qt_add_qml_module(crypto-notes
         ui/ListRow.qml
         ui/settings.qml
         ui/window.qml
+        RESOURCES src/icon.rc
 )
 
 target_link_libraries(crypto-notes PRIVATE
