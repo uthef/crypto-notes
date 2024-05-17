@@ -14,6 +14,7 @@ ApplicationWindow {
     minimumWidth: 400
 
     property int margin: 16
+    property string currentItem: stackView.currentItem.item.name
 
     menuBar: MenuBar {
         Menu {

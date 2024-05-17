@@ -12,18 +12,27 @@ GridLayout {
     property string name;
 
     Shortcut {
-        sequence: "Ctrl+Shift+Delete"
+        sequence: "Alt+Delete"
         onActivated: {
+            if (appWindow.currentItem !== "list" || !noteListView.activeFocus) return;
             appCtx.onNoteRemovalRequested(noteListView.currentIndex);
         }
     }
 
     Shortcut {
-        sequence: "Ctrl+Shift+G"
+        sequence: "Alt+C"
         onActivated: {
+            if (appWindow.currentItem !== "list" || noteListView.currentIndex === -1 || !noteListView.activeFocus) return;
             appCtx.onNoteRequested(noteListView.currentIndex, true);
         }
+    }
 
+    Shortcut {
+        sequence: "Alt+S"
+        onActivated: {
+            if (appWindow.currentItem !== "list" || noteListView.currentIndex === -1 || !noteListView.activeFocus) return;
+            appCtx.onCopyToClipboardRequest(noteListView.currentItem.data[0].summary);
+        }
     }
 
     Connections {

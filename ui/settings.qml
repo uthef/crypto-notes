@@ -28,7 +28,7 @@ ColumnLayout {
         TextField {
             id: pathField
             text: appCtx.dbFolder
-            enabled: false
+            readOnly: true
             Layout.fillWidth: true
             placeholderText: "Database path"
         }
@@ -111,9 +111,10 @@ ColumnLayout {
         id: folderDialog
         modality: "WindowModal"
         title: "Choose new database directory"
+        currentFolder: pathField.text
 
         onAccepted: {
-            appCtx.onNewDbPathSelected(folderDialog.currentFolder);
+            appCtx.onNewDbPathSelected(folderDialog.selectedFolder);
         }
     }
 

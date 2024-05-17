@@ -194,7 +194,8 @@ QString AppContext::dbFolder() {
 }
 
 void AppContext::onNewDbPathSelected(QString folder) {
-    _config.setDbPath(folder + "/notes.edb");
+    folder = folder.replace("file:///", "");
+    _config.setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
     emit dbFolderUpdated();
 }
 

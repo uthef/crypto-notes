@@ -89,6 +89,7 @@ ColumnLayout {
             placeholderText: "Note"
             KeyNavigation.priority: KeyNavigation.BeforeItem
             KeyNavigation.tab: updateCheck.enabled ? updateCheck : saveButton
+            KeyNavigation.backtab: summaryField
 
             onHeightChanged: {
                 flickable.contentY += font.pixelSize * 2;
