@@ -9,6 +9,8 @@ GridLayout {
     columnSpacing: 8
     rowSpacing: 8
 
+    property string name;
+
     Shortcut {
         sequence: "Ctrl+Shift+Delete"
         onActivated: {

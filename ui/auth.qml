@@ -9,6 +9,8 @@ Item {
     signal error(string msg)
     signal erasePass()
 
+    property string name;
+
     Component.onCompleted: {
         passwordField.forceActiveFocus();
     }
@@ -47,8 +49,8 @@ Item {
         Button {
             id: continueButton
             icon.source: "icons/check.svg"
-            icon.width: 15
-            icon.height: 15
+            icon.width: 18
+            icon.height: 18
             Layout.alignment: Qt.AlignHCenter
             text: "Continue"
             onClicked: appWindow.passwordReady(passwordField.text)

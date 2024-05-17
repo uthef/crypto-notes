@@ -7,6 +7,8 @@ import QtQuick.Dialogs
 
 
 ColumnLayout {
+    property string name;
+
     Text {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin

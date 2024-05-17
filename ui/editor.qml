@@ -12,6 +12,8 @@ ColumnLayout {
     property string summary;
     property string content;
 
+    property string name;
+
     Text {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
@@ -20,7 +22,7 @@ ColumnLayout {
         color: Material.foreground
         Layout.fillWidth: true
         font.pixelSize: 32
-        Layout.bottomMargin: 16
+        Layout.bottomMargin: 24
     }
 
     TextField {
@@ -61,10 +63,19 @@ ColumnLayout {
 
 
     Flickable {
+        id: flickable
+
         ScrollBar.vertical: ScrollBar {
            active: true
+           topPadding: 18
+           bottomPadding: 8
+           rightPadding: 8
         }
 
+        flickableDirection: Flickable.VerticalFlick
+
+        boundsBehavior: Flickable.StopAtBounds
+        clip: true
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Layout.fillWidth: true
@@ -73,10 +84,15 @@ ColumnLayout {
 
         TextArea.flickable: TextArea {
             id: contentArea
+            padding: 27
             text: root.content
             placeholderText: "Note"
             KeyNavigation.priority: KeyNavigation.BeforeItem
             KeyNavigation.tab: updateCheck.enabled ? updateCheck : saveButton
+
+            onHeightChanged: {
+                flickable.contentY += font.pixelSize * 2;
+            }
         }
     }
 
@@ -102,8 +118,9 @@ ColumnLayout {
                 text: "Save"
                 Layout.preferredHeight: 54
                 icon.source: "icons/floppy.svg"
-                icon.width: 15
-                icon.height: 15
+                icon.width: 18
+                icon.height: 18
+                Layout.preferredWidth: 100
                 antialiasing: false
                 smooth: false
                 onClicked: {
@@ -149,9 +166,10 @@ ColumnLayout {
             Button {
                 id: cancelButton
                 Layout.preferredHeight: 54
+                Layout.preferredWidth: 100
                 text: "Cancel"
-                icon.width: 15
-                icon.height: 15
+                icon.width: 18
+                icon.height: 18
                 onClicked: appWindow.goBackRequest();
             }
         }
@@ -159,10 +177,11 @@ ColumnLayout {
         Button {
             text: "Delete note"
             Layout.preferredHeight: 54
+            Layout.preferredWidth: 140
             Layout.alignment: Qt.AlignRight
             icon.source: "icons/bin.svg"
-            icon.width: 15
-            icon.height: 15
+            icon.width: 18
+            icon.height: 18
             enabled: id != -1
             onClicked: {
                 appWindow.popupRequest("editor", "Are you sure you want to remove selected note? This action CANNOT BE UNDONE", true);

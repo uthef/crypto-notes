@@ -25,6 +25,8 @@ else()
 endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(OpenSSL REQUIRED)
+
 
 include_directories(
     headers
@@ -68,14 +70,10 @@ qt_add_qml_module(crypto-notes
         ui/window.qml
 )
 
-find_package(OpenSSL REQUIRED)
-target_link_libraries(crypto-notes PRIVATE
-    OpenSSL::SSL
-    ${ICU_PATHS}
-)
-
 target_link_libraries(crypto-notes PRIVATE
     Qt6::Quick
+    OpenSSL::SSL
+    ${ICU_PATHS}
     ${SQLITE_PATH}
 )
 

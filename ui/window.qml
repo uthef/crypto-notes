@@ -21,6 +21,7 @@ ApplicationWindow {
                 id: menuItemConfigure
                 text: "Configure…"
                 onClicked: {
+                    if (stackView.currentItem.item.name !== "auth") return;
                     stackView.push(settingsComp);
                 }
             }
@@ -95,6 +96,10 @@ ApplicationWindow {
 
         Loader {
             source: "auth.qml"
+
+            onLoaded: {
+                item.name = "auth"
+            }
         }
     }
 
@@ -103,6 +108,10 @@ ApplicationWindow {
 
         Loader {
             source: "list.qml"
+
+            onLoaded: {
+                item.name = "list"
+            }
         }
     }
 
@@ -111,6 +120,10 @@ ApplicationWindow {
 
         Loader {
             source: "editor.qml"
+
+            onLoaded: {
+                item.name = "editor"
+            }
         }
     }
 
@@ -119,10 +132,16 @@ ApplicationWindow {
 
         Loader {
             source: "settings.qml"
+
+            onLoaded: {
+                item.name = "settings"
+            }
         }
     }
 
     onPasswordReady: (password) => {
+        if (stackView.currentItem.item.name !== "auth") return;
+
         if (password.length === 0) {
             stackView.currentItem.item.error("Password cannot be blank");
             return;
@@ -138,6 +157,8 @@ ApplicationWindow {
     }
 
     onGoToAuthRequest: {
+        if (stackView.currentItem.item.name === "auth") return;
+
         appCtx.onDbDisconnectionRequest();
 
         while (stackView.depth > 1) {
@@ -149,6 +170,8 @@ ApplicationWindow {
     }
 
     onEditorRequested: (index, id, title, summary, content) => {
+        if (stackView.currentItem.item.name !== "list") return;
+
         stackView.push(editorComp);
 
         stackView.currentItem.item.index = index;
