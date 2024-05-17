@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ui/window.qml</file>
+        <file>ui/auth.qml</file>
+        <file>ui/list.qml</file>
+        <file>ui/icons/error.svg</file>
+        <file>ui/ErrorMessage.qml</file>
+        <file>ui/icons/check.svg</file>
+        <file>ui/icons/search.svg</file>
+        <file>ui/icons/plus.svg</file>
+        <file>ui/editor.qml</file>
+        <file>ui/icons/floppy.svg</file>
+        <file>ui/icons/bin.svg</file>
+        <file>ui/ListRow.qml</file>
+        <file>ui/settings.qml</file>
+    </qresource>
+</RCC>
