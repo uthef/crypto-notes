@@ -13,5 +13,6 @@
         <file>ui/icons/bin.svg</file>
         <file>ui/ListRow.qml</file>
         <file>ui/settings.qml</file>
+        <file>ui/icons/note.png</file>
     </qresource>
 </RCC>

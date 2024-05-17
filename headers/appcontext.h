@@ -36,7 +36,7 @@ namespace cryptonotes {
         void onPasswordValidated(QString password);
         void onPasswordUpdateRequested(QString oldPassword, QString newPassword);
         void onNewDbPathSelected(QString folder);
-        void copyToClipboard(QString value1, QString value2);
+        void onCopyToClipboardRequest(QString value);
         void onNoteRemovalRequested(size_t index);
         void onSearchRequest(QString query);
         void onDbDisconnectionRequest();

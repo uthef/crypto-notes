@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QGuiApplication>
+#include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "appcontext.h"
@@ -7,8 +8,7 @@
 
 using namespace cryptonotes;
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
 
     qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
@@ -17,6 +17,8 @@ int main(int argc, char** argv)
     qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
 
     AppContext context;
+
+    app.setWindowIcon(QIcon(":/ui/icons/note.png"));
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("appCtx", &context);

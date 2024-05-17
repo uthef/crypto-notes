@@ -10,6 +10,8 @@ ApplicationWindow {
     height: 600
     visible: true
     title: "Crypto Notes App"
+    minimumHeight: 600
+    minimumWidth: 400
 
     property int margin: 16
 

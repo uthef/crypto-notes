@@ -19,7 +19,7 @@ GridLayout {
     }
 
     Shortcut {
-        sequence: "Ctrl+Shift+C"
+        sequence: "Ctrl+Shift+G"
         onActivated: {
             appCtx.onNoteRequested(noteListView.currentIndex, true);
         }
@@ -35,7 +35,7 @@ GridLayout {
 
         function onNoteDataAvailable(index, id, title, summary, content, shortcut) {
             if (shortcut) {
-                appCtx.copyToClipboard(summary, content);
+                appCtx.onCopyToClipboardRequest(content);
             }
             else appWindow.editorRequested(index, id, title, summary, content);
         }

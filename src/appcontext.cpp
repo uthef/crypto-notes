@@ -131,11 +131,9 @@ void AppContext::onPasswordUpdateRequested(QString oldPassword, QString newPassw
     emit passwordUpdateResult("Success", true);
 }
 
-void AppContext::copyToClipboard(QString value1, QString value2) {
-    emit abort("Not implemented");
-
-    // auto clipboard = QGuiApplication::clipboard();
-    // clipboard->setText(value1, QClipboard::Clipboard);
+void AppContext::onCopyToClipboardRequest(QString value) {
+    auto clipboard = QGuiApplication::clipboard();
+    clipboard->setText(value, QClipboard::Clipboard);
     // clipboard->setText(value2, QClipboard::Clipboard);
 }
 
