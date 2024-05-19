@@ -14,7 +14,7 @@ GridLayout {
     Shortcut {
         sequence: "Alt+Delete"
         onActivated: {
-            if (appWindow.currentItem !== "list" || !noteListView.activeFocus) return;
+            if (appWindow.currentItem !== "list" || !noteListView.activeFocus || noteListView.currentIndex === -1) return;
             appCtx.onNoteRemovalRequested(noteListView.currentIndex);
         }
     }

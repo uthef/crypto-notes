@@ -14,5 +14,6 @@
         <file>ui/ListRow.qml</file>
         <file>ui/settings.qml</file>
         <file>ui/icons/note.png</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

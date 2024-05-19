@@ -11,10 +11,10 @@ using namespace cryptonotes;
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
 
-    qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
-    qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
-    qputenv("QT_QUICK_CONTROLS_MATERIAL_ACCENT", QByteArray("Blue"));
-    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
+    // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
+    // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
+    // qputenv("QT_QUICK_CONTROLS_MATERIAL_ACCENT", QByteArray("Blue"));
+    // qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
 
     AppContext context;
 
