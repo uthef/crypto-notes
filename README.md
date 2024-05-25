@@ -5,4 +5,4 @@ Project stack:
 * C++
 * Qt Framework
 * Qt Quick Controls
-* SQLite + SQLCipher + ICU
+* SQLite + SQLCipher + ICU extension
