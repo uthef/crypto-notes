@@ -6,3 +6,5 @@ Project stack:
 * Qt Framework
 * Qt Quick Controls
 * SQLite + SQLCipher + ICU extension
+
+![Program screenshot](crypto-notes.png)
