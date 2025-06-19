@@ -30,7 +30,7 @@ QString Formatter::timestampToReadableDateTime(long timestamp) {
         return str;
     }
 
-    if (tm.tm_mday != currentDate.day()) {
+    if (tm.tm_mday != currentDate.day() || tm.tm_mon != currentDate.month()) {
         str = QString("%1 %2, %3:%4")
                   .arg(MONTHS[tm.tm_mon]).arg(tm.tm_mday)
                   .arg(tm.tm_hour, 2, 10, QChar('0'))
