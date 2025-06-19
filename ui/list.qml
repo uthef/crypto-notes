@@ -132,7 +132,8 @@ GridLayout {
             }
 
             Keys.onSpacePressed: {
-                appCtx.onNoteRequested(currentIndex, false);
+                if (noteListView.currentItem !== null)
+                    appCtx.onNoteRequested(currentIndex, false);
             }
 
             onActiveFocusChanged: () => {
