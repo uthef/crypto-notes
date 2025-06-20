@@ -55,7 +55,7 @@ RowLayout {
 
     ]
 
-    IconImage {
+    Image {
         id: icon
         mipmap: true
         source: "icons/error.svg"

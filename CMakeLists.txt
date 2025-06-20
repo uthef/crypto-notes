@@ -27,11 +27,8 @@ if(WIN32)
 
     add_definitions(-D_WIN=1)
 else()
-    set(SQLITE_PATH ${CMAKE_SOURCE_DIR}/libs/linux/sqlite3-sqlcipher-icu.o)
-    set(ICU_PATHS
-        /usr/lib/libicui18n.so
-        /usr/lib/libicuuc.so
-    )
+    set(SQLITE_PATH sqlcipher)
+    set(ICU_PATHS icui18n icuuc)
 endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)

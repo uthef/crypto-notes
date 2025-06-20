@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
+import QtQuick.Controls.Material
+import QtQuick.Effects
 
 GridLayout {
     columns: 1
@@ -59,13 +60,13 @@ GridLayout {
         Layout.rightMargin: appWindow.margin
         Layout.topMargin: appWindow.margin
 
-        IconImage {
+        Image {
             id: searchIcon
             Layout.preferredWidth: 32
             mipmap: true
-            Layout.preferredHeight: 32
-            color: Material.frameColor
-            source: "icons/search.svg"
+            Layout.preferredHeight: 32;
+            // color: Material.frameColor
+            source: "icons/search_inactive.svg"
         }
 
         TextField {
@@ -73,8 +74,8 @@ GridLayout {
             Layout.fillWidth: true
             placeholderText: "Search"
             onFocusChanged: (f) => {
-                if (f) searchIcon.color = Material.accentColor;
-                else searchIcon.color = Material.frameColor;
+                if (f) searchIcon.source = "icons/search.svg";
+                else searchIcon.source = "icons/search_inactive.svg";
             }
             maximumLength: 128
             onTextChanged: appCtx.onSearchRequest(text)
@@ -132,7 +133,8 @@ GridLayout {
             }
 
             Keys.onSpacePressed: {
-                appCtx.onNoteRequested(currentIndex, false);
+                if (noteListView.currentItem !== null)
+                    appCtx.onNoteRequested(currentIndex, false);
             }
 
             onActiveFocusChanged: () => {

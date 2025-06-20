@@ -6,12 +6,15 @@ import QtQuick.Controls.Material
 
 ApplicationWindow {
     id: appWindow
-    width: 800
-    height: 600
+    width: 860
+    height: 640
     visible: true
     title: "Crypto Notes App"
-    minimumHeight: 600
-    minimumWidth: 400
+    minimumHeight: 640
+    minimumWidth: 860
+
+    Material.theme: Material.Dark
+    Material.accent: Material.Blue
 
     property int margin: 16
     property string currentItem: stackView.currentItem.item.name

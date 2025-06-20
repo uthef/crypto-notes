@@ -15,5 +15,6 @@
         <file>ui/settings.qml</file>
         <file>ui/icons/note.png</file>
         <file>qtquickcontrols2.conf</file>
+        <file>ui/icons/search_inactive.svg</file>
     </qresource>
 </RCC>

@@ -109,7 +109,7 @@ ColumnLayout {
 
     FolderDialog {
         id: folderDialog
-        modality: "WindowModal"
+        modality: "ApplicationModal"
         title: "Choose new database directory"
         currentFolder: pathField.text
 
