@@ -8,36 +8,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-if(WIN32)
-    set(SQLITE_PATH ${CMAKE_SOURCE_DIR}/libs/win/sqlite3-sqlcipher-icu.o)
-    set(CMAKE_EXE_LINKER_FLAGS -fstack-protector)
-
-    set(ICU_PATHS
-        ${CMAKE_SOURCE_DIR}/libs/win/libicudt74.dll
-        ${CMAKE_SOURCE_DIR}/libs/win/libicuin74.dll
-        ${CMAKE_SOURCE_DIR}/libs/win/libicuuc74.dll
-    )
-
-    configure_file(libs/win/libicuin74.dll libicuin74.dll COPYONLY)
-    configure_file(libs/win/libicudt74.dll libicudt74.dll COPYONLY)
-    configure_file(libs/win/libicuuc74.dll libicuuc74.dll COPYONLY)
-    configure_file(libs/win/libcrypto-3-x64.dll libcrypto-3-x64.dll COPYONLY)
-
-    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/src/icon.rc")
-
-    add_definitions(-D_WIN=1)
-else()
-    set(SQLITE_PATH sqlcipher)
-    set(ICU_PATHS icui18n icuuc)
-endif()
-
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 find_package(OpenSSL REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SQLCipher REQUIRED sqlcipher)
 
 
 include_directories(
-    headers
-    libs/headers
+    include
+    ${SQLCIPHER_INCLUDE_DIRS}
 )
 
 qt_standard_project_setup()
@@ -46,24 +25,25 @@ qt_add_executable(crypto-notes
     ${app_icon_resource_windows}
     res.qrc
     src/main.cpp
-    headers/appcontext.h
+    include/appcontext.h
     src/appcontext.cpp
-    headers/database.h
+    include/database.h
     src/database.cpp
-    headers/note.h
+    include/note.h
     src/note.cpp
-    headers/queries.h
-    headers/notelist.h
+    include/queries.h
+    include/notelist.h
     src/notelist.cpp
-    headers/notelistmodel.h
+    include/notelistmodel.h
     src/notelistmodel.cpp
-    headers/formatter.h
+    include/formatter.h
     src/formatter.cpp
-    headers/appconfig.h
+    include/appconfig.h
     src/appconfig.cpp
 )
 
-qt_policy(SET QTP0001 OLD)
+qt_policy(SET QTP0001 NEW)
+qt_policy(SET QTP0004 NEW)
 
 qt_add_qml_module(crypto-notes
     URI cryptonotes
@@ -82,8 +62,7 @@ qt_add_qml_module(crypto-notes
 target_link_libraries(crypto-notes PRIVATE
     Qt6::Quick
     OpenSSL::SSL
-    ${ICU_PATHS}
-    ${SQLITE_PATH}
+    ${SQLCipher_LINK_LIBRARIES}
 )
 
 set_target_properties(crypto-notes PROPERTIES

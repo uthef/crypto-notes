@@ -1,7 +1,6 @@
 #include "database.h"
 #include <cassert>
 #include <cstring>
-#include <sqlite3.h>
 #include "queries.h"
 
 using namespace cryptonotes;
