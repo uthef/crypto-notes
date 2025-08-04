@@ -5,6 +5,7 @@ Project stack:
 * C++
 * Qt Framework
 * Qt Quick Controls
+* Qt SVG format
 * SQLite + SQLCipher
 
 ![Program screenshot](crypto-notes.png)
