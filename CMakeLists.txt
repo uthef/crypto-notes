@@ -16,7 +16,7 @@ pkg_check_modules(SQLCipher REQUIRED sqlcipher)
 
 include_directories(
     include
-    ${SQLCIPHER_INCLUDE_DIRS}
+    ${SQLCipher_INCLUDE_DIRS}
 )
 
 qt_standard_project_setup()
