@@ -53,4 +53,4 @@ namespace cryptonotes {
     }
 }
 
-#endif // QUERIES_H
+#endif

@@ -18,4 +18,4 @@ namespace cryptonotes {
     };
 }
 
-#endif // APPCONFIG_H
+#endif

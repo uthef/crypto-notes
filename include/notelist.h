@@ -18,4 +18,4 @@ namespace cryptonotes {
     };
 }
 
-#endif // NOTELIST_H
+#endif

@@ -14,21 +14,24 @@ namespace cryptonotes {
         Q_PROPERTY(NoteListModel* listModel READ model CONSTANT)
         Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryUpdated)
         Q_PROPERTY(size_t rowCount READ rowCount NOTIFY rowCountUpdated)
-        Q_PROPERTY(QString dbFolder READ dbFolder NOTIFY dbFolderUpdated)
+        Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathUpdated)
     public:
         AppContext();
         NoteListModel* model();
         void setSearchQuery(QString query);
         QString searchQuery();
         size_t rowCount();
-        QString dbFolder();
+        QString dbPath();
+        Q_INVOKABLE QString dbDir();
+        Q_INVOKABLE QString generatePassword();
+        Q_INVOKABLE QString appVersion();
     signals:
         void dbConnectionFail(QString message);
-        void dbFolderUpdated();
+        void dbPathUpdated();
         void passwordUpdateResult(QString msg, bool success);
         void dbConnectionSuccess();
         void rowCountUpdated();
-        void noteDataAvailable(size_t index, long id, QString title, QString summary, QString content, bool shortcut);
+        void noteDataAvailable(size_t index, long id, QString title, QString summary, QString content, QString time, bool shortcut);
         void searchProgress(bool finished);
         void searchQueryUpdated();
         void abort(QString msg);
@@ -55,4 +58,4 @@ namespace cryptonotes {
     };
 }
 
-#endif // APPCONTEXT_H
+#endif

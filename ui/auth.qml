@@ -9,7 +9,7 @@ Item {
     signal error(string msg)
     signal erasePass()
 
-    property string name;
+    property string name
 
     Component.onCompleted: {
         passwordField.forceActiveFocus();
@@ -52,9 +52,9 @@ Item {
             icon.width: 18
             icon.height: 18
             Layout.alignment: Qt.AlignHCenter
-            text: "Continue"
-            onClicked: appWindow.passwordReady(passwordField.text)
+            text: " Continue"
             font.pixelSize: 16
+            onClicked: appWindow.passwordReady(passwordField.text)
             Layout.preferredHeight: passwordField.height + 10
             Layout.maximumWidth: 400
             Layout.fillWidth: true

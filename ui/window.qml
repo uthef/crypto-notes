@@ -4,6 +4,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
+import cryptonotes
+
 ApplicationWindow {
     id: appWindow
     width: 860
@@ -18,6 +20,25 @@ ApplicationWindow {
 
     property int margin: 16
     property string currentItem: stackView.currentItem.item.name
+    property bool stackViewTransitionAllowed: false
+
+    Component.onCompleted: {
+        MouseEventFilter.listenTo(appWindow);
+    }
+
+    Connections {
+        target: MouseEventFilter
+
+        function onMouseBackButtonPressed() {
+            if (stackView.currentItem.item.name === "list") goToAuthRequest();
+            else goBackRequest();
+        }
+    }   
+
+    Text {
+        text: ""
+        color: "white"
+    }
 
     menuBar: MenuBar {
         Menu {
@@ -27,7 +48,13 @@ ApplicationWindow {
                 id: menuItemConfigure
                 text: "Configure…"
                 onClicked: {
+                    if (stackView.currentItem.item.name === "about") {
+                        stackView.replace(settingsComp);
+                        return;
+                    }
+
                     if (stackView.currentItem.item.name !== "auth") return;
+
                     stackView.push(settingsComp);
                 }
             }
@@ -41,10 +68,29 @@ ApplicationWindow {
                 }
             }
         }
+
+        Menu {
+            title: "Help"
+
+            MenuItem {
+                id: menuItemAbout
+                text: "About"
+                onClicked: {
+                    if (stackView.currentItem.item.name === "about") return;
+
+                    if (stackView.currentItem.item.name === "settings") {
+                        stackView.replace(aboutComp);
+                        return;
+                    }
+
+                    stackView.push(aboutComp);
+                }
+            }
+        }
     }
 
     signal passwordReady(string password)
-    signal editorRequested(int index, int id, string title, string summary, string content);
+    signal editorRequested(int index, int id, string title, string summary, string content, string time);
     signal goBackRequest()
     signal goToAuthRequest();
     signal popupRequest(string label, string text, bool dialog)
@@ -101,11 +147,16 @@ ApplicationWindow {
         id: authComp
 
         Loader {
-            source: "auth.qml"
+            source: "Auth.qml"
 
             onLoaded: {
                 item.name = "auth"
             }
+
+            StackView.onActivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onActivated: appWindow.stackViewTransitionAllowed = true
+            StackView.onDeactivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onDeactivated: appWindow.stackViewTransitionAllowed = true
         }
     }
 
@@ -113,11 +164,16 @@ ApplicationWindow {
         id: listComp
 
         Loader {
-            source: "list.qml"
+            source: "List.qml"
 
             onLoaded: {
                 item.name = "list"
             }
+
+            StackView.onActivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onActivated: appWindow.stackViewTransitionAllowed = true
+            StackView.onDeactivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onDeactivated: appWindow.stackViewTransitionAllowed = true
         }
     }
 
@@ -125,11 +181,16 @@ ApplicationWindow {
         id: editorComp
 
         Loader {
-            source: "editor.qml"
+            source: "Editor.qml"
 
             onLoaded: {
                 item.name = "editor"
             }
+
+            StackView.onActivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onActivated: appWindow.stackViewTransitionAllowed = true
+            StackView.onDeactivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onDeactivated: appWindow.stackViewTransitionAllowed = true
         }
     }
 
@@ -137,11 +198,33 @@ ApplicationWindow {
         id: settingsComp
 
         Loader {
-            source: "settings.qml"
+            source: "Settings.qml"
 
             onLoaded: {
                 item.name = "settings"
             }
+
+            StackView.onActivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onActivated: appWindow.stackViewTransitionAllowed = true
+            StackView.onDeactivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onDeactivated: appWindow.stackViewTransitionAllowed = true
+        }
+    }
+
+    Component {
+        id: aboutComp
+
+        Loader {
+            source: "About.qml"
+
+            onLoaded: {
+                item.name = "about"
+            }
+
+            StackView.onActivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onActivated: appWindow.stackViewTransitionAllowed = true
+            StackView.onDeactivating: appWindow.stackViewTransitionAllowed = false
+            StackView.onDeactivated: appWindow.stackViewTransitionAllowed = true
         }
     }
 
@@ -163,6 +246,7 @@ ApplicationWindow {
     }
 
     onGoToAuthRequest: {
+        if (!appWindow.stackViewTransitionAllowed) return;
         if (stackView.currentItem.item.name === "auth") return;
 
         appCtx.onDbDisconnectionRequest();
@@ -175,7 +259,7 @@ ApplicationWindow {
         menuItemConfigure.enabled = true;
     }
 
-    onEditorRequested: (index, id, title, summary, content) => {
+    onEditorRequested: (index, id, title, summary, content, time) => {
         if (stackView.currentItem.item.name !== "list") return;
 
         stackView.push(editorComp);
@@ -185,9 +269,17 @@ ApplicationWindow {
         stackView.currentItem.item.title = title;
         stackView.currentItem.item.summary = summary;
         stackView.currentItem.item.content = content;
+        stackView.currentItem.item.time = time;
     }
 
     onGoBackRequest: {
+        if (!appWindow.stackViewTransitionAllowed) return;
+
+        if (popup.visible) {
+            popup.close();
+            return;
+        }
+
         stackView.pop();
     }
 

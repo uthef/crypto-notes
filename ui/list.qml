@@ -10,10 +10,10 @@ GridLayout {
     columnSpacing: 8
     rowSpacing: 8
 
-    property string name;
+    property string name
 
     Shortcut {
-        sequence: "Alt+Delete"
+        sequence: "Alt+Shift+Delete"
         onActivated: {
             if (appWindow.currentItem !== "list" || !noteListView.activeFocus || noteListView.currentIndex === -1) return;
             appCtx.onNoteRemovalRequested(noteListView.currentIndex);
@@ -21,7 +21,7 @@ GridLayout {
     }
 
     Shortcut {
-        sequence: "Alt+C"
+        sequence: "Alt+Shift+C"
         onActivated: {
             if (appWindow.currentItem !== "list" || noteListView.currentIndex === -1 || !noteListView.activeFocus) return;
             appCtx.onNoteRequested(noteListView.currentIndex, true);
@@ -29,7 +29,7 @@ GridLayout {
     }
 
     Shortcut {
-        sequence: "Alt+S"
+        sequence: "Alt+Shift+S"
         onActivated: {
             if (appWindow.currentItem !== "list" || noteListView.currentIndex === -1 || !noteListView.activeFocus) return;
             appCtx.onCopyToClipboardRequest(noteListView.currentItem.data[0].summary);
@@ -43,11 +43,11 @@ GridLayout {
             noteListView.state = finished ? "normal" : "loading";
         }
 
-        function onNoteDataAvailable(index, id, title, summary, content, shortcut) {
+        function onNoteDataAvailable(index, id, title, summary, content, time, shortcut) {
             if (shortcut) {
                 appCtx.onCopyToClipboardRequest(content);
             }
-            else appWindow.editorRequested(index, id, title, summary, content);
+            else appWindow.editorRequested(index, id, title, summary, content, time);
         }
     }
 
@@ -198,7 +198,7 @@ GridLayout {
             icon.width: 24
             icon.height: 24
 
-            onClicked: appWindow.editorRequested(-1, -1, "", "", "");
+            onClicked: appWindow.editorRequested(-1, -1, "", "", "", "");
         }
     }
 

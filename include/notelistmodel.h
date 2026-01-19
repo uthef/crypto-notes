@@ -26,4 +26,4 @@ namespace cryptonotes {
         NoteList* _noteList;
     };
 }
-#endif // NOTELISTMODEL_H
+#endif

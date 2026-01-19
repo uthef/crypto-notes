@@ -1,7 +1,7 @@
 #ifndef NOTE_H
 #define NOTE_H
 
-#include<string>
+#include <string>
 
 namespace cryptonotes {
     class Note {
@@ -33,4 +33,4 @@ namespace cryptonotes {
     };
 }
 
-#endif // NOTE_H
+#endif

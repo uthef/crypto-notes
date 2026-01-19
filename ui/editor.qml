@@ -7,13 +7,26 @@ import QtQuick.Layouts
 ColumnLayout {
     id: root
 
-    property int id;
-    property int index;
-    property string title;
-    property string summary;
-    property string content;
+    property int id
+    property int index
+    property string title
+    property string summary
+    property string content
+    property string time
 
-    property string name;
+    property string name
+
+    function insertPassword() {
+        if (contentArea.text.length > 0 && !contentArea.text.endsWith("\n")) contentArea.text += "\n";
+        contentArea.text += appCtx.generatePassword();
+        contentArea.text += "\n";
+        contentArea.cursorPosition = contentArea.length;
+    }
+
+    Shortcut {
+        sequence: "Ctrl+G"
+        onActivated: insertPassword()
+    }
 
     Text {
         Layout.leftMargin: appWindow.margin
@@ -62,7 +75,6 @@ ColumnLayout {
         Layout.bottomMargin: 16
     }
 
-
     Flickable {
         id: flickable
 
@@ -103,7 +115,7 @@ ColumnLayout {
         Layout.rightMargin: appWindow.margin
         id: updateCheck
         leftPadding: 0
-        text: "Update time"
+        text: `Update time (last edited: ${root.time})`
         checked: true
         enabled: id != -1
     }
@@ -175,18 +187,31 @@ ColumnLayout {
                 onClicked: appWindow.goBackRequest();
             }
         }
-
-        Button {
-            text: "Delete note"
-            Layout.preferredHeight: 54
-            Layout.preferredWidth: 140
+        
+        RowLayout {
             Layout.alignment: Qt.AlignRight
-            icon.source: "icons/bin.svg"
-            icon.width: 18
-            icon.height: 18
-            enabled: id != -1
-            onClicked: {
-                appWindow.popupRequest("editor", "Are you sure you want to remove selected note? This action CANNOT BE UNDONE", true);
+
+            Button {
+                text: "Generate password"
+                Layout.preferredHeight: 54
+                Layout.preferredWidth: 180
+                icon.source: "icons/lock.svg"
+                icon.width: 18
+                icon.height: 18
+                onClicked: insertPassword()
+            }
+
+            Button {
+                text: "Delete note"
+                Layout.preferredHeight: 54
+                Layout.preferredWidth: 140
+                icon.source: "icons/bin.svg"
+                icon.width: 18
+                icon.height: 18
+                enabled: id != -1
+                onClicked: {
+                    appWindow.popupRequest("editor", "Are you sure you want to remove selected note? This action CANNOT BE UNDONE", true);
+                }
             }
         }
 

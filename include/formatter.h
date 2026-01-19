@@ -12,4 +12,4 @@ namespace cryptonotes {
         static QString escapeQuery(QString query, char escapeChar);
     };
 }
-#endif // FORMATTER_H
+#endif

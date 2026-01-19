@@ -5,9 +5,9 @@ import QtQuick.Controls.Material
 
 Row {
     id: row
-    property string title;
-    property string summary;
-    property string time;
+    property string title
+    property string summary
+    property string time
     property bool clickable: false
 
     property Rectangle bg: Rectangle {

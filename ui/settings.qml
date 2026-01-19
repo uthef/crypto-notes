@@ -7,7 +7,7 @@ import QtQuick.Dialogs
 
 
 ColumnLayout {
-    property string name;
+    property string name
 
     Text {
         Layout.leftMargin: appWindow.margin
@@ -27,7 +27,7 @@ ColumnLayout {
 
         TextField {
             id: pathField
-            text: appCtx.dbFolder
+            text: appCtx.dbPath
             readOnly: true
             Layout.fillWidth: true
             placeholderText: "Database path"
@@ -37,11 +37,22 @@ ColumnLayout {
             text: "Browse…"
             Layout.preferredHeight: pathField.height + 10
             onClicked: folderDialog.open()
+            
         }
     }
 
-    RowLayout {
+    Text {
+        Layout.leftMargin: appWindow.margin
+        Layout.rightMargin: appWindow.margin
         Layout.topMargin: 36
+        color: Material.foreground
+        Layout.fillWidth: true
+        font.pixelSize: 18
+        text: "Update database password"
+    }
+
+    RowLayout {
+        Layout.topMargin: appWindow.margin
         spacing: 8
         Layout.fillWidth: true
         Layout.leftMargin: appWindow.margin
@@ -81,7 +92,7 @@ ColumnLayout {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
 
-        text: "Update password"
+        text: "Confirm new password"
         Layout.preferredHeight: pathField.height + 10
         onClicked: {
             if (newPassField.length === 0 || oldPassField.length === 0) {
@@ -111,7 +122,7 @@ ColumnLayout {
         id: folderDialog
         modality: "ApplicationModal"
         title: "Choose new database directory"
-        currentFolder: pathField.text
+        currentFolder: appCtx.dbDir()
 
         onAccepted: {
             appCtx.onNewDbPathSelected(folderDialog.selectedFolder);

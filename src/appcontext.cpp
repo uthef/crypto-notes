@@ -11,6 +11,7 @@
 #include <qwindowdefs.h>
 #include <qapplicationstatic.h>
 #include <qguiapplication.h>
+#include <passwordgenerator.h>
 
 using namespace cryptonotes;
 
@@ -31,9 +32,9 @@ void AppContext::onPasswordValidated(QString password) {
     }
 
     QFile file(pathInfo.filePath());
-    file.open(QFile::OpenModeFlag::ReadWrite);
+    auto isFileOpen = file.open(QFile::OpenModeFlag::ReadWrite);
 
-    if (!file.isOpen() || !file.isWritable()) {
+    if (!file.isOpen() || !file.isWritable() || !isFileOpen) {
         emit dbConnectionFail("The current database path cannot be used");
         file.close();
         return;
@@ -107,6 +108,7 @@ void AppContext::onNoteRequested(size_t index, bool shortcut) {
         QString::fromStdString(note->title()),
         QString::fromStdString(note->summary()),
         QString::fromStdString(note->content()),
+        Formatter::timestampToReadableDateTime(note->timestamp()),
         shortcut
     );
 }
@@ -134,7 +136,6 @@ void AppContext::onPasswordUpdateRequested(QString oldPassword, QString newPassw
 void AppContext::onCopyToClipboardRequest(QString value) {
     auto clipboard = QGuiApplication::clipboard();
     clipboard->setText(value, QClipboard::Clipboard);
-    // clipboard->setText(value2, QClipboard::Clipboard);
 }
 
 void AppContext::onNoteUpdateRequested(long id, QString title, QString summary, QString content, int flags, bool updateTimestamp) {
@@ -188,15 +189,30 @@ void AppContext::onNoteRemovalRequested(size_t index) {
     emit rowCountUpdated();
 }
 
-QString AppContext::dbFolder() {
+QString AppContext::dbPath() {
     auto dir = QDir(_config.dbPath());
     return dir.path();
+}
+
+QString AppContext::dbDir() {
+    auto fullPath = QDir(dbPath().prepend("file:///"));
+    fullPath.cdUp();
+    return fullPath.path();
+}
+
+QString AppContext::generatePassword() {
+    auto password = PasswordGenerator::generate();
+    return password;
+}
+
+QString AppContext::appVersion() {
+    return QString(APP_VERSION);
 }
 
 void AppContext::onNewDbPathSelected(QString folder) {
     folder = folder.replace("file:///", "");
     _config.setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
-    emit dbFolderUpdated();
+    emit dbPathUpdated();
 }
 
 size_t AppContext::rowCount() {

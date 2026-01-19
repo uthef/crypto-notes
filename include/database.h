@@ -32,4 +32,4 @@ namespace cryptonotes {
         sqlite3* _db = 0;
     };
 }
-#endif // DATABASE_H
+#endif
