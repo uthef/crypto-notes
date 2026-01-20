@@ -46,6 +46,10 @@ qt_add_executable(${PROJECT_NAME}
     src/passwordgenerator.cpp
     include/mouseeventfilter.h
     src/mouseeventfilter.cpp
+    include/backgroundbackupthread.h
+    src/backgroundbackupthread.cpp
+    include/backuppathlistmodel.h
+    src/backuppathlistmodel.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE APP_VERSION="${PROJECT_VERSION}")
@@ -65,17 +69,20 @@ qt_add_qml_module(${PROJECT_NAME}
         ui/Settings.qml
         ui/Window.qml
         ui/About.qml
+        ui/BackupPathListRow.qml
     RESOURCES
         res.qrc
         ui/icons/note.png
         ui/icons/bin.svg
         ui/icons/check.svg
+        ui/icons/green_check.svg
         ui/icons/lock.svg
         ui/icons/error.svg
         ui/icons/floppy.svg
         ui/icons/plus.svg
         ui/icons/search_inactive.svg
         ui/icons/search.svg
+        ui/icons/folder.svg
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -89,7 +96,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
+    # WIN32_EXECUTABLE TRUE
 )
 
 include(GNUInstallDirs)

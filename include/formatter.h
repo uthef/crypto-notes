@@ -10,6 +10,7 @@ namespace cryptonotes {
         Formatter();
         static QString timestampToReadableDateTime(long timestamp);
         static QString escapeQuery(QString query, char escapeChar);
+        static QString removePathPrefix(QString path);
     };
 }
 #endif

@@ -48,6 +48,8 @@ ApplicationWindow {
                 id: menuItemConfigure
                 text: "Configure…"
                 onClicked: {
+                    if (!appWindow.stackViewTransitionAllowed) return;
+
                     if (stackView.currentItem.item.name === "about") {
                         stackView.replace(settingsComp);
                         return;
@@ -76,6 +78,7 @@ ApplicationWindow {
                 id: menuItemAbout
                 text: "About"
                 onClicked: {
+                    if (!appWindow.stackViewTransitionAllowed) return;
                     if (stackView.currentItem.item.name === "about") return;
 
                     if (stackView.currentItem.item.name === "settings") {
@@ -309,6 +312,10 @@ ApplicationWindow {
 
         function onAbort(msg) {
             popupRequest("abort", "Database connection error. " + msg, false);
+        }
+
+        function onError(msg) {
+            popupRequest("error", "An error occurred. " + msg, false);
         }
     }
 

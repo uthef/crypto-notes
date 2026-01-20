@@ -22,8 +22,6 @@ QVariant NoteListModel::data(const QModelIndex& index, int role) const {
         default:
             return "null";
     }
-
-
 }
 
 QHash<int, QByteArray> NoteListModel::roleNames() const {

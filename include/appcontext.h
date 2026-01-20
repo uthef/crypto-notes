@@ -7,17 +7,20 @@
 #include <database.h>
 #include <QTimer>
 #include "appconfig.h"
+#include "backuppathlistmodel.h"
 
 namespace cryptonotes {
     class AppContext : public QObject {
         Q_OBJECT
         Q_PROPERTY(NoteListModel* listModel READ model CONSTANT)
+        Q_PROPERTY(BackupPathListModel* backupPathListModel READ backupPathListModel CONSTANT)
         Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryUpdated)
         Q_PROPERTY(size_t rowCount READ rowCount NOTIFY rowCountUpdated)
         Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathUpdated)
     public:
         AppContext();
         NoteListModel* model();
+        BackupPathListModel* backupPathListModel();
         void setSearchQuery(QString query);
         QString searchQuery();
         size_t rowCount();
@@ -25,6 +28,8 @@ namespace cryptonotes {
         Q_INVOKABLE QString dbDir();
         Q_INVOKABLE QString generatePassword();
         Q_INVOKABLE QString appVersion();
+        Q_INVOKABLE void initiateBackup();
+        void finishBackup(QStringList failedPaths, bool dbFound);
     signals:
         void dbConnectionFail(QString message);
         void dbPathUpdated();
@@ -35,6 +40,8 @@ namespace cryptonotes {
         void searchProgress(bool finished);
         void searchQueryUpdated();
         void abort(QString msg);
+        void error(QString msg);
+        void backupCompleted(QStringList failedPaths);
     public slots:
         void onPasswordValidated(QString password);
         void onPasswordUpdateRequested(QString oldPassword, QString newPassword);
@@ -45,15 +52,20 @@ namespace cryptonotes {
         void onDbDisconnectionRequest();
         void onNoteRequested(size_t index, bool shortcut);
         void onNoteUpdateRequested(long id, QString title, QString summary, QString content, int flags, bool updateTimestamp);
+        void onBackupPathRemovalRequested(QString path);
+        void onBackupPathAdditionRequested(QString path);
+        void onBackupPathChangeRequested(QString oldPath, QString newPath);
     private slots:
         void onSearchDelayTimeout();
     private:
         Database db;
         NoteListModel _listModel;
+        BackupPathListModel _backupPathListModel;
         NoteList _noteList;
         QTimer _searchTimer;
         QString _searchQuery;
         AppConfig _config;
+        QStringList _pathList;
         void connectToDb();
     };
 }

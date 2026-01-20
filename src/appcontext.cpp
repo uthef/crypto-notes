@@ -12,12 +12,16 @@
 #include <qapplicationstatic.h>
 #include <qguiapplication.h>
 #include <passwordgenerator.h>
+#include <backgroundbackupthread.h>
 
 using namespace cryptonotes;
 
-AppContext::AppContext() : _listModel(&_noteList) {
+AppContext::AppContext() : _listModel(&_noteList), _backupPathListModel(&_pathList) {
     _searchTimer.setSingleShot(true);
     connect(&_searchTimer, &QTimer::timeout, this, &AppContext::onSearchDelayTimeout);
+
+    _pathList = _config.backupPaths();
+    _pathList.removeDuplicates();
 }
 
 void AppContext::onPasswordValidated(QString password) {
@@ -159,6 +163,33 @@ void AppContext::onNoteUpdateRequested(long id, QString title, QString summary, 
     onSearchRequest(_searchQuery);
 }
 
+void AppContext::onBackupPathRemovalRequested(QString path) {
+    _backupPathListModel.remove(path);
+    _config.updateBackupPaths(_pathList);
+}
+
+void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
+    newPath = Formatter::removePathPrefix(newPath);
+    
+    if (_pathList.indexOf(newPath) != -1) {
+        return;
+    }
+
+    _backupPathListModel.update(oldPath, newPath);
+    _config.updateBackupPaths(_pathList);
+}
+
+void AppContext::onBackupPathAdditionRequested(QString path) {
+    path = Formatter::removePathPrefix(path);
+
+    if (_pathList.indexOf(path) != -1) {
+        return;
+    }
+
+    _backupPathListModel.push(path);
+    _config.updateBackupPaths(_pathList);
+}
+
 QString AppContext::searchQuery() {
     return _searchQuery;
 }
@@ -174,6 +205,10 @@ void AppContext::onDbDisconnectionRequest() {
 
 NoteListModel* AppContext::model() {
     return &_listModel;
+}
+
+BackupPathListModel* AppContext::backupPathListModel() {
+    return &_backupPathListModel;
 }
 
 void AppContext::onNoteRemovalRequested(size_t index) {
@@ -195,9 +230,8 @@ QString AppContext::dbPath() {
 }
 
 QString AppContext::dbDir() {
-    auto fullPath = QDir(dbPath().prepend("file:///"));
-    fullPath.cdUp();
-    return fullPath.path();
+    QFileInfo info(dbPath().prepend("file:///"));
+    return info.dir().path();
 }
 
 QString AppContext::generatePassword() {
@@ -210,11 +244,28 @@ QString AppContext::appVersion() {
 }
 
 void AppContext::onNewDbPathSelected(QString folder) {
-    folder = folder.replace("file:///", "");
+    folder = Formatter::removePathPrefix(folder);
     _config.setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
     emit dbPathUpdated();
 }
 
 size_t AppContext::rowCount() {
     return _noteList.size();
+}
+
+void AppContext::initiateBackup() {
+    auto thread = new BackgroundBackupThread(dbPath(), _pathList);
+    connect(thread, &BackgroundBackupThread::resultReady, this, finishBackup);
+    connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
+    thread->start();
+}
+
+void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {
+    if (!dbFound) {
+        emit error("Database file is not found");
+        emit backupCompleted(_pathList);
+        return;
+    }
+
+    emit backupCompleted(failedPaths);
 }

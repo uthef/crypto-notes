@@ -45,3 +45,11 @@ QString Formatter::escapeQuery(QString query, char escapeChar) {
 
     return query;
 }
+
+QString Formatter::removePathPrefix(QString path) {
+    if (path.startsWith("file:///")) {
+        path.remove("file:///");
+    }
+
+    return path;
+}
