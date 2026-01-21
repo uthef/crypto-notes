@@ -18,6 +18,8 @@ void BackgroundBackupThread::run() {
         return;
     }
 
+    auto uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+
     for (int i = 0; i < _backupPaths.size(); i++) {
         auto path = _backupPaths.at(i);
         auto backupDir = QDir(path);
@@ -31,7 +33,7 @@ void BackgroundBackupThread::run() {
             QString("%1_%2_%3.edb")
                 .arg("notes_backup")
                 .arg(QDateTime::currentMSecsSinceEpoch())
-                .arg(QUuid::createUuid().toString(QUuid::WithoutBraces))
+                .arg(uuid)
         );
 
         auto result = dbFile.copy(backupFilePath);

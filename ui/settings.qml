@@ -174,6 +174,7 @@ ColumnLayout {
                     id: startBackupButton
                     text: "Start backup"
                     Layout.preferredHeight: pathField.height + 10
+                    enabled: pathListView.count > 0
 
                     onClicked: {
 
@@ -232,7 +233,7 @@ ColumnLayout {
 
     Button {
         id: backButton
-        Layout.topMargin: appWindow.margin
+        Layout.topMargin: appWindow.margin / 2
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Layout.bottomMargin: appWindow.margin

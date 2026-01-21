@@ -12,7 +12,6 @@ ColumnLayout {
         Layout.topMargin: appWindow.margin
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
-        Layout.bottomMargin: appWindow.margin
         Layout.alignment: Qt.AlignHCenter
 
         Image {
@@ -27,7 +26,7 @@ ColumnLayout {
             Layout.leftMargin: appWindow.margin
             Layout.rightMargin: appWindow.margin
             color: Material.foreground
-            font.pixelSize: 48
+            font.pixelSize: 42
             Layout.alignment: Qt.AlignVCenter
             text: "Crypto Notes"
         }
@@ -89,7 +88,7 @@ ColumnLayout {
             color: Material.foreground
             Layout.fillWidth: true
             font.pixelSize: 14
-            text: "At the start screen, if you haven't used this app previously, type any password you want to be set for data encryption"
+            text: "At the start screen, if you haven't used this app previously, type any password you want to be set for data encryption."
         }
     }
     
@@ -156,7 +155,7 @@ ColumnLayout {
         }
     }
 
-    Item  {
+    Item {
         Layout.fillHeight: true
     }
 
@@ -164,10 +163,20 @@ ColumnLayout {
         id: textField
         visible: false
     }
+
+    Rectangle {
+        Layout.preferredHeight: 1
+        Layout.fillWidth: true
+        Layout.leftMargin: appWindow.margin
+        Layout.rightMargin: appWindow.margin
+        Layout.bottomMargin: 0
+        color: Material.dividerColor
+    }
     
     Button {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
+        Layout.topMargin: appWindow.margin / 2
         Layout.bottomMargin: appWindow.margin
 
         text: "Go back"
