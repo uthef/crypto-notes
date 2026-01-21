@@ -179,15 +179,16 @@ void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
     _config.updateBackupPaths(_pathList);
 }
 
-void AppContext::onBackupPathAdditionRequested(QString path) {
+bool AppContext::onBackupPathAdditionRequested(QString path) {
     path = Formatter::removePathPrefix(path);
 
     if (_pathList.indexOf(path) != -1) {
-        return;
+        return false;
     }
 
     _backupPathListModel.push(path);
     _config.updateBackupPaths(_pathList);
+    return true;
 }
 
 QString AppContext::searchQuery() {

@@ -53,7 +53,7 @@ namespace cryptonotes {
         void onNoteRequested(size_t index, bool shortcut);
         void onNoteUpdateRequested(long id, QString title, QString summary, QString content, int flags, bool updateTimestamp);
         void onBackupPathRemovalRequested(QString path);
-        void onBackupPathAdditionRequested(QString path);
+        bool onBackupPathAdditionRequested(QString path);
         void onBackupPathChangeRequested(QString oldPath, QString newPath);
     private slots:
         void onSearchDelayTimeout();

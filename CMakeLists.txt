@@ -75,6 +75,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ui/icons/note.png
         ui/icons/bin.svg
         ui/icons/check.svg
+        ui/icons/edit.svg
         ui/icons/green_check.svg
         ui/icons/lock.svg
         ui/icons/error.svg

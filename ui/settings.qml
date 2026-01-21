@@ -51,6 +51,7 @@ ColumnLayout {
 
         ColumnLayout {
             width: parent.width
+            height: settingsScrollView.availableHeight
 
             RowLayout {
                 Layout.fillWidth: true
@@ -139,15 +140,16 @@ ColumnLayout {
 
             Frame {
                 id: pathListFrame
-                Layout.preferredHeight: 270
                 Layout.topMargin: appWindow.margin
-                Layout.fillHeight: true
                 padding: 1
                 Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.minimumHeight: 270
 
                 ListView {
                     id: pathListView
                     property bool buttonsEnabled: true
+                    boundsBehavior: Flickable.StopAtBounds
 
                     anchors.fill: parent
                     model: appCtx.backupPathListModel
@@ -258,7 +260,9 @@ ColumnLayout {
                 oldPath = "";
             }
             else if (postAction === "addBackupPath") {
-                appCtx.onBackupPathAdditionRequested(folderDialog.selectedFolder);
+                if (appCtx.onBackupPathAdditionRequested(folderDialog.selectedFolder)) {
+                    Qt.callLater(() => pathListView.positionViewAtEnd());
+                }
             }
 
             postAction = ""

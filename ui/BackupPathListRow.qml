@@ -96,9 +96,18 @@ Row {
                 }
 
                 RoundButton {
-                    id: changeButton
+                    id: openFolderButton
                     enabled: pathListView.buttonsEnabled
                     icon.source: "icons/folder.svg"
+                    icon.width: 16
+                    icon.height: 16
+                    onClicked: Qt.openUrlExternally(row.path)
+                }
+
+                RoundButton {
+                    id: changeButton
+                    enabled: pathListView.buttonsEnabled
+                    icon.source: "icons/edit.svg"
                     icon.width: 16
                     icon.height: 16
                     onClicked: folderDialog.openForChangingBackupPath(row.path)
