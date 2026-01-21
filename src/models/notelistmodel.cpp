@@ -1,9 +1,9 @@
-#include "notelistmodel.h"
+#include "models/notelistmodel.h"
 #include "QMap"
 
 #include <QVariant>
 #include <QTime>
-#include <formatter.h>
+#include <utils/formatter.h>
 
 using namespace cryptonotes;
 

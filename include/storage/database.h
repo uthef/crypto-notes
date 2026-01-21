@@ -5,10 +5,10 @@
 
 #include <string>
 #include <memory>
-#include "note.h"
+#include "storage/note.h"
 #include <sqlcipher/sqlite3.h>
 #include <optional>
-#include <notelist.h>
+#include <storage/notelist.h>
 
 namespace cryptonotes {
     class Database final {

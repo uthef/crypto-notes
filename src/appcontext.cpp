@@ -1,18 +1,18 @@
 #define WIN _WIN
 
 #include "appcontext.h"
-#include "database.h"
+#include "storage/database.h"
 #include "QDebug"
 #include "qwindowdefs.h"
 #include <QFileInfo>
 #include <QDir>
-#include <formatter.h>
+#include <utils/formatter.h>
 #include <QClipboard>
 #include <qwindowdefs.h>
 #include <qapplicationstatic.h>
 #include <qguiapplication.h>
-#include <passwordgenerator.h>
-#include <backgroundbackupthread.h>
+#include <utils/passwordgenerator.h>
+#include <tasks/backgroundbackupthread.h>
 
 using namespace cryptonotes;
 

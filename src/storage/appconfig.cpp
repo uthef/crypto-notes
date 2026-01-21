@@ -1,4 +1,4 @@
-#include "appconfig.h"
+#include "storage/appconfig.h"
 #include "qdir.h"
 
 using namespace cryptonotes;

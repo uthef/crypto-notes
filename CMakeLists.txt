@@ -30,26 +30,26 @@ qt_add_executable(${PROJECT_NAME}
     src/main.cpp
     include/appcontext.h
     src/appcontext.cpp
-    include/database.h
-    src/database.cpp
-    include/note.h
-    src/note.cpp
-    include/queries.h
-    include/notelist.h
-    src/notelist.cpp
-    include/notelistmodel.h
-    src/notelistmodel.cpp
-    include/formatter.h
-    src/formatter.cpp
-    include/appconfig.h
-    src/appconfig.cpp
-    src/passwordgenerator.cpp
-    include/mouseeventfilter.h
-    src/mouseeventfilter.cpp
-    include/backgroundbackupthread.h
-    src/backgroundbackupthread.cpp
-    include/backuppathlistmodel.h
-    src/backuppathlistmodel.cpp
+    include/storage/database.h
+    src/storage/database.cpp
+    include/storage/note.h
+    src/storage/note.cpp
+    include/storage/queries.h
+    include/storage/notelist.h
+    src/storage/notelist.cpp
+    include/models/notelistmodel.h
+    src/models/notelistmodel.cpp
+    include/utils/formatter.h
+    src/utils/formatter.cpp
+    include/storage/appconfig.h
+    src/storage/appconfig.cpp
+    src/utils/passwordgenerator.cpp
+    include/filters/mouseeventfilter.h
+    src/filters/mouseeventfilter.cpp
+    include/tasks/backgroundbackupthread.h
+    src/tasks/backgroundbackupthread.cpp
+    include/models/backuppathlistmodel.h
+    src/models/backuppathlistmodel.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE APP_VERSION="${PROJECT_VERSION}")

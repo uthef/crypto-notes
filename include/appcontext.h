@@ -2,12 +2,12 @@
 #define APPCONTEXT_H
 
 #include <QObject>
-#include <notelistmodel.h>
+#include <models/notelistmodel.h>
 #include <QAbstractItemModel>
-#include <database.h>
+#include <storage/database.h>
 #include <QTimer>
-#include "appconfig.h"
-#include "backuppathlistmodel.h"
+#include "storage/appconfig.h"
+#include "models/backuppathlistmodel.h"
 
 namespace cryptonotes {
     class AppContext : public QObject {

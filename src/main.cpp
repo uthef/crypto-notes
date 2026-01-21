@@ -5,7 +5,7 @@
 #include <QQmlContext>
 #include "appcontext.h"
 #include <QtQml/qqmlregistration.h>
-#include "mouseeventfilter.h"
+#include "filters/mouseeventfilter.h"
 
 using namespace cryptonotes;
 

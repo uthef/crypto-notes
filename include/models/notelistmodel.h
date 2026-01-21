@@ -3,7 +3,7 @@
 
 #include "QAbstractListModel"
 
-#include <notelist.h>
+#include <storage/notelist.h>
 
 namespace cryptonotes {
     class NoteListModel : public QAbstractListModel {

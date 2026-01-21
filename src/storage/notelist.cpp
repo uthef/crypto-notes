@@ -1,4 +1,4 @@
-#include "notelist.h"
+#include "storage/notelist.h"
 
 using namespace cryptonotes;
 

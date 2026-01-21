@@ -1,4 +1,4 @@
-#include "passwordgenerator.h"
+#include "utils/passwordgenerator.h"
 #include "openssl/rand.h"
 
 using namespace cryptonotes;

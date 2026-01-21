@@ -7,7 +7,6 @@ Row {
     id: row
 
     property string path
-    property int index
     property bool clickable: false
     property int stateIndex: 0
 

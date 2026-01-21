@@ -8,8 +8,7 @@ namespace cryptonotes {
     public:
         BackupPathListModel(QStringList* list);
         enum Roles {
-            PATH,
-            INDEX
+            PATH
         };
 
         int rowCount(const QModelIndex &parent) const override;

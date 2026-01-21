@@ -338,7 +338,6 @@ ColumnLayout {
                 id: item
                 clickable: true
                 path: model.path
-                index: model.index
             }
         }
     }

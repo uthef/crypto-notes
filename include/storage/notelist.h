@@ -1,7 +1,7 @@
 #ifndef NOTELIST_H
 #define NOTELIST_H
 
-#include "note.h"
+#include "storage/note.h"
 #include <vector>
 
 namespace cryptonotes {

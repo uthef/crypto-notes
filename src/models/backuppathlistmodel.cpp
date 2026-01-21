@@ -1,4 +1,4 @@
-#include "backuppathlistmodel.h"
+#include "models/backuppathlistmodel.h"
 
 using namespace cryptonotes;
 
@@ -10,8 +10,6 @@ QVariant BackupPathListModel::data(const QModelIndex& index, int role) const {
     switch (role) {
         case Roles::PATH:
             return QString(_pathList->at(index.row()));
-        case Roles::INDEX:
-            return QVariant(index.row());
         default:
             return "null";
     }
@@ -19,8 +17,7 @@ QVariant BackupPathListModel::data(const QModelIndex& index, int role) const {
 
 QHash<int, QByteArray> BackupPathListModel::roleNames() const {
     return {
-        { Roles::PATH, QByteArray("path") },
-        { Roles::INDEX, QByteArray("index") }
+        { Roles::PATH, QByteArray("path") }
     };
 }
 

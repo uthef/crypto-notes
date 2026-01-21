@@ -1,7 +1,7 @@
-#include "database.h"
+#include "storage/database.h"
 #include <cassert>
 #include <cstring>
-#include "queries.h"
+#include "storage/queries.h"
 
 using namespace cryptonotes;
 

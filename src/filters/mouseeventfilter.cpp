@@ -1,7 +1,7 @@
 #include <QEvent>
 #include <QDebug>
 #include <QMouseEvent>
-#include "mouseeventfilter.h"
+#include "filters/mouseeventfilter.h"
 
 using namespace cryptonotes;
 
