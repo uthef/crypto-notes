@@ -93,7 +93,7 @@ void BackgroundBackupThread::restore() {
         return;
     }
 
-    QThread::sleep(std::chrono::milliseconds(1000));
+    QThread::sleep(std::chrono::milliseconds(200));
 
     emit restorationResultReady(true);
 }
