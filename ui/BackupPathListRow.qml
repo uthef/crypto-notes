@@ -119,7 +119,7 @@ Row {
                     }
 
                     ToolTip.visible: hovered
-                    ToolTip.text: "Replace the current database file"
+                    ToolTip.text: "Restore database from a backup file"
                 }
 
                 RoundButton {
