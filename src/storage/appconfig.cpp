@@ -5,6 +5,9 @@ using namespace cryptonotes;
 
 const char* DB_PATH_KEY = "dbPath";
 const char* BACKUP_PATHS_KEY = "backupPaths";
+const char* WINDOW_WIDTH_KEY = "startupWindowWidth";
+const char* WINDOW_HEIGHT_KEY = "startupWindowHeight";
+const char* WINDOW_FULLSCREEN_KEY = "startupWindowMaximized";
 
 AppConfig::AppConfig() :
     _path(QDir::homePath().append("/.config/cryptonotes/")),
@@ -40,4 +43,25 @@ QStringList AppConfig::backupPaths() const {
 
 QString AppConfig::fileName() const {
     return _settings.fileName();
+}
+
+void AppConfig::setWindowSize(int width, int height) {
+    _settings.setValue(WINDOW_WIDTH_KEY, width);
+    _settings.setValue(WINDOW_HEIGHT_KEY, height);
+}
+
+int AppConfig::windowWidth() {
+    return _settings.value(WINDOW_WIDTH_KEY, -1).toInt();
+}
+
+int AppConfig::windowHeight() {
+    return _settings.value(WINDOW_HEIGHT_KEY, -1).toInt();
+}
+
+bool AppConfig::windowMaximized() {
+    return _settings.value(WINDOW_FULLSCREEN_KEY, false).toBool();
+}
+
+void AppConfig::setWindowMaximized(bool value) {
+    _settings.setValue(WINDOW_FULLSCREEN_KEY, value);
 }

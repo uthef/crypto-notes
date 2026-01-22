@@ -22,6 +22,7 @@ int main(int argc, char** argv) {
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
 
     AppContext context;
+    QObject::connect(&app, &QGuiApplication::aboutToQuit, &context, &AppContext::onAppAboutToQuit);
     qmlRegisterSingletonType<MouseEventFilter>("cryptonotes", 1, 0, "MouseEventFilter", newMouseEventFilterSingleton);
 
     app.setWindowIcon(QIcon(":/ui/icons/note.png"));

@@ -22,8 +22,30 @@ ApplicationWindow {
     property string currentItem: stackView.currentItem.item.name
     property bool stackViewTransitionAllowed: false
 
+    function visibilityChangeHandler(e) {
+        if (e === Window.Maximized) {
+            appCtx.onWindowVisibilityChanged(true);
+            return;
+        }
+
+        if (e == Window.Windowed) appCtx.onWindowVisibilityChanged(false);
+    }
+
     Component.onCompleted: {
         MouseEventFilter.listenTo(appWindow);
+
+        if (appCtx.isWindowMaximized()) {
+            visibility = Window.Maximized;
+        }
+        else {
+            if (appCtx.windowWidth() > 0) width = appCtx.windowWidth();
+            if (appCtx.windowHeight() > 0) height = appCtx.windowHeight(); 
+
+            x = Screen.width / 2 - width / 2;
+            y = Screen.height / 2 - height / 2;
+        }
+
+        this.visibilityChanged.connect(visibilityChangeHandler);
     }
 
     Connections {
@@ -39,6 +61,9 @@ ApplicationWindow {
         text: ""
         color: "white"
     }
+
+    onWidthChanged: appCtx.onWindowWidthChanged(width)
+    onHeightChanged: appCtx.onWindowHeightChanged(height)
 
     menuBar: MenuBar {
         Menu {

@@ -20,6 +20,10 @@ AppContext::AppContext() : _listModel(&_noteList), _backupPathListModel(&_pathLi
     _searchTimer.setSingleShot(true);
     connect(&_searchTimer, &QTimer::timeout, this, &AppContext::onSearchDelayTimeout);
 
+    _windowMaximized = _config.windowMaximized();
+    _windowWidth = _config.windowWidth();
+    _windowHeight = _config.windowHeight();
+
     _pathList = _config.backupPaths();
     _pathList.removeDuplicates();
 }
@@ -189,6 +193,8 @@ void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
 
     _backupPathListModel.update(oldPath, newPath);
     _config.updateBackupPaths(_pathList);
+
+    
 }
 
 void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
@@ -196,6 +202,23 @@ void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
     connect(thread, &BackgroundBackupThread::restorationResultReady, this, finishRestoration);
     connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
     thread->start();
+}
+
+void AppContext::onAppAboutToQuit() {
+    _config.setWindowSize(_windowWidth, _windowHeight);
+    _config.setWindowMaximized(_windowMaximized);
+}
+
+void AppContext::onWindowHeightChanged(int value) {
+    _windowHeight = value;
+}
+
+void AppContext::onWindowWidthChanged(int value) {
+    _windowWidth = value;
+}
+
+void AppContext::onWindowVisibilityChanged(bool maximized) {
+    _windowMaximized = maximized;
 }
 
 QString AppContext::searchQuery() {
@@ -235,6 +258,18 @@ void AppContext::onNoteRemovalRequested(size_t index) {
 QString AppContext::dbPath() {
     auto dir = QDir(_config.dbPath());
     return dir.path();
+}
+
+bool AppContext::isWindowMaximized() {
+    return _windowMaximized;
+}
+
+int AppContext::windowWidth() {
+    return _windowWidth;
+}
+
+int AppContext::windowHeight() {
+    return _windowHeight;
 }
 
 QString AppContext::dbDir() {

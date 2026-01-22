@@ -16,6 +16,11 @@ namespace cryptonotes {
         QString fileName() const;
         QString defaultDbPath() const;
         QStringList backupPaths() const;
+        void setWindowSize(int width, int height);
+        int windowWidth();
+        int windowHeight();
+        bool windowMaximized();
+        void setWindowMaximized(bool value);
 
     private:
         QString _path;

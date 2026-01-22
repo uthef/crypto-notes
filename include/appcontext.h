@@ -25,6 +25,9 @@ namespace cryptonotes {
         QString searchQuery();
         size_t rowCount();
         QString dbPath();
+        Q_INVOKABLE int windowWidth();
+        Q_INVOKABLE int windowHeight();
+        Q_INVOKABLE bool isWindowMaximized();
         Q_INVOKABLE QString dbDir();
         Q_INVOKABLE QString generatePassword();
         Q_INVOKABLE QString appVersion();
@@ -58,6 +61,10 @@ namespace cryptonotes {
         bool onBackupPathAdditionRequested(QString path);
         void onBackupPathChangeRequested(QString oldPath, QString newPath);
         void onDatabaseFileRestorationRequested(QString filePath);
+        void onAppAboutToQuit();
+        void onWindowHeightChanged(int value);
+        void onWindowWidthChanged(int value);
+        void onWindowVisibilityChanged(bool maximized);
     private slots:
         void onSearchDelayTimeout();
     private:
@@ -69,6 +76,9 @@ namespace cryptonotes {
         QString _searchQuery;
         AppConfig _config;
         QStringList _pathList;
+        int _windowWidth = 0;
+        int _windowHeight = 0;
+        bool _windowMaximized = false;
         void connectToDb();
     };
 }
