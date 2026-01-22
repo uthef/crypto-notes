@@ -10,14 +10,28 @@ namespace cryptonotes {
     class BackgroundBackupThread : public QThread {
         Q_OBJECT
     public:
-        BackgroundBackupThread(QString dbPath, QStringList backupPaths, QObject* parent = nullptr);
+        static BackgroundBackupThread* createBackupTask(QString dbPath, QStringList backupPaths);
+        static BackgroundBackupThread* createRestorationTask(QString dbPath, QString replacementPath);
     protected:
         void run() override;
     signals:
-        void resultReady(const QStringList failedPaths, bool dbFound);
+        void backupResultReady(const QStringList failedPaths, bool dbFound);
+        void restorationResultReady(bool success);
     private:
+        enum Task {
+            BACKUP,
+            RESTORE
+        };
+
+        Task _task;
         QString _dbPath;
+        QString _restorationPath;
         QStringList _backupPaths;
+
+        BackgroundBackupThread(QString dbPath, QStringList backupPaths, QObject* parent = nullptr);
+        BackgroundBackupThread(QString dbPath, QString replacementPath, QObject* parent = nullptr);
+        void backup();
+        void restore();
     };
 }
 

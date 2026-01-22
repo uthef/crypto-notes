@@ -168,6 +168,18 @@ void AppContext::onBackupPathRemovalRequested(QString path) {
     _config.updateBackupPaths(_pathList);
 }
 
+bool AppContext::onBackupPathAdditionRequested(QString path) {
+    path = Formatter::removePathPrefix(path);
+
+    if (_pathList.indexOf(path) != -1) {
+        return false;
+    }
+
+    _backupPathListModel.push(path);
+    _config.updateBackupPaths(_pathList);
+    return true;
+}
+
 void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
     newPath = Formatter::removePathPrefix(newPath);
     
@@ -179,16 +191,11 @@ void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
     _config.updateBackupPaths(_pathList);
 }
 
-bool AppContext::onBackupPathAdditionRequested(QString path) {
-    path = Formatter::removePathPrefix(path);
-
-    if (_pathList.indexOf(path) != -1) {
-        return false;
-    }
-
-    _backupPathListModel.push(path);
-    _config.updateBackupPaths(_pathList);
-    return true;
+void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
+    auto thread = BackgroundBackupThread::createRestorationTask(dbPath(), filePath);
+    connect(thread, &BackgroundBackupThread::restorationResultReady, this, finishRestoration);
+    connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
+    thread->start();
 }
 
 QString AppContext::searchQuery() {
@@ -255,8 +262,8 @@ size_t AppContext::rowCount() {
 }
 
 void AppContext::initiateBackup() {
-    auto thread = new BackgroundBackupThread(dbPath(), _pathList);
-    connect(thread, &BackgroundBackupThread::resultReady, this, finishBackup);
+    auto thread = BackgroundBackupThread::createBackupTask(dbPath(), _pathList);
+    connect(thread, &BackgroundBackupThread::backupResultReady, this, finishBackup);
     connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
     thread->start();
 }
@@ -270,3 +277,7 @@ void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {
 
     emit backupCompleted(failedPaths);
 }
+
+void AppContext::finishRestoration(bool success) {
+    emit restorationCompleted(success);
+}   

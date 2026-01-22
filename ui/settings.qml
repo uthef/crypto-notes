@@ -12,6 +12,19 @@ ColumnLayout {
     property string name
     property bool backupSuccess: false
 
+    function setUiEnabled(value) {
+        appWindow.stackViewTransitionAllowed = value;
+
+        pathListView.buttonsEnabled = value;
+        backButton.enabled = value;
+        confirmPasswordButton.enabled = value;
+        browseButton.enabled = value;
+        startBackupButton.enabled = value;
+        addPathButton.enabled = value;
+        showInExplorerButton.enabled = value;
+        restoreButton.enabled = value;
+    }
+
     Text {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
@@ -70,6 +83,14 @@ ColumnLayout {
                     text: "Browse…"
                     Layout.preferredHeight: pathField.height + 10
                     onClicked: folderDialog.openForChangingDbPath()
+                }
+                
+                Button {
+                    id: showInExplorerButton
+                    icon.source: "icons/folder.svg"
+                    text: "Show"
+                    Layout.preferredHeight: pathField.height + 10
+                    onClicked: Qt.openUrlExternally(appCtx.dbDir())
                 }
             }
 
@@ -135,6 +156,39 @@ ColumnLayout {
                 color: Material.foreground
                 Layout.fillWidth: true
                 font.pixelSize: 18
+                text: "Replace the existing database file"
+            }
+
+            RowLayout {
+                Layout.bottomMargin: appWindow.margin
+
+                Button {
+                    id: restoreButton
+                    text: "Select file"
+                    Layout.preferredHeight: pathField.height + 10
+                    enabled: pathListView.count > 0
+
+                    onClicked: {
+                        fileDialog.open();
+                    }
+                }
+
+                BusyIndicator {
+                    Layout.alignment: Qt.AlignVCenter
+                    id: restorationPreloader
+                    Layout.preferredHeight: startBackupButton.height / 2
+                    Layout.preferredWidth: startBackupButton.height / 2
+                    Layout.leftMargin: appWindow.margin / 2
+                    padding: 2
+                    running: false
+                }
+            }
+
+            Text {
+                Layout.topMargin: appWindow.margin
+                color: Material.foreground
+                Layout.fillWidth: true
+                font.pixelSize: 18
                 text: "Database backup directories"
             }
 
@@ -186,15 +240,7 @@ ColumnLayout {
                         }
 
                         appCtx.initiateBackup()
-
-                        pathListView.buttonsEnabled = false;
-                        appWindow.stackViewTransitionAllowed = false;
-                        backButton.enabled = false;
-                        confirmPasswordButton.enabled = false;
-                        browseButton.enabled = false;
-                        startBackupButton.enabled = false;
-                        addPathButton.enabled = false;
-                        
+                        settings.setUiEnabled(false);                        
                         backupPreloader.running = true;
                     }
                 }
@@ -243,6 +289,18 @@ ColumnLayout {
         text: "Go back"
         Layout.preferredHeight: pathField.height + 10
         onClicked: appWindow.goBackRequest()
+    }
+
+    FileDialog {
+        id: fileDialog
+        nameFilters: ["*.edb"]
+
+        onAccepted: {
+            appWindow.popupRequest("settings", 
+                "THIS ACTION IS IRREVERSIBLE.\nPLEASE, DO A BACKUP FIRST IF YOU WANT TO PREVENT DATA LOSS.\n\n"+
+                "Are you sure you want to replace your current database file with the selected one?",
+                true);
+        }
     }
 
     FolderDialog {
@@ -308,15 +366,7 @@ ColumnLayout {
         }
 
         function onBackupCompleted(failedPaths) {
-            appWindow.stackViewTransitionAllowed = true;
-
-            backButton.enabled = true;
-            confirmPasswordButton.enabled = true;
-            browseButton.enabled = true;
-            startBackupButton.enabled = true;
-            pathListView.buttonsEnabled = true;
-            addPathButton.enabled = true;
-
+            settings.setUiEnabled(true);    
             backupPreloader.running = false;
 
             for (let i = 0; i < pathListView.count; i++) {
@@ -329,6 +379,12 @@ ColumnLayout {
 
                 listItem.state = "backup_success";
             }
+        }
+
+        function onRestorationCompleted(success) {
+            if (!success) appWindow.popupRequest("error", "An error occurred. The program could not rewrite your database file", false);
+
+            settings.setUiEnabled(true);
         }
     }
 
@@ -344,6 +400,16 @@ ColumnLayout {
                 clickable: true
                 path: model.path
             }
+        }
+    }
+
+    Connections {
+        target: appWindow
+
+        function onPopupConfirmation(label) {
+            if (label !== "settings") return;
+            settings.setUiEnabled(false);
+            appCtx.onDatabaseFileRestorationRequested(fileDialog.currentFile);
         }
     }
 }

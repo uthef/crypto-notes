@@ -44,7 +44,7 @@ Row {
     AbstractButton {
         id: button
         width: pathListFrame.width
-        focusPolicy: "NoFocus"
+        focusPolicy: Qt.NoFocus
         focus: false
         display: "TextOnly"
 
@@ -101,7 +101,7 @@ Row {
                     icon.source: "icons/folder.svg"
                     icon.width: 16
                     icon.height: 16
-                    onClicked: Qt.openUrlExternally(row.path)
+                    onClicked: Qt.openUrlExternally("file:///" + row.path)
                 }
 
                 RoundButton {

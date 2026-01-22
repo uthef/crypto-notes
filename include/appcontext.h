@@ -30,6 +30,7 @@ namespace cryptonotes {
         Q_INVOKABLE QString appVersion();
         Q_INVOKABLE void initiateBackup();
         void finishBackup(QStringList failedPaths, bool dbFound);
+        void finishRestoration(bool success);
     signals:
         void dbConnectionFail(QString message);
         void dbPathUpdated();
@@ -42,6 +43,7 @@ namespace cryptonotes {
         void abort(QString msg);
         void error(QString msg);
         void backupCompleted(QStringList failedPaths);
+        void restorationCompleted(bool success);
     public slots:
         void onPasswordValidated(QString password);
         void onPasswordUpdateRequested(QString oldPassword, QString newPassword);
@@ -55,6 +57,7 @@ namespace cryptonotes {
         void onBackupPathRemovalRequested(QString path);
         bool onBackupPathAdditionRequested(QString path);
         void onBackupPathChangeRequested(QString oldPath, QString newPath);
+        void onDatabaseFileRestorationRequested(QString filePath);
     private slots:
         void onSearchDelayTimeout();
     private:

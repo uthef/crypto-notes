@@ -4,17 +4,45 @@
 
 using namespace cryptonotes;
 
+
 BackgroundBackupThread::BackgroundBackupThread(QString dbPath, QStringList backupPaths, QObject* parent) : QThread(parent) {
     _dbPath = dbPath;
     _backupPaths = backupPaths;
+    _task = Task::BACKUP;
+
+}
+
+BackgroundBackupThread::BackgroundBackupThread(QString dbPath, QString replacementPath, QObject* parent) : QThread(parent) {
+    _dbPath = dbPath;
+    _restorationPath = replacementPath;
+    _task = Task::RESTORE;
+}
+
+BackgroundBackupThread* BackgroundBackupThread::createBackupTask(QString dbPath, QStringList backupPaths) {
+    return new BackgroundBackupThread(dbPath, backupPaths);
+}
+
+BackgroundBackupThread* BackgroundBackupThread::createRestorationTask(QString dbPath, QString replacementPath) {
+    return new BackgroundBackupThread(dbPath, replacementPath);
 }
 
 void BackgroundBackupThread::run() {
+    switch (_task) {
+        case Task::BACKUP:
+            backup();
+            break;
+        case Task::RESTORE:
+            restore();
+            break;
+    }
+}
+
+void BackgroundBackupThread::backup() {
     auto failedPaths = QStringList();
 
     auto dbFile = QFile(_dbPath);
     if (!dbFile.exists()) {
-        emit resultReady(failedPaths, false);
+        emit backupResultReady(failedPaths, false);
         return;
     }
 
@@ -41,6 +69,28 @@ void BackgroundBackupThread::run() {
     }
 
     QThread::sleep(std::chrono::milliseconds(200));
+    emit backupResultReady(failedPaths, true);
+}
 
-    emit resultReady(failedPaths, true);
+void BackgroundBackupThread::restore() {
+    auto dbFile = QFile(_dbPath);
+    auto dbFileInfo = QFileInfo(_dbPath);
+    auto backupFile = QFile(_restorationPath.replace("file:///", ""));
+    
+    if (!backupFile.exists()) {
+        emit restorationResultReady(false);
+        return;
+    }
+
+    if (dbFile.exists() && !dbFile.remove()) {
+        emit restorationResultReady(false);
+        return;
+    }
+
+    if (!backupFile.copy(_dbPath)) {
+        emit restorationResultReady(false);
+        return;
+    }
+
+    emit restorationResultReady(true);
 }

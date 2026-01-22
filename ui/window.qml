@@ -325,7 +325,7 @@ ApplicationWindow {
         modal: true
         anchors.centerIn: parent
         focus: true
-        height: 150
+        height: 180
 
         property string text: "No text"
         property bool dialog: false
