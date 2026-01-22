@@ -102,6 +102,9 @@ Row {
                     icon.width: 16
                     icon.height: 16
                     onClicked: Qt.openUrlExternally("file:///" + row.path)
+
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Open directory in file explorer"
                 }
 
                 RoundButton {
@@ -114,6 +117,9 @@ Row {
                         fileDialog.currentFolder = "file:///" + row.path;
                         fileDialog.open();
                     }
+
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Replace the current database file"
                 }
 
                 RoundButton {
@@ -123,6 +129,8 @@ Row {
                     icon.width: 16
                     icon.height: 16
                     onClicked: folderDialog.openForChangingBackupPath(row.path)
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Change directory"
                 }
 
                 RoundButton {
@@ -135,6 +143,8 @@ Row {
                     onClicked: {
                         appCtx.onBackupPathRemovalRequested(row.path);
                     }
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Remove directory from the list"
                 }
             }
 
