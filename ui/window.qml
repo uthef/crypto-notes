@@ -33,7 +33,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if (isAppAlreadyRunning) {
-            popupRequest("fatal", "An another instance of the application appears to be running right now. Exiting...", false);
+            popupRequest("fatal", "Another instance of the application appears to be running right now. Exiting...", false);
             return;
         }
 

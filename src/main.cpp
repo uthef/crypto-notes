@@ -19,12 +19,12 @@ int main(int argc, char** argv) {
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_ACCENT", QByteArray("Blue"));
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
-    
+
     QGuiApplication app(argc, argv);
 
     bool isAppAlreadyRunning = false;
 
-    QSharedMemory sharedMemory(APP_ID);
+    QSharedMemory sharedMemory;
     sharedMemory.setNativeKey(APP_UUID);
     isAppAlreadyRunning = !sharedMemory.create(1);
 
