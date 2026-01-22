@@ -32,6 +32,11 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        if (isAppAlreadyRunning) {
+            popupRequest("fatal", "An another instance of the application appears to be running right now. Exiting...", false);
+            return;
+        }
+
         MouseEventFilter.listenTo(appWindow);
 
         if (appCtx.isWindowMaximized()) {
@@ -358,8 +363,12 @@ ApplicationWindow {
         property bool confirmed: false
 
         onClosed: {
-            if (popup.confirmed) popupConfirmation(popup.label);
+            if (popup.label === "fatal") {
+                Qt.quit();
+                return;
+            }
 
+            if (popup.confirmed) popupConfirmation(popup.label);
             popup.confirmed = false;
         }
 
