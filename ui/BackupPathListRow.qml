@@ -103,7 +103,7 @@ Row {
                     icon.height: 16
                     onClicked: Qt.openUrlExternally("file:///" + row.path)
 
-                    ToolTip.visible: hovered
+                    ToolTip.visible: hovered | focus
                     ToolTip.text: "Open directory in file explorer"
                 }
 
@@ -118,7 +118,7 @@ Row {
                         fileDialog.open();
                     }
 
-                    ToolTip.visible: hovered
+                    ToolTip.visible: hovered | focus
                     ToolTip.text: "Restore database from a backup file"
                 }
 
@@ -129,7 +129,7 @@ Row {
                     icon.width: 16
                     icon.height: 16
                     onClicked: folderDialog.openForChangingBackupPath(row.path)
-                    ToolTip.visible: hovered
+                    ToolTip.visible: hovered | focus
                     ToolTip.text: "Change directory"
                 }
 
@@ -143,7 +143,7 @@ Row {
                     onClicked: {
                         appCtx.onBackupPathRemovalRequested(row.path);
                     }
-                    ToolTip.visible: hovered
+                    ToolTip.visible: hovered | focus
                     ToolTip.text: "Remove directory from the list"
                 }
             }
