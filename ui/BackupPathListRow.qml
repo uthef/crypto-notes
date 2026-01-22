@@ -105,6 +105,18 @@ Row {
                 }
 
                 RoundButton {
+                    id: restoreFromFile
+                    enabled: pathListView.buttonsEnabled
+                    icon.source: "icons/restore.svg"
+                    icon.width: 16
+                    icon.height: 16
+                    onClicked: {
+                        fileDialog.currentFolder = "file:///" + row.path;
+                        fileDialog.open();
+                    }
+                }
+
+                RoundButton {
                     id: changeButton
                     enabled: pathListView.buttonsEnabled
                     icon.source: "icons/edit.svg"

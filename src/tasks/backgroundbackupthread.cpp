@@ -5,11 +5,11 @@
 using namespace cryptonotes;
 
 
-BackgroundBackupThread::BackgroundBackupThread(QString dbPath, QStringList backupPaths, QObject* parent) : QThread(parent) {
+BackgroundBackupThread::BackgroundBackupThread(QString dbPath, QStringList backupPaths, QString fileNameHint, QObject* parent) : QThread(parent) {
     _dbPath = dbPath;
     _backupPaths = backupPaths;
+    _fileNameHint = fileNameHint;
     _task = Task::BACKUP;
-
 }
 
 BackgroundBackupThread::BackgroundBackupThread(QString dbPath, QString replacementPath, QObject* parent) : QThread(parent) {
@@ -18,8 +18,8 @@ BackgroundBackupThread::BackgroundBackupThread(QString dbPath, QString replaceme
     _task = Task::RESTORE;
 }
 
-BackgroundBackupThread* BackgroundBackupThread::createBackupTask(QString dbPath, QStringList backupPaths) {
-    return new BackgroundBackupThread(dbPath, backupPaths);
+BackgroundBackupThread* BackgroundBackupThread::createBackupTask(QString dbPath, QStringList backupPaths, QString fileNameHint) {
+    return new BackgroundBackupThread(dbPath, backupPaths, fileNameHint);
 }
 
 BackgroundBackupThread* BackgroundBackupThread::createRestorationTask(QString dbPath, QString replacementPath) {
@@ -58,8 +58,9 @@ void BackgroundBackupThread::backup() {
         }
 
         auto backupFilePath = backupDir.filePath(
-            QString("%1_%2_%3.edb")
+            QString("%1_%2%3_%4.edb")
                 .arg("notes_backup")
+                .arg(_fileNameHint.trimmed().size() > 0 ? _fileNameHint.trimmed().append("_") : "")
                 .arg(QDateTime::currentMSecsSinceEpoch())
                 .arg(uuid)
         );
@@ -91,6 +92,8 @@ void BackgroundBackupThread::restore() {
         emit restorationResultReady(false);
         return;
     }
+
+    QThread::sleep(std::chrono::milliseconds(1000));
 
     emit restorationResultReady(true);
 }

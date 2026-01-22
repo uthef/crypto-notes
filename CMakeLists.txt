@@ -72,6 +72,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ui/BackupPathListRow.qml
     RESOURCES
         res.qrc
+        ui/icons/restore.svg
         ui/icons/note.png
         ui/icons/bin.svg
         ui/icons/check.svg

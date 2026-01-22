@@ -261,8 +261,8 @@ size_t AppContext::rowCount() {
     return _noteList.size();
 }
 
-void AppContext::initiateBackup() {
-    auto thread = BackgroundBackupThread::createBackupTask(dbPath(), _pathList);
+void AppContext::initiateBackup(QString fileNameHint) {
+    auto thread = BackgroundBackupThread::createBackupTask(dbPath(), _pathList, fileNameHint);
     connect(thread, &BackgroundBackupThread::backupResultReady, this, finishBackup);
     connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
     thread->start();

@@ -28,7 +28,7 @@ namespace cryptonotes {
         Q_INVOKABLE QString dbDir();
         Q_INVOKABLE QString generatePassword();
         Q_INVOKABLE QString appVersion();
-        Q_INVOKABLE void initiateBackup();
+        Q_INVOKABLE void initiateBackup(QString fileNameHint);
         void finishBackup(QStringList failedPaths, bool dbFound);
         void finishRestoration(bool success);
     signals:

@@ -10,7 +10,7 @@ namespace cryptonotes {
     class BackgroundBackupThread : public QThread {
         Q_OBJECT
     public:
-        static BackgroundBackupThread* createBackupTask(QString dbPath, QStringList backupPaths);
+        static BackgroundBackupThread* createBackupTask(QString dbPath, QStringList backupPaths, QString fileNameHint);
         static BackgroundBackupThread* createRestorationTask(QString dbPath, QString replacementPath);
     protected:
         void run() override;
@@ -26,9 +26,10 @@ namespace cryptonotes {
         Task _task;
         QString _dbPath;
         QString _restorationPath;
+        QString _fileNameHint;
         QStringList _backupPaths;
 
-        BackgroundBackupThread(QString dbPath, QStringList backupPaths, QObject* parent = nullptr);
+        BackgroundBackupThread(QString dbPath, QStringList backupPaths, QString fileNameHint, QObject* parent = nullptr);
         BackgroundBackupThread(QString dbPath, QString replacementPath, QObject* parent = nullptr);
         void backup();
         void restore();

@@ -22,7 +22,7 @@ ColumnLayout {
         startBackupButton.enabled = value;
         addPathButton.enabled = value;
         showInExplorerButton.enabled = value;
-        restoreButton.enabled = value;
+        backupFileNameHintField.enabled = value;
     }
 
     Text {
@@ -156,39 +156,6 @@ ColumnLayout {
                 color: Material.foreground
                 Layout.fillWidth: true
                 font.pixelSize: 18
-                text: "Replace the existing database file"
-            }
-
-            RowLayout {
-                Layout.bottomMargin: appWindow.margin
-
-                Button {
-                    id: restoreButton
-                    text: "Select file"
-                    Layout.preferredHeight: pathField.height + 10
-                    enabled: pathListView.count > 0
-
-                    onClicked: {
-                        fileDialog.open();
-                    }
-                }
-
-                BusyIndicator {
-                    Layout.alignment: Qt.AlignVCenter
-                    id: restorationPreloader
-                    Layout.preferredHeight: startBackupButton.height / 2
-                    Layout.preferredWidth: startBackupButton.height / 2
-                    Layout.leftMargin: appWindow.margin / 2
-                    padding: 2
-                    running: false
-                }
-            }
-
-            Text {
-                Layout.topMargin: appWindow.margin
-                color: Material.foreground
-                Layout.fillWidth: true
-                font.pixelSize: 18
                 text: "Database backup directories"
             }
 
@@ -199,6 +166,13 @@ ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.minimumHeight: 270
+
+                BusyIndicator {
+                    id: backupPreloader
+                    running: false
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
 
                 ListView {
                     id: pathListView
@@ -220,9 +194,63 @@ ColumnLayout {
                     onActiveFocusChanged: () => {
                         pathListFrame.background.border.color = activeFocus ? Material.accentColor : Material.frameColor
                     }
+
+                    states: [
+                        State {
+                            name: "normal"
+                            PropertyChanges {
+                                target: pathListView
+                                opacity: 1
+                            }
+                        },
+                        State {
+                            name: "loading"
+
+                            PropertyChanges {
+                                target: pathListView
+                                opacity: .2
+                            }
+                        }
+                    ]
+
+                    transitions: [
+                        Transition {
+                            from: "*"
+                            to: "*"
+
+                            PropertyAnimation {
+                                property: "opacity"
+                                duration: 100
+                            }
+                        }
+                    ]
+
+                    onStateChanged: state => enabled = !(backupPreloader.running = (state === "loading"));
                 }
             }
             
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Button {
+                id: addPathButton
+                text: "Add a directory"
+                icon.source: "icons/plus.svg" 
+                Layout.alignment: Qt.AlignRight
+                Layout.preferredHeight: pathField.height + 10
+                onClicked: folderDialog.openForAddingBackupPath()
+            }
+
+            TextField {
+                id: backupFileNameHintField
+                Layout.fillWidth: true
+                Layout.topMargin: appWindow.margin / 2
+                Layout.bottomMargin: appWindow.margin / 2
+                placeholderText: "File name hint"
+                enabled: pathListView.count > 0
+            }
+
             RowLayout {
                 Layout.bottomMargin: appWindow.margin
 
@@ -239,33 +267,10 @@ ColumnLayout {
                             listItem.state = "backup_unknown";
                         }
 
-                        appCtx.initiateBackup()
+                        appCtx.initiateBackup(backupFileNameHintField.text)
                         settings.setUiEnabled(false);                        
                         backupPreloader.running = true;
                     }
-                }
-
-                BusyIndicator {
-                    Layout.alignment: Qt.AlignVCenter
-                    id: backupPreloader
-                    Layout.preferredHeight: startBackupButton.height / 2
-                    Layout.preferredWidth: startBackupButton.height / 2
-                    Layout.leftMargin: appWindow.margin / 2
-                    padding: 2
-                    running: false
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    id: addPathButton
-                    text: "Add a directory"
-                    icon.source: "icons/plus.svg" 
-                    Layout.alignment: Qt.AlignRight
-                    Layout.preferredHeight: pathField.height + 10
-                    onClicked: folderDialog.openForAddingBackupPath()
                 }
             }
         }
@@ -379,12 +384,15 @@ ColumnLayout {
 
                 listItem.state = "backup_success";
             }
+
+            if (failedPaths.length == 0) backupFileNameHintField.text = "";
         }
 
         function onRestorationCompleted(success) {
             if (!success) appWindow.popupRequest("error", "An error occurred. The program could not rewrite your database file", false);
 
             settings.setUiEnabled(true);
+            pathListView.state = "normal";
         }
     }
 
@@ -409,6 +417,7 @@ ColumnLayout {
         function onPopupConfirmation(label) {
             if (label !== "settings") return;
             settings.setUiEnabled(false);
+            pathListView.state = "loading";
             appCtx.onDatabaseFileRestorationRequested(fileDialog.currentFile);
         }
     }
