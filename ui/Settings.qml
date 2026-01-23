@@ -205,6 +205,7 @@ ColumnLayout {
 
                     onActiveFocusChanged: () => {
                         pathListFrame.background.border.color = activeFocus ? Material.accentColor : Material.frameColor
+                        if (activeFocus && currentItem !== null) currentItem.data[0].grabFocus();
                     }
 
                     states: [
