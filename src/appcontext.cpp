@@ -201,7 +201,7 @@ void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
 
 void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
     auto thread = BackgroundBackupThread::createRestorationTask(dbPath(), filePath);
-    connect(thread, &BackgroundBackupThread::restorationResultReady, this, finishRestoration);
+    connect(thread, &BackgroundBackupThread::restorationResultReady, this, &AppContext::finishRestoration);
     connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
     thread->start();
 }
@@ -301,7 +301,7 @@ size_t AppContext::rowCount() {
 
 void AppContext::initiateBackup(QString fileNameHint) {
     auto thread = BackgroundBackupThread::createBackupTask(dbPath(), _pathList, fileNameHint);
-    connect(thread, &BackgroundBackupThread::backupResultReady, this, finishBackup);
+    connect(thread, &BackgroundBackupThread::backupResultReady, this, &AppContext::finishBackup);
     connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
     thread->start();
 }
