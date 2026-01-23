@@ -276,7 +276,12 @@ int AppContext::windowHeight() {
 }
 
 QString AppContext::dbDir() {
-    QFileInfo info(dbPath().prepend("file:///"));
+    QString path = dbPath();
+
+    if (path.startsWith("/")) path.prepend("file://");
+    else path.prepend("file:///");
+
+    QFileInfo info(path);
     return info.dir().path();
 }
 
