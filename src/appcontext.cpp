@@ -16,7 +16,9 @@
 
 using namespace cryptonotes;
 
-AppContext::AppContext() : _listModel(&_noteList), _backupPathListModel(&_pathList) {
+AppContext::AppContext(bool isAnotherInstanceRunning) : _listModel(&_noteList), _backupPathListModel(&_pathList) {
+    _isAnotherInstanceRunning = isAnotherInstanceRunning;
+
     _searchTimer.setSingleShot(true);
     connect(&_searchTimer, &QTimer::timeout, this, &AppContext::onSearchDelayTimeout);
 
@@ -205,6 +207,7 @@ void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
 }
 
 void AppContext::onAppAboutToQuit() {
+    if (_isAnotherInstanceRunning) return;
     _config.setWindowSize(_windowWidth, _windowHeight);
     _config.setWindowMaximized(_windowMaximized);
 }
@@ -301,6 +304,10 @@ void AppContext::initiateBackup(QString fileNameHint) {
     connect(thread, &BackgroundBackupThread::backupResultReady, this, finishBackup);
     connect(thread, &BackgroundBackupThread::finished, &QObject::deleteLater);
     thread->start();
+}
+
+bool AppContext::isAnotherInstanceRunning() {
+    return _isAnotherInstanceRunning;
 }
 
 void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {

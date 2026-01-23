@@ -14,6 +14,10 @@ Row {
         color: "transparent"
     }
 
+    function grabFocus() {
+        openFolderButton.forceActiveFocus();
+    }
+
     states: [
         State {
             name: "backup_unknown"
@@ -101,10 +105,17 @@ Row {
                     icon.source: "icons/folder.svg"
                     icon.width: 16
                     icon.height: 16
+                    focusPolicy: Qt.NoFocus
                     onClicked: Qt.openUrlExternally("file:///" + row.path)
 
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Open directory in file explorer"
+
+                    Keys.onRightPressed: {
+                        restoreFromFile.forceActiveFocus();
+                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
+                    }
+
                 }
 
                 RoundButton {
@@ -113,6 +124,7 @@ Row {
                     icon.source: "icons/restore.svg"
                     icon.width: 16
                     icon.height: 16
+                    focusPolicy: Qt.NoFocus
                     onClicked: {
                         fileDialog.currentFolder = "file:///" + row.path;
                         fileDialog.open();
@@ -120,6 +132,22 @@ Row {
 
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Restore database from a backup file"
+
+                    onActiveFocusChanged: {
+                        if (focus) {
+                            pathListView.positionViewAtIndex(4, ListView.Beginning);
+                        }
+                    }
+
+                    Keys.onLeftPressed: {
+                        openFolderButton.forceActiveFocus();
+                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
+                    }
+
+                    Keys.onRightPressed: {
+                        changeButton.forceActiveFocus();
+                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
+                    }
                 }
 
                 RoundButton {
@@ -128,9 +156,20 @@ Row {
                     icon.source: "icons/edit.svg"
                     icon.width: 16
                     icon.height: 16
+                    focusPolicy: Qt.NoFocus
                     onClicked: folderDialog.openForChangingBackupPath(row.path)
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Change directory"
+
+                    Keys.onLeftPressed: {
+                        restoreFromFile.forceActiveFocus();
+                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
+                    }
+
+                    Keys.onRightPressed: {
+                        removeButton.forceActiveFocus();
+                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
+                    }
                 }
 
                 RoundButton {
@@ -140,11 +179,17 @@ Row {
                     icon.source: "icons/bin.svg"
                     icon.width: 12
                     icon.height: 12
+                    focusPolicy: Qt.NoFocus
                     onClicked: {
                         appCtx.onBackupPathRemovalRequested(row.path);
                     }
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Remove directory from the list"
+
+                    Keys.onLeftPressed: {
+                        changeButton.forceActiveFocus();
+                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
+                    }
                 }
             }
 
@@ -201,10 +246,10 @@ Row {
         }
 
         onClicked: {
-            // if (!clickable) return;
+            if (!clickable) return;
 
-            // noteListView.currentIndex = model.index
-            // appCtx.onNoteRequested(model.index, false);
+            pathListView.currentIndex = model.index
+            pathListView.forceActiveFocus();
         }
     }
 

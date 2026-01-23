@@ -18,7 +18,7 @@ namespace cryptonotes {
         Q_PROPERTY(size_t rowCount READ rowCount NOTIFY rowCountUpdated)
         Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathUpdated)
     public:
-        AppContext();
+        AppContext(bool isAnotherInstanceRunning = false);
         NoteListModel* model();
         BackupPathListModel* backupPathListModel();
         void setSearchQuery(QString query);
@@ -32,6 +32,7 @@ namespace cryptonotes {
         Q_INVOKABLE QString generatePassword();
         Q_INVOKABLE QString appVersion();
         Q_INVOKABLE void initiateBackup(QString fileNameHint);
+        Q_INVOKABLE bool isAnotherInstanceRunning();
         void finishBackup(QStringList failedPaths, bool dbFound);
         void finishRestoration(bool success);
     signals:
@@ -79,6 +80,7 @@ namespace cryptonotes {
         int _windowWidth = 0;
         int _windowHeight = 0;
         bool _windowMaximized = false;
+        bool _isAnotherInstanceRunning = false;
         void connectToDb();
     };
 }

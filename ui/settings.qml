@@ -182,9 +182,21 @@ ColumnLayout {
                     anchors.fill: parent
                     model: appCtx.backupPathListModel
                     delegate: pathListDelegate
-                    headerPositioning: ListView.OverlayHeader
                     clip: true
                     activeFocusOnTab: true
+                    highlightResizeDuration: 0
+                    interactive: true
+
+                    onCurrentItemChanged: {
+                        if (!activeFocus) return;
+                        let row = currentItem.data[0];
+                        row.grabFocus();
+                    }
+
+                    highlight: Rectangle {
+                        color: Material.primary
+                        opacity: .7
+                    }
 
                     ScrollBar.vertical: ScrollBar {
                         id: vertScrollbar

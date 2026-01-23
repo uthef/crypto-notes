@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     sharedMemory.setNativeKey(APP_UUID);
     isAppAlreadyRunning = !sharedMemory.create(1);
 
-    AppContext context;
+    AppContext context(isAppAlreadyRunning);
     QObject::connect(&app, &QGuiApplication::aboutToQuit, &context, &AppContext::onAppAboutToQuit);
     qmlRegisterSingletonType<MouseEventFilter>("cryptonotes", 1, 0, "MouseEventFilter", newMouseEventFilterSingleton);
 
@@ -36,7 +36,6 @@ int main(int argc, char** argv) {
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("appCtx", &context);
-    engine.rootContext()->setContextProperty("isAppAlreadyRunning", isAppAlreadyRunning);
     engine.loadFromModule("cryptonotes", "Window");
 
     return app.exec();

@@ -73,7 +73,7 @@ GridLayout {
             text: appCtx.searchQuery
             Layout.fillWidth: true
             placeholderText: "Search"
-            onFocusChanged: (f) => {
+            onActiveFocusChanged: (f) => {
                 if (f) searchIcon.source = "icons/search.svg";
                 else searchIcon.source = "icons/search_inactive.svg";
             }

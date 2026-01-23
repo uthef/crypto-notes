@@ -69,7 +69,7 @@ ColumnLayout {
     }
 
     Text {
-        Layout.topMargin: 32
+        Layout.topMargin: 16
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         color: Material.foreground
@@ -111,11 +111,30 @@ ColumnLayout {
         text: "Note list"
     }
 
-    Frame {
+    Pane {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Material.elevation: 3
         Layout.fillWidth: true
+
+        background: Item {
+            RectangularShadow {
+                anchors.fill: paneBg
+                offset.x: 4
+                offset.y: 4
+                radius: paneBg.radius
+                blur: 10
+                spread: 1
+                color: Qt.darker(paneBg.color, 1.6)
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                id: paneBg
+                radius: 8
+                color: Qt.darker(Material.backgroundColor, 0.8)
+            }
+        }
 
         ColumnLayout {
             Text {
@@ -138,11 +157,30 @@ ColumnLayout {
         text: "Editor"
     }
 
-    Frame {
+    Pane {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Material.elevation: 3
         Layout.fillWidth: true
+
+        background: Item {
+            RectangularShadow {
+                anchors.fill: paneBg2
+                offset.x: 4
+                offset.y: 4
+                radius: paneBg2.radius
+                blur: 10
+                spread: 1
+                color: Qt.darker(paneBg2.color, 1.6)
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                id: paneBg2
+                radius: 8
+                color: Qt.darker(Material.backgroundColor, 0.8)
+            }
+        }
 
         ColumnLayout {
             Text {
