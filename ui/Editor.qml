@@ -115,7 +115,7 @@ ColumnLayout {
         Layout.rightMargin: appWindow.margin
         id: updateCheck
         leftPadding: 0
-        text: `Update time (last edited: ${root.time})`
+        text: "Update time" + (id != -1 ? ` (last edited: ${root.time})` : "")
         checked: true
         enabled: id != -1
     }
