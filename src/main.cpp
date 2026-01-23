@@ -26,7 +26,13 @@ int main(int argc, char** argv) {
 
     QSharedMemory sharedMemory;
     sharedMemory.setNativeKey(APP_UUID);
-    isAppAlreadyRunning = !sharedMemory.create(1);
+
+    if (!sharedMemory.attach()) {
+        if (!sharedMemory.create(1)) return 1;
+    }
+    else {
+        isAppAlreadyRunning = true;
+    }
 
     AppContext context(isAppAlreadyRunning);
     QObject::connect(&app, &QGuiApplication::aboutToQuit, &context, &AppContext::onAppAboutToQuit);
