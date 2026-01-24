@@ -113,7 +113,6 @@ Row {
 
                     Keys.onRightPressed: {
                         restoreFromFile.forceActiveFocus();
-                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
                     }
 
                 }
@@ -133,20 +132,12 @@ Row {
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Restore database from a backup file"
 
-                    onActiveFocusChanged: {
-                        if (focus) {
-                            pathListView.positionViewAtIndex(4, ListView.Beginning);
-                        }
-                    }
-
                     Keys.onLeftPressed: {
                         openFolderButton.forceActiveFocus();
-                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
                     }
 
                     Keys.onRightPressed: {
                         changeButton.forceActiveFocus();
-                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
                     }
                 }
 
@@ -163,12 +154,10 @@ Row {
 
                     Keys.onLeftPressed: {
                         restoreFromFile.forceActiveFocus();
-                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
                     }
 
                     Keys.onRightPressed: {
                         removeButton.forceActiveFocus();
-                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
                     }
                 }
 
@@ -188,7 +177,6 @@ Row {
 
                     Keys.onLeftPressed: {
                         changeButton.forceActiveFocus();
-                        pathListView.positionViewAtIndex(model.index, ListView.Beginning);
                     }
                 }
             }
