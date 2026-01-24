@@ -41,22 +41,15 @@ void BackupPathListModel::remove(QString path) {
     remove(idx);
 }
 
-void BackupPathListModel::update() {
+void BackupPathListModel::reset() {
     beginResetModel();
     endResetModel();
 }
 
-void BackupPathListModel::update(QString oldValue, QString newValue) {
-    qsizetype oldValIdx = _pathList->indexOf(oldValue);
-    
-    if (oldValIdx < 0) {
-        return;
-    }
-
-    _pathList->replace(oldValIdx, newValue);
-
-    beginResetModel();
-    endResetModel();
+void BackupPathListModel::update(size_t idx, QString newValue) {
+    _pathList->replace(idx, newValue);
+    QModelIndex modelIdx = createIndex(idx, 0);
+    emit dataChanged(modelIdx, modelIdx, { Roles::PATH });
 }
 
 void BackupPathListModel::push(QString path) {

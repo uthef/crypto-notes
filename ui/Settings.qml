@@ -324,7 +324,7 @@ ColumnLayout {
     FolderDialog {
         id: folderDialog
         property string postAction
-        property string oldPath: ""
+        property int pathIdx: -1
         modality: "ApplicationModal"
 
         onAccepted: {
@@ -332,12 +332,17 @@ ColumnLayout {
                 appCtx.onNewDbPathSelected(folderDialog.selectedFolder);
             }
             else if (postAction === "changeBackupPath") {
-                appCtx.onBackupPathChangeRequested(oldPath, folderDialog.selectedFolder);
-                oldPath = "";
+                if (pathIdx < 0) return;
+                appCtx.onBackupPathChangeRequested(pathIdx, folderDialog.selectedFolder);
+                let idx = pathIdx;
+                pathIdx = -1;
             }
             else if (postAction === "addBackupPath") {
                 if (appCtx.onBackupPathAdditionRequested(folderDialog.selectedFolder)) {
-                    Qt.callLater(() => pathListView.positionViewAtEnd());
+                    Qt.callLater(() => {
+                        pathListView.currentIndex = pathListView.count - 1;
+                        pathListView.positionViewAtEnd();
+                    });
                 }
             }
 
@@ -352,11 +357,11 @@ ColumnLayout {
             open();
         }
 
-        function openForChangingBackupPath(p) {
+        function openForChangingBackupPath(idx, p) {
             if (visible) return;
             postAction = "changeBackupPath";
             title = "Choose another backup directory";
-            oldPath = p;
+            pathIdx = idx;
             currentFolder = "file:///" + p;
             open();
         }

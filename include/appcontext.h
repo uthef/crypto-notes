@@ -58,9 +58,9 @@ namespace cryptonotes {
         void onDbDisconnectionRequest();
         void onNoteRequested(size_t index, bool shortcut);
         void onNoteUpdateRequested(long id, QString title, QString summary, QString content, int flags, bool updateTimestamp);
-        void onBackupPathRemovalRequested(QString path);
+        void onBackupPathRemovalRequested(size_t idx);
         bool onBackupPathAdditionRequested(QString path);
-        void onBackupPathChangeRequested(QString oldPath, QString newPath);
+        void onBackupPathChangeRequested(size_t idx, QString newPath);
         void onDatabaseFileRestorationRequested(QString filePath);
         void onAppAboutToQuit();
         void onWindowHeightChanged(int value);

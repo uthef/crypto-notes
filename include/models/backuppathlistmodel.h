@@ -17,8 +17,8 @@ namespace cryptonotes {
         QHash<int, QByteArray> roleNames() const override;
         void remove(size_t index);
         void remove(QString path);
-        void update();
-        void update(QString oldValue, QString newValue);
+        void reset();
+        void update(size_t idx, QString newValue);
         void push(QString path);
 
     private:

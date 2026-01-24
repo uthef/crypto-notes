@@ -106,7 +106,10 @@ Row {
                     icon.width: 16
                     icon.height: 16
                     focusPolicy: Qt.NoFocus
-                    onClicked: Qt.openUrlExternally("file:///" + row.path)
+                    onClicked: {
+                        pathListView.currentIndex = model.index;
+                        Qt.openUrlExternally("file:///" + row.path);
+                    }
 
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Open directory in file explorer"
@@ -125,6 +128,7 @@ Row {
                     icon.height: 16
                     focusPolicy: Qt.NoFocus
                     onClicked: {
+                        pathListView.currentIndex = model.index;
                         fileDialog.currentFolder = "file:///" + row.path;
                         fileDialog.open();
                     }
@@ -148,7 +152,10 @@ Row {
                     icon.width: 16
                     icon.height: 16
                     focusPolicy: Qt.NoFocus
-                    onClicked: folderDialog.openForChangingBackupPath(row.path)
+                    onClicked: {
+                        pathListView.currentIndex = model.index;
+                        folderDialog.openForChangingBackupPath(model.index, row.path)
+                    }
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Change directory"
 
@@ -170,7 +177,8 @@ Row {
                     icon.height: 12
                     focusPolicy: Qt.NoFocus
                     onClicked: {
-                        appCtx.onBackupPathRemovalRequested(row.path);
+                        pathListView.currentIndex = model.index;
+                        appCtx.onBackupPathRemovalRequested(model.index);
                     }
                     ToolTip.visible: hovered | focus
                     ToolTip.text: "Remove directory from the list"

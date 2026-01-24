@@ -169,8 +169,8 @@ void AppContext::onNoteUpdateRequested(long id, QString title, QString summary, 
     onSearchRequest(_searchQuery);
 }
 
-void AppContext::onBackupPathRemovalRequested(QString path) {
-    _backupPathListModel.remove(path);
+void AppContext::onBackupPathRemovalRequested(size_t idx) {
+    _backupPathListModel.remove(idx);
     _config.updateBackupPaths(_pathList);
 }
 
@@ -186,14 +186,14 @@ bool AppContext::onBackupPathAdditionRequested(QString path) {
     return true;
 }
 
-void AppContext::onBackupPathChangeRequested(QString oldPath, QString newPath) {
+void AppContext::onBackupPathChangeRequested(size_t idx, QString newPath) {
     newPath = Formatter::removePathPrefix(newPath);
     
     if (_pathList.indexOf(newPath) != -1) {
         return;
     }
 
-    _backupPathListModel.update(oldPath, newPath);
+    _backupPathListModel.update(idx, newPath);
     _config.updateBackupPaths(_pathList);
 
     
