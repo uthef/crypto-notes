@@ -17,9 +17,13 @@ Item {
 
     ColumnLayout {
         width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
+        height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 8
+
+        Item {
+            Layout.fillHeight: true
+        }
 
         Label {
             Layout.alignment: Qt.AlignHCenter
@@ -58,6 +62,56 @@ Item {
             Layout.preferredHeight: passwordField.height + 10
             Layout.maximumWidth: 400
             Layout.fillWidth: true
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.bottomMargin: appWindow.margin
+
+            Image {
+                source: "icons/language.svg"
+                sourceSize.width: 24
+                sourceSize.height: 24
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Label {
+                Layout.rightMargin: 8
+                text: qsTr("Interface language")
+            }
+
+            ComboBox {
+                Layout.preferredWidth: 150
+                
+                model: ListModel {
+                    ListElement {
+                        value: "en"
+                        text: "English"
+                    }
+
+                    ListElement {
+                        value: "ru"
+                        text: "Русский"
+                    }
+                }
+
+                textRole: "text"
+                valueRole: "value"
+
+                Component.onCompleted: {
+                    let langCode = appCtx.language();
+                    if (indexOfValue(langCode) >= 0) currentValue = langCode;
+                }
+
+                onActivated: {
+                    appCtx.onLanguageChange(currentValue, true);
+                    appEngine.uiLanguageChanged();
+                }
+            }
         }
     }
 

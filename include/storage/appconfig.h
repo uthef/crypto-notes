@@ -22,6 +22,7 @@ namespace cryptonotes {
         bool windowMaximized();
         void setWindowMaximized(bool value);
         QString language();
+        void setLanguage(QString code);
 
     private:
         QString _path;

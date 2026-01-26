@@ -7,7 +7,6 @@
 #include <QtQml/qqmlregistration.h>
 #include "filters/mouseeventfilter.h"
 #include <QSharedMemory>
-#include <QTranslator>
 
 using namespace cryptonotes;
 
@@ -21,7 +20,6 @@ int main(int argc, char** argv) {
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_ACCENT", QByteArray("Blue"));
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
 
-    QTranslator translator;
     QGuiApplication app(argc, argv);
 
     bool isAppAlreadyRunning = false;
@@ -35,14 +33,8 @@ int main(int argc, char** argv) {
     else {
         isAppAlreadyRunning = true;
     }
-
-    AppConfig appConfig;
-    QString lang = appConfig.language();
-    AppContext context(&appConfig, isAppAlreadyRunning);
-
-    if (lang != "en" && translator.load(QString(":/cryptonotes_").append(lang))) {
-        app.installTranslator(&translator);
-    }
+    
+    AppContext context(&app, isAppAlreadyRunning);
 
     QObject::connect(&app, &QGuiApplication::aboutToQuit, &context, &AppContext::onAppAboutToQuit);
     qmlRegisterSingletonType<MouseEventFilter>("cryptonotes", 1, 0, "MouseEventFilter", newMouseEventFilterSingleton);
@@ -51,6 +43,7 @@ int main(int argc, char** argv) {
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("appCtx", &context);
+    engine.rootContext()->setContextProperty("appEngine", &engine);
     engine.loadFromModule("cryptonotes", "Window");
 
     return app.exec();

@@ -86,6 +86,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ui/icons/check.svg
         ui/icons/edit.svg
         ui/icons/green_check.svg
+        ui/icons/language.svg
         ui/icons/lock.svg
         ui/icons/error.svg
         ui/icons/floppy.svg

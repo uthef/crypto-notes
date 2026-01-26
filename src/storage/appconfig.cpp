@@ -70,3 +70,7 @@ void AppConfig::setWindowMaximized(bool value) {
 QString AppConfig::language() {
     return _settings.value(LANGUAGE_KEY, "en").toString();
 }
+
+void AppConfig::setLanguage(QString code) {
+    _settings.setValue(LANGUAGE_KEY, code);
+}

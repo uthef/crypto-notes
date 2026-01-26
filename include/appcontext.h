@@ -9,6 +9,7 @@
 #include <QTimer>
 #include "storage/appconfig.h"
 #include "models/backuppathlistmodel.h"
+#include <QTranslator>
 
 namespace cryptonotes {
     class AppContext : public QObject {
@@ -19,7 +20,7 @@ namespace cryptonotes {
         Q_PROPERTY(size_t rowCount READ rowCount NOTIFY rowCountUpdated)
         Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathUpdated)
     public:
-        AppContext(AppConfig* config, bool isAnotherInstanceRunning = false);
+        AppContext(QGuiApplication* app, bool isAnotherInstanceRunning = false);
         NoteListModel* model();
         BackupPathListModel* backupPathListModel();
         void setSearchQuery(QString query);
@@ -34,6 +35,7 @@ namespace cryptonotes {
         Q_INVOKABLE QString appVersion();
         Q_INVOKABLE void initiateBackup(QString fileNameHint);
         Q_INVOKABLE bool isAnotherInstanceRunning();
+        Q_INVOKABLE QString language();
         void finishBackup(QStringList failedPaths, bool dbFound);
         void finishRestoration(bool success);
         void updateTranslations();
@@ -68,17 +70,21 @@ namespace cryptonotes {
         void onWindowHeightChanged(int value);
         void onWindowWidthChanged(int value);
         void onWindowVisibilityChanged(bool maximized);
+        void onLanguageChange(QString code, bool save = false);
     private slots:
         void onSearchDelayTimeout();
     private:
+        QGuiApplication* _app;
+        QTranslator _translator;
         Database db;
         NoteListModel _listModel;
         BackupPathListModel _backupPathListModel;
         NoteList _noteList;
         QTimer _searchTimer;
         QString _searchQuery;
-        AppConfig* _config;
+        AppConfig _config;
         QStringList _pathList;
+        QString _langCode;
         int _windowWidth = 0;
         int _windowHeight = 0;
         bool _windowMaximized = false;

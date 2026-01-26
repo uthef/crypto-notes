@@ -16,20 +16,21 @@
 
 using namespace cryptonotes;
 
-AppContext::AppContext(AppConfig* config, bool isAnotherInstanceRunning) : _listModel(&_noteList), _backupPathListModel(&_pathList) {
-    _config = config;
-
-    updateTranslations();
+AppContext::AppContext(QGuiApplication* app, bool isAnotherInstanceRunning) : _listModel(&_noteList), _backupPathListModel(&_pathList) {
+    _app = app;
     _isAnotherInstanceRunning = isAnotherInstanceRunning;
+    _langCode = _config.language();
+    
+    onLanguageChange(_langCode, false);
 
     _searchTimer.setSingleShot(true);
     connect(&_searchTimer, &QTimer::timeout, this, &AppContext::onSearchDelayTimeout);
 
-    _windowMaximized = _config->windowMaximized();
-    _windowWidth = _config->windowWidth();
-    _windowHeight = _config->windowHeight();
+    _windowMaximized = _config.windowMaximized();
+    _windowWidth = _config.windowWidth();
+    _windowHeight = _config.windowHeight();
 
-    _pathList = _config->backupPaths();
+    _pathList = _config.backupPaths();
     _pathList.removeDuplicates();
 }
 
@@ -38,7 +39,7 @@ void AppContext::onPasswordValidated(QString password) {
 
     char* errMsg;
 
-    QFileInfo pathInfo(_config->dbPath());
+    QFileInfo pathInfo(_config.dbPath());
 
     if (!pathInfo.dir().exists()) {
         pathInfo.dir().mkpath(".");
@@ -55,7 +56,7 @@ void AppContext::onPasswordValidated(QString password) {
 
     file.close();
 
-    db.open(_config->dbPath().toStdString().c_str(), password.toStdString());
+    db.open(_config.dbPath().toStdString().c_str(), password.toStdString());
     db.makeSureTableNotesExists(&errMsg);
 
     if (errMsg) {
@@ -129,7 +130,7 @@ void AppContext::onNoteRequested(size_t index, bool shortcut) {
 void AppContext::onPasswordUpdateRequested(QString oldPassword, QString newPassword) {
     if (db.isOpen()) return;
 
-    db.open(_config->dbPath().toStdString().c_str(), oldPassword.toStdString());
+    db.open(_config.dbPath().toStdString().c_str(), oldPassword.toStdString());
 
     char* errMsg;
     db.makeSureTableNotesExists(&errMsg);
@@ -174,7 +175,7 @@ void AppContext::onNoteUpdateRequested(long id, QString title, QString summary, 
 
 void AppContext::onBackupPathRemovalRequested(size_t idx) {
     _backupPathListModel.remove(idx);
-    _config->updateBackupPaths(_pathList);
+    _config.updateBackupPaths(_pathList);
 }
 
 bool AppContext::onBackupPathAdditionRequested(QString path) {
@@ -185,7 +186,7 @@ bool AppContext::onBackupPathAdditionRequested(QString path) {
     }
 
     _backupPathListModel.push(path);
-    _config->updateBackupPaths(_pathList);
+    _config.updateBackupPaths(_pathList);
     return true;
 }
 
@@ -197,9 +198,7 @@ void AppContext::onBackupPathChangeRequested(size_t idx, QString newPath) {
     }
 
     _backupPathListModel.update(idx, newPath);
-    _config->updateBackupPaths(_pathList);
-
-    
+    _config.updateBackupPaths(_pathList);   
 }
 
 void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
@@ -211,8 +210,8 @@ void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
 
 void AppContext::onAppAboutToQuit() {
     if (_isAnotherInstanceRunning) return;
-    _config->setWindowSize(_windowWidth, _windowHeight);
-    _config->setWindowMaximized(_windowMaximized);
+    _config.setWindowSize(_windowWidth, _windowHeight);
+    _config.setWindowMaximized(_windowMaximized);
 }
 
 void AppContext::onWindowHeightChanged(int value) {
@@ -225,6 +224,22 @@ void AppContext::onWindowWidthChanged(int value) {
 
 void AppContext::onWindowVisibilityChanged(bool maximized) {
     _windowMaximized = maximized;
+}
+
+void AppContext::onLanguageChange(QString code, bool save) {
+    _app->removeTranslator(&_translator);
+
+    if (code == "en") {
+        _langCode = code;
+        if (save) _config.setLanguage(code);
+    }
+    else if (_translator.load(QString(":/cryptonotes_").append(code))) {
+        _langCode = code;
+        _app->installTranslator(&_translator);
+        if (save) _config.setLanguage(code);
+    }
+
+    updateTranslations();
 }
 
 QString AppContext::searchQuery() {
@@ -262,7 +277,7 @@ void AppContext::onNoteRemovalRequested(size_t index) {
 }
 
 QString AppContext::dbPath() {
-    auto dir = QDir(_config->dbPath());
+    auto dir = QDir(_config.dbPath());
     return dir.path();
 }
 
@@ -299,7 +314,7 @@ QString AppContext::appVersion() {
 
 void AppContext::onNewDbPathSelected(QString folder) {
     folder = Formatter::removePathPrefix(folder);
-    _config->setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
+    _config.setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
     emit dbPathUpdated();
 }
 
@@ -316,6 +331,10 @@ void AppContext::initiateBackup(QString fileNameHint) {
 
 bool AppContext::isAnotherInstanceRunning() {
     return _isAnotherInstanceRunning;
+}
+
+QString AppContext::language() {
+    return _langCode;
 }
 
 void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {

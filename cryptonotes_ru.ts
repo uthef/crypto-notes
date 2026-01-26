@@ -88,16 +88,23 @@
         <translation type="obsolete">На начальном экране, если Вы не использовали это приложение ранее, введите любой пароль, который хотите установить для шифрования данных.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Auth.qml" line="29"/>
-        <location filename="ui/Auth.qml" line="29"/>
+        <location filename="build/cryptonotes/ui/Auth.qml" line="33"/>
+        <location filename="ui/Auth.qml" line="33"/>
         <source>Master password</source>
         <translation>Мастер-пароль</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Auth.qml" line="55"/>
-        <location filename="ui/Auth.qml" line="55"/>
+        <location filename="build/cryptonotes/ui/Auth.qml" line="59"/>
+        <location filename="ui/Auth.qml" line="59"/>
         <source>Continue</source>
         <translation>Продолжить</translation>
+    </message>
+    <message>
+        <location filename="build/cryptonotes/ui/Auth.qml" line="84"/>
+        <location filename="ui/Auth.qml" line="84"/>
+        <source>Interface language</source>
+        <oldsource>Language</oldsource>
+        <translation>Язык интерфейса</translation>
     </message>
 </context>
 <context>
@@ -454,117 +461,117 @@
 <context>
     <name>cryptonotes::AppContext</name>
     <message>
-        <location filename="src/appcontext.cpp" line="124"/>
+        <location filename="src/appcontext.cpp" line="125"/>
         <source>en</source>
         <translation>ru</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="337"/>
+        <location filename="src/appcontext.cpp" line="356"/>
         <source>Jan</source>
         <translation>января</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="337"/>
+        <location filename="src/appcontext.cpp" line="356"/>
         <source>Feb</source>
         <translation>февраля</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="338"/>
+        <location filename="src/appcontext.cpp" line="357"/>
         <source>Mar</source>
         <translation>марта</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="338"/>
+        <location filename="src/appcontext.cpp" line="357"/>
         <source>Apr</source>
         <translation>апреля</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="338"/>
+        <location filename="src/appcontext.cpp" line="357"/>
         <source>May</source>
         <translation>мая</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="339"/>
+        <location filename="src/appcontext.cpp" line="358"/>
         <source>Jun</source>
         <translation>июня</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="339"/>
+        <location filename="src/appcontext.cpp" line="358"/>
         <source>Jul</source>
         <translation>июля</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="339"/>
+        <location filename="src/appcontext.cpp" line="358"/>
         <source>Aug</source>
         <translation>августа</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="340"/>
+        <location filename="src/appcontext.cpp" line="359"/>
         <source>Sep</source>
         <translation>сентября</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="340"/>
+        <location filename="src/appcontext.cpp" line="359"/>
         <source>Oct</source>
         <translation>октября</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="340"/>
+        <location filename="src/appcontext.cpp" line="359"/>
         <source>Nov</source>
         <translation>ноября</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="341"/>
+        <location filename="src/appcontext.cpp" line="360"/>
         <source>Dec</source>
         <translation>декабря</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="51"/>
+        <location filename="src/appcontext.cpp" line="52"/>
         <source>The current database path cannot be used</source>
         <translation>Текущий путь к базе данных не может быть использован</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="62"/>
+        <location filename="src/appcontext.cpp" line="63"/>
         <source>Wrong password or corrupted file</source>
         <translation>Неправильный пароль или повреждённый файл</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="72"/>
+        <location filename="src/appcontext.cpp" line="73"/>
         <source>Fetching notes from the database resulted in an error</source>
         <translation>Извлечение заметок из базы данных привело к ошибке</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="101"/>
+        <location filename="src/appcontext.cpp" line="102"/>
         <source>Unable to perform search</source>
         <translation>Невозможно выполнить поиск</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="114"/>
+        <location filename="src/appcontext.cpp" line="115"/>
         <source>Unable to fetch note</source>
         <translation>Невозможно получить данные о заметке</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="139"/>
+        <location filename="src/appcontext.cpp" line="140"/>
         <source>Password update failed. Double check your password</source>
         <translation>Не удалось изменить пароль. Перепроверьте введённые данные</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="146"/>
+        <location filename="src/appcontext.cpp" line="147"/>
         <source>Success</source>
         <translation>Успех</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="168"/>
+        <location filename="src/appcontext.cpp" line="169"/>
         <source>Unable to add or update note</source>
         <translation>Невозможно добавить или обновить заметку</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="256"/>
+        <location filename="src/appcontext.cpp" line="271"/>
         <source>Unable to delete note</source>
         <translation>Невозможно удалить заметку</translation>
     </message>
     <message>
-        <location filename="src/appcontext.cpp" line="323"/>
+        <location filename="src/appcontext.cpp" line="342"/>
         <source>Database file is not found</source>
         <translation>Файл базы данных не найден</translation>
     </message>
