@@ -112,7 +112,7 @@ Row {
                     }
 
                     ToolTip.visible: hovered | focus
-                    ToolTip.text: "Open directory in file explorer"
+                    ToolTip.text: qsTr("Open directory in file explorer")
 
                     Keys.onRightPressed: {
                         restoreFromFile.forceActiveFocus();
@@ -134,7 +134,7 @@ Row {
                     }
 
                     ToolTip.visible: hovered | focus
-                    ToolTip.text: "Restore database from a backup file"
+                    ToolTip.text: qsTr("Restore database from a backup file")
 
                     Keys.onLeftPressed: {
                         openFolderButton.forceActiveFocus();
@@ -157,7 +157,7 @@ Row {
                         folderDialog.openForChangingBackupPath(model.index, row.path)
                     }
                     ToolTip.visible: hovered | focus
-                    ToolTip.text: "Change directory"
+                    ToolTip.text: qsTr("Change directory")
 
                     Keys.onLeftPressed: {
                         restoreFromFile.forceActiveFocus();
@@ -181,7 +181,7 @@ Row {
                         appCtx.onBackupPathRemovalRequested(model.index);
                     }
                     ToolTip.visible: hovered | focus
-                    ToolTip.text: "Remove directory from the list"
+                    ToolTip.text: qsTr("Remove directory from the list")
 
                     Keys.onLeftPressed: {
                         changeButton.forceActiveFocus();

@@ -72,7 +72,7 @@ GridLayout {
         TextField {
             text: appCtx.searchQuery
             Layout.fillWidth: true
-            placeholderText: "Search"
+            placeholderText: qsTr("Search")
             onActiveFocusChanged: (f) => {
                 if (f) searchIcon.source = "icons/search.svg";
                 else searchIcon.source = "icons/search_inactive.svg";
@@ -89,7 +89,7 @@ GridLayout {
         Layout.topMargin: 8
         Layout.row: 1
         color: Material.backgroundDimColor
-        text: `Showing the latest ${appCtx.rowCount} note${appCtx.rowCount !== 1 ? "s" : "" }`
+        text: qsTr("Showing the latest %n notes", "", appCtx.rowCount)
     }
 
     Frame {
@@ -111,14 +111,15 @@ GridLayout {
             headerPositioning: ListView.OverlayHeader
             clip: true
             activeFocusOnTab: true
+            highlightResizeDuration: 0
             highlightResizeVelocity: 10000
             model: appCtx.listModel
             delegate: delegate
 
             header: ListRow {
-                title: "Title"
-                summary: "Summary"
-                time: "Last updated"
+                title: qsTr("Title")
+                summary: qsTr("Summary")
+                time: qsTr("Last updated")
 
                 bg: Rectangle {
                     color: Material.background

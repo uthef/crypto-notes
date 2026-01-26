@@ -8,6 +8,7 @@ const char* BACKUP_PATHS_KEY = "backupPaths";
 const char* WINDOW_WIDTH_KEY = "startupWindowWidth";
 const char* WINDOW_HEIGHT_KEY = "startupWindowHeight";
 const char* WINDOW_FULLSCREEN_KEY = "startupWindowMaximized";
+const char* LANGUAGE_KEY = "language";
 
 AppConfig::AppConfig() :
     _path(QDir::homePath().append("/.config/cryptonotes/")),
@@ -64,4 +65,8 @@ bool AppConfig::windowMaximized() {
 
 void AppConfig::setWindowMaximized(bool value) {
     _settings.setValue(WINDOW_FULLSCREEN_KEY, value);
+}
+
+QString AppConfig::language() {
+    return _settings.value(LANGUAGE_KEY, "en").toString();
 }

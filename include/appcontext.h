@@ -2,6 +2,7 @@
 #define APPCONTEXT_H
 
 #include <QObject>
+#include <QGuiApplication>
 #include <models/notelistmodel.h>
 #include <QAbstractItemModel>
 #include <storage/database.h>
@@ -18,7 +19,7 @@ namespace cryptonotes {
         Q_PROPERTY(size_t rowCount READ rowCount NOTIFY rowCountUpdated)
         Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathUpdated)
     public:
-        AppContext(bool isAnotherInstanceRunning = false);
+        AppContext(AppConfig* config, bool isAnotherInstanceRunning = false);
         NoteListModel* model();
         BackupPathListModel* backupPathListModel();
         void setSearchQuery(QString query);
@@ -35,6 +36,7 @@ namespace cryptonotes {
         Q_INVOKABLE bool isAnotherInstanceRunning();
         void finishBackup(QStringList failedPaths, bool dbFound);
         void finishRestoration(bool success);
+        void updateTranslations();
     signals:
         void dbConnectionFail(QString message);
         void dbPathUpdated();
@@ -75,7 +77,7 @@ namespace cryptonotes {
         NoteList _noteList;
         QTimer _searchTimer;
         QString _searchQuery;
-        AppConfig _config;
+        AppConfig* _config;
         QStringList _pathList;
         int _windowWidth = 0;
         int _windowHeight = 0;

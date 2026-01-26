@@ -12,6 +12,7 @@ ColumnLayout {
         Layout.topMargin: appWindow.margin
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
+        Layout.bottomMargin: appWindow.margin
         Layout.alignment: Qt.AlignHCenter
 
         Image {
@@ -36,7 +37,7 @@ ColumnLayout {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Layout.alignment: Qt.AlignHCenter
-        text: `Version: ${appCtx.appVersion()}`
+        text: `${qsTr("Version:")} ${appCtx.appVersion()}`
         color: Material.foreground
         font.pixelSize: 14
     }
@@ -45,11 +46,12 @@ ColumnLayout {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Layout.alignment: Qt.AlignHCenter
+        Layout.bottomMargin: appWindow.margin
 
         Text {
             color: Material.foreground
             font.pixelSize: 14 
-            text: "GitHub repository:"
+            text: qsTr("GitHub repository:")
         }
 
         Text {
@@ -68,127 +70,140 @@ ColumnLayout {
         }
     }
 
-    Text {
-        Layout.topMargin: 16
+    Rectangle {
+        height: 1
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
-        color: Material.foreground
         Layout.fillWidth: true
-        font.pixelSize: 32
-        text: "First start"
-    }
-
-    ColumnLayout {
-        Layout.leftMargin: appWindow.margin
-        Layout.rightMargin: appWindow.margin
         Layout.bottomMargin: appWindow.margin
-
-        Text {
-            textFormat: Text.RichText
-            color: Material.foreground
-            Layout.fillWidth: true
-            font.pixelSize: 14
-            text: "At the start screen, if you haven't used this app previously, type any password you want to be set for data encryption."
-        }
-    }
-    
-    Text {
-        Layout.leftMargin: appWindow.margin
-        Layout.rightMargin: appWindow.margin
-        color: Material.foreground
-        Layout.fillWidth: true
-        font.pixelSize: 32
-        text: "Shortcuts"
+        color: Material.dividerColor
     }
 
-    Text {
+    ScrollView {
+        id: settingsScrollView
+        Layout.fillWidth: true
+        Layout.fillHeight: true
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
-        Layout.topMargin: 16
-        color: Material.foreground
-        Layout.fillWidth: true
-        font.pixelSize: 18
-        text: "Note list"
-    }
-
-    Pane {
-        Layout.leftMargin: appWindow.margin
-        Layout.rightMargin: appWindow.margin
-        Material.elevation: 3
-        Layout.fillWidth: true
-
-        background: Item {
-            RectangularShadow {
-                anchors.fill: paneBg
-                offset.x: 4
-                offset.y: 4
-                radius: paneBg.radius
-                blur: 10
-                spread: 1
-                color: Qt.darker(paneBg.color, 1.6)
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                id: paneBg
-                radius: 8
-                color: Qt.darker(Material.backgroundColor, 0.8)
-            }
+        // clip: true
+        rightPadding: appWindow.margin * 2
+        contentWidth: availableWidth
+        ScrollBar.vertical.policy: Qt.ScrollBarAlwaysOn
+        
+        Binding {
+            target: settingsScrollView.contentItem
+            property: "boundsBehavior"
+            value: Flickable.StopAtBounds
         }
 
         ColumnLayout {
+            width: parent.width
+
             Text {
-                textFormat: Text.RichText
+                Layout.topMargin: 16
+                color: Material.foreground
+                font.pixelSize: 32
+                text: qsTr("First start")
+            }
+
+            Text {
+                Layout.bottomMargin: appWindow.margin
                 color: Material.foreground
                 Layout.fillWidth: true
+                wrapMode: Qt.Wrap
                 font.pixelSize: 14
-                text: "<b>Alt+Shift+Delete</b> - remove a note from the list<br><b>Alt+Shift+S</b> - copy note summary<br><b>Alt+Shift+C</b> - copy note content"
-            }
-        }
-    }
-
-    Text {
-        Layout.topMargin: 16
-        Layout.leftMargin: appWindow.margin
-        Layout.rightMargin: appWindow.margin
-        color: Material.foreground
-        Layout.fillWidth: true
-        font.pixelSize: 18
-        text: "Editor"
-    }
-
-    Pane {
-        Layout.leftMargin: appWindow.margin
-        Layout.rightMargin: appWindow.margin
-        Material.elevation: 3
-        Layout.fillWidth: true
-
-        background: Item {
-            RectangularShadow {
-                anchors.fill: paneBg2
-                offset.x: 4
-                offset.y: 4
-                radius: paneBg2.radius
-                blur: 10
-                spread: 1
-                color: Qt.darker(paneBg2.color, 1.6)
+                text: qsTr("At the start screen, if you haven't used this app previously, type any password you want to be set for data encryption.")
             }
 
-            Rectangle {
-                anchors.fill: parent
-                id: paneBg2
-                radius: 8
-                color: Qt.darker(Material.backgroundColor, 0.8)
-            }
-        }
-
-        ColumnLayout {
             Text {
-                textFormat: Text.RichText
                 color: Material.foreground
                 Layout.fillWidth: true
-                font.pixelSize: 14
-                text: "<b>Ctrl+G</b> - generate a secure password and insert it into the content field"
+                font.pixelSize: 32
+                text: qsTr("Shortcuts")
+            }
+
+            Text {
+                Layout.topMargin: 16
+                color: Material.foreground
+                Layout.fillWidth: true
+                font.pixelSize: 18
+                text: qsTr("Note list")
+            }
+
+            Pane {
+                Material.elevation: 3
+                Layout.fillWidth: true
+
+                background: Item {
+                    RectangularShadow {
+                        anchors.fill: paneBg
+                        offset.x: 4
+                        offset.y: 4
+                        radius: paneBg.radius
+                        blur: 10
+                        spread: 1
+                        color: Qt.darker(paneBg.color, 1.6)
+                    }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        id: paneBg
+                        radius: 8
+                        color: Qt.darker(Material.backgroundColor, 0.8)
+                    }
+                }
+
+                ColumnLayout {
+                    Text {
+                        textFormat: Text.RichText
+                        color: Material.foreground
+                        Layout.fillWidth: true
+                        font.pixelSize: 14
+                        text: `<b>Alt+Shift+Delete</b> - ${qsTr("remove a note from the list")}<br><b>Alt+Shift+S</b> - ${qsTr("copy note summary")}<br><b>Alt+Shift+C</b> - ${qsTr("copy note content")}`
+                    }
+                }
+            }
+
+            Text {
+                Layout.topMargin: 16
+                color: Material.foreground
+                Layout.fillWidth: true
+                font.pixelSize: 18
+                text: qsTr("Editor")
+            }
+
+            Pane {
+                Material.elevation: 3
+                Layout.fillWidth: true
+
+                background: Item {
+                    RectangularShadow {
+                        anchors.fill: paneBg2
+                        offset.x: 4
+                        offset.y: 4
+                        radius: paneBg2.radius
+                        blur: 10
+                        spread: 1
+                        color: Qt.darker(paneBg2.color, 1.6)
+                    }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        id: paneBg2
+                        radius: 8
+                        color: Qt.darker(Material.backgroundColor, 0.8)
+                    }
+                }
+
+                ColumnLayout {
+                    Text {
+                        textFormat: Text.RichText
+                        color: Material.foreground
+                        Layout.fillWidth: true
+                        font.pixelSize: 14
+                        text: `<b>Ctrl+G</b> - ${qsTr("generate a secure password and insert it into the content field")}`
+                    }
+                }
             }
         }
     }
@@ -217,7 +232,7 @@ ColumnLayout {
         Layout.topMargin: appWindow.margin / 2
         Layout.bottomMargin: appWindow.margin
 
-        text: "Go back"
+        text: qsTr("Go back")
         Layout.preferredHeight: textField.height + 10
         onClicked: appWindow.goBackRequest()
     }

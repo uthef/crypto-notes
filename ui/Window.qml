@@ -33,7 +33,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if (appCtx.isAnotherInstanceRunning()) {
-            popupRequest("fatal", "Another instance of the application appears to be running right now. Exiting...", false);
+            popupRequest("fatal", qsTr("Another instance of the application appears to be running right now. Exiting..."), false);
             return;
         }
 
@@ -72,11 +72,11 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
-            title: "Database"
+            title: qsTr("Database")
 
             MenuItem {
                 id: menuItemConfigure
-                text: "Configure…"
+                text: qsTr("Configure…")
                 onClicked: {
                     if (!appWindow.stackViewTransitionAllowed) return;
 
@@ -93,7 +93,7 @@ ApplicationWindow {
 
             MenuItem {
                 id: menuItemClose
-                text: "Close"
+                text: qsTr("Close")
                 enabled: false
                 onClicked: {
                     goToAuthRequest();
@@ -102,11 +102,11 @@ ApplicationWindow {
         }
 
         Menu {
-            title: "Help"
+            title: qsTr("Help")
 
             MenuItem {
                 id: menuItemAbout
-                text: "About"
+                text: qsTr("About")
                 onClicked: {
                     if (!appWindow.stackViewTransitionAllowed) return;
                     if (stackView.currentItem.item.name === "about") return;
@@ -265,7 +265,7 @@ ApplicationWindow {
         if (stackView.currentItem.item.name !== "auth") return;
 
         if (password.length === 0) {
-            stackView.currentItem.item.error("Password cannot be blank");
+            stackView.currentItem.item.error(qsTr("Password cannot be blank"));
             return;
         }
 
@@ -341,11 +341,11 @@ ApplicationWindow {
         }
 
         function onAbort(msg) {
-            popupRequest("abort", "Database connection error. " + msg, false);
+            popupRequest("abort", qsTr("Database connection error.") + " " + msg, false);
         }
 
         function onError(msg) {
-            popupRequest("error", "An error occurred. " + msg, false);
+            popupRequest("error", qsTr("An error occurred.") + " " + msg, false);
         }
     }
 
@@ -390,7 +390,7 @@ ApplicationWindow {
                 Layout.margins: 0
 
                 Button {
-                    text: popup.dialog ? "Yes" : "Ok"
+                    text: popup.dialog ? qsTr("Yes") : qsTr("Ok")
                     onClicked: {
                         popup.confirmed = true;
                         popup.close();
@@ -399,7 +399,7 @@ ApplicationWindow {
 
                 Button {
                     visible: popup.dialog
-                    text: "No"
+                    text: qsTr("No")
                     onClicked: popup.close()
                 }
             }

@@ -7,10 +7,14 @@ namespace cryptonotes {
     class Formatter
     {
     public:
-        Formatter();
-        static QString timestampToReadableDateTime(long timestamp);
+        Formatter() = delete;
+        
+        static QString timestampToReadableDateTime(long timestamp, bool monthNameLast = false);
         static QString escapeQuery(QString query, char escapeChar);
         static QString removePathPrefix(QString path);
+        static void setMonthNames(QStringList names);
+    private:
+        static QStringList _monthNames;
     };
 }
 #endif

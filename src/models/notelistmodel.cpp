@@ -18,7 +18,7 @@ QVariant NoteListModel::data(const QModelIndex& index, int role) const {
         case Roles::SUMMARY:
             return QString::fromStdString(_noteList->at(index.row()).summary());
         case Roles::TIME:
-            return Formatter::timestampToReadableDateTime(_noteList->at(index.row()).timestamp());
+            return Formatter::timestampToReadableDateTime(_noteList->at(index.row()).timestamp(), tr("en") == "ru");
         default:
             return "null";
     }

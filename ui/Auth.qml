@@ -26,7 +26,7 @@ Item {
             font.pixelSize: 16
             Layout.fillWidth: true
             Layout.maximumWidth: 400
-            text: "Master password"
+            text: qsTr("Master password")
         }
 
         TextField {
@@ -52,7 +52,7 @@ Item {
             icon.width: 18
             icon.height: 18
             Layout.alignment: Qt.AlignHCenter
-            text: " Continue"
+            text: ` ${qsTr("Continue")}` 
             font.pixelSize: 16
             onClicked: appWindow.passwordReady(passwordField.text)
             Layout.preferredHeight: passwordField.height + 10

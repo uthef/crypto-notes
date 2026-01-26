@@ -30,7 +30,7 @@ ColumnLayout {
         Layout.rightMargin: appWindow.margin
         Layout.topMargin: appWindow.margin
         Layout.bottomMargin: appWindow.margin
-        text: "Configuration"
+        text: qsTr("Configuration")
         color: Material.foreground
         Layout.fillWidth: true
         font.pixelSize: 32
@@ -75,12 +75,12 @@ ColumnLayout {
                     text: appCtx.dbPath
                     readOnly: true
                     Layout.fillWidth: true
-                    placeholderText: "Database path"
+                    placeholderText: qsTr("Database path")
                 }
 
                 Button {
                     id: browseButton
-                    text: "Browse…"
+                    text: qsTr("Browse…")
                     Layout.preferredHeight: pathField.height + 10
                     onClicked: folderDialog.openForChangingDbPath()
                 }
@@ -88,7 +88,7 @@ ColumnLayout {
                 Button {
                     id: showInExplorerButton
                     icon.source: "icons/folder.svg"
-                    text: "Show"
+                    text: qsTr("Show")
                     Layout.preferredHeight: pathField.height + 10
                     onClicked: Qt.openUrlExternally(appCtx.dbDir())
                 }
@@ -99,7 +99,7 @@ ColumnLayout {
                 color: Material.foreground
                 Layout.fillWidth: true
                 font.pixelSize: 18
-                text: "Update database password"
+                text: qsTr("Update database password")
             }
 
             RowLayout {
@@ -109,7 +109,7 @@ ColumnLayout {
 
                 TextField {
                     id: oldPassField
-                    placeholderText: "Old password"
+                    placeholderText: qsTr("Old password")
                     Layout.alignment: Qt.AlignHCenter
                     Layout.fillWidth: true
                     maximumLength: 128
@@ -120,7 +120,7 @@ ColumnLayout {
 
                 TextField {
                     id: newPassField
-                    placeholderText: "New password"
+                    placeholderText: qsTr("New password")
                     Layout.alignment: Qt.AlignHCenter
                     Layout.fillWidth: true
                     maximumLength: 128
@@ -139,11 +139,11 @@ ColumnLayout {
                 id: confirmPasswordButton
                 Layout.topMargin: appWindow.margin / 2
 
-                text: "Confirm new password"
+                text: qsTr("Confirm new password")
                 Layout.preferredHeight: pathField.height + 10
                 onClicked: {
                     if (newPassField.length === 0 || oldPassField.length === 0) {
-                        errorMessage.show("Both old and new passwords must be provided");
+                        errorMessage.show(qsTr("Both old and new passwords must be provided"));
                         return;
                     }
 
@@ -156,7 +156,7 @@ ColumnLayout {
                 color: Material.foreground
                 Layout.fillWidth: true
                 font.pixelSize: 18
-                text: "Database backup directories"
+                text: qsTr("Database backup directories")
             }
 
             Frame {
@@ -185,6 +185,7 @@ ColumnLayout {
                     clip: true
                     activeFocusOnTab: true
                     highlightResizeDuration: 0
+                    highlightResizeVelocity: 10000
                     interactive: true
 
                     onCurrentItemChanged: {
@@ -248,7 +249,7 @@ ColumnLayout {
 
             Button {
                 id: addPathButton
-                text: "Add a directory"
+                text: qsTr("Add a directory")
                 icon.source: "icons/plus.svg" 
                 Layout.alignment: Qt.AlignRight
                 Layout.preferredHeight: pathField.height + 10
@@ -260,7 +261,7 @@ ColumnLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: appWindow.margin / 2
                 Layout.bottomMargin: appWindow.margin / 2
-                placeholderText: "File name hint"
+                placeholderText: qsTr("File name hint")
                 enabled: pathListView.count > 0
             }
 
@@ -269,7 +270,7 @@ ColumnLayout {
 
                 Button {
                     id: startBackupButton
-                    text: "Start backup"
+                    text: qsTr("Start backup")
                     Layout.preferredHeight: pathField.height + 10
                     enabled: pathListView.count > 0
 
@@ -304,7 +305,7 @@ ColumnLayout {
         Layout.rightMargin: appWindow.margin
         Layout.bottomMargin: appWindow.margin
 
-        text: "Go back"
+        text: qsTr("Go back")
         Layout.preferredHeight: pathField.height + 10
         onClicked: appWindow.goBackRequest()
     }
@@ -315,8 +316,8 @@ ColumnLayout {
 
         onAccepted: {
             appWindow.popupRequest("settings", 
-                "THIS ACTION IS IRREVERSIBLE.\nPLEASE, DO A BACKUP FIRST IF YOU WANT TO PREVENT DATA LOSS.\n\n"+
-                "Are you sure you want to replace your current database file with the selected one?",
+                qsTr("THIS ACTION IS IRREVERSIBLE.") + "\n" + qsTr("PLEASE, DO A BACKUP FIRST IF YOU WANT TO PREVENT DATA LOSS.") + "\n\n" +
+                qsTr("Are you sure you want to replace your current database file with the selected one?"),
                 true);
         }
     }
@@ -352,7 +353,7 @@ ColumnLayout {
         function openForChangingDbPath() {
             if (visible) return;
             postAction = "changeDbPath";
-            title = "Choose a new database directory";
+            title = qsTr("Choose a new database directory");
             currentFolder = appCtx.dbDir();
             open();
         }
@@ -360,7 +361,7 @@ ColumnLayout {
         function openForChangingBackupPath(idx, p) {
             if (visible) return;
             postAction = "changeBackupPath";
-            title = "Choose another backup directory";
+            title = qsTr("Choose another backup directory");
             pathIdx = idx;
             currentFolder = "file:///" + p;
             open();
@@ -369,7 +370,7 @@ ColumnLayout {
         function openForAddingBackupPath() {
             if (visible) return;
             postAction = "addBackupPath";
-            title = "Adding a new backup directory";
+            title = qsTr("Adding a new backup directory");
             currentFolder = "";
             open();
         }
@@ -407,7 +408,7 @@ ColumnLayout {
         }
 
         function onRestorationCompleted(success) {
-            if (!success) appWindow.popupRequest("error", "An error occurred. The program could not rewrite your database file", false);
+            if (!success) appWindow.popupRequest("error", qsTr("An error occurred. The program could not rewrite your database file"), false);
 
             settings.setUiEnabled(true);
             pathListView.state = "normal";

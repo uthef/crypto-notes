@@ -7,6 +7,7 @@
 
 namespace cryptonotes {
     class NoteListModel : public QAbstractListModel {
+        Q_OBJECT
     public:
         NoteListModel(NoteList* list);
         enum Roles {

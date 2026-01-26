@@ -32,7 +32,7 @@ ColumnLayout {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin
         Layout.topMargin: appWindow.margin
-        text: id == -1 ? "Create a new note" : "Edit note"
+        text: id == -1 ? qsTr("Create a new note") : qsTr("Edit note")
         color: Material.foreground
         Layout.fillWidth: true
         font.pixelSize: 32
@@ -46,7 +46,7 @@ ColumnLayout {
         text: root.title
         maximumLength: 64
         Layout.fillWidth: true
-        placeholderText: "Title"
+        placeholderText: qsTr("Title")
     }
 
     ErrorMessage {
@@ -64,7 +64,7 @@ ColumnLayout {
         text: root.summary
         maximumLength: 128
         Layout.fillWidth: true
-        placeholderText: "Summary"
+        placeholderText: qsTr("Summary")
     }
 
     ErrorMessage {
@@ -99,7 +99,7 @@ ColumnLayout {
             id: contentArea
             padding: 27
             text: root.content
-            placeholderText: "Note"
+            placeholderText: qsTr("Note")
             KeyNavigation.priority: KeyNavigation.BeforeItem
             KeyNavigation.tab: updateCheck.enabled ? updateCheck : saveButton
             KeyNavigation.backtab: summaryField
@@ -115,7 +115,7 @@ ColumnLayout {
         Layout.rightMargin: appWindow.margin
         id: updateCheck
         leftPadding: 0
-        text: "Update time" + (id != -1 ? ` (last edited: ${root.time})` : "")
+        text: qsTr("Update time") + (id != -1 ? ` (${qsTr("last edited")}: ${root.time})` : "")
         checked: true
         enabled: id != -1
     }
@@ -129,12 +129,12 @@ ColumnLayout {
         RowLayout {
             Button {
                 id: saveButton
-                text: "Save"
+                text: qsTr("Save")
                 Layout.preferredHeight: 54
                 icon.source: "icons/floppy.svg"
                 icon.width: 18
                 icon.height: 18
-                Layout.preferredWidth: 100
+                Layout.preferredWidth: 120
                 antialiasing: false
                 smooth: false
                 onClicked: {
@@ -145,7 +145,7 @@ ColumnLayout {
                     let sum = summaryField.text.trim();
 
                     if (title.length === 0) {
-                        titleMsg.show("Field cannot be empty");
+                        titleMsg.show(qsTr("Field cannot be empty"));
                         correctFields--;
                     }
                     else titleMsg.hide();
@@ -154,7 +154,7 @@ ColumnLayout {
                         flags |= 1;
                     }
                     if (sum.length === 0) {
-                        summaryMsg.show("Field cannot be empty");
+                        summaryMsg.show(qsTr("Field cannot be empty"));
                         correctFields--;
                     }
                     else summaryMsg.hide();
@@ -181,7 +181,7 @@ ColumnLayout {
                 id: cancelButton
                 Layout.preferredHeight: 54
                 Layout.preferredWidth: 100
-                text: "Cancel"
+                text: qsTr("Cancel")
                 icon.width: 18
                 icon.height: 18
                 onClicked: appWindow.goBackRequest();
@@ -192,9 +192,9 @@ ColumnLayout {
             Layout.alignment: Qt.AlignRight
 
             Button {
-                text: "Generate password"
+                text: qsTr("Generate password")
                 Layout.preferredHeight: 54
-                Layout.preferredWidth: 180
+                Layout.preferredWidth: 200
                 icon.source: "icons/lock.svg"
                 icon.width: 18
                 icon.height: 18
@@ -202,15 +202,15 @@ ColumnLayout {
             }
 
             Button {
-                text: "Delete note"
+                text: qsTr("Delete note")
                 Layout.preferredHeight: 54
-                Layout.preferredWidth: 140
+                Layout.preferredWidth: 150
                 icon.source: "icons/bin.svg"
                 icon.width: 18
                 icon.height: 18
                 enabled: id != -1
                 onClicked: {
-                    appWindow.popupRequest("editor", "Are you sure you want to remove selected note? This action CANNOT BE UNDONE", true);
+                    appWindow.popupRequest("editor", qsTr("Are you sure you want to remove selected note? This action CANNOT BE UNDONE"), true);
                 }
             }
         }

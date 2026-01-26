@@ -15,7 +15,7 @@ set(APP_ID "com.uthef.cryptonotes")
 set(APP_UUID "f712d6c2-75a8-4fc0-82ce-33e962dc6c56")
 set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick LinguistTools)
 find_package(OpenSSL REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SQLCipher REQUIRED sqlcipher)
@@ -27,7 +27,10 @@ include_directories(
 
 qt_standard_project_setup()
 
+qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} cryptonotes_ru.ts)
+
 qt_add_executable(${PROJECT_NAME}
+    ${QM_FILES}
     ${app_icon_resource_windows}
     res.qrc
     src/main.cpp
@@ -103,7 +106,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
+    # WIN32_EXECUTABLE TRUE
 )
 
 include(GNUInstallDirs)

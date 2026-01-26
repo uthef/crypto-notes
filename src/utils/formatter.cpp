@@ -5,17 +5,28 @@
 
 using namespace cryptonotes;
 
-const char* MONTHS[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+QStringList Formatter::_monthNames = {};
 
-QString Formatter::timestampToReadableDateTime(long timestamp) {
+QString Formatter::timestampToReadableDateTime(long timestamp, bool monthNameLast) {
     QDateTime dt = QDateTime::fromSecsSinceEpoch(timestamp);
     QDate currentDate = QDateTime::currentDateTime().date();
+    QString month;
     QString str;
 
+    QString mName = _monthNames[dt.date().month() - 1];
+    int day = dt.date().day();
+
+    if (monthNameLast) {
+        month = QString("%1 %2").arg(day).arg(mName);
+    }
+    else {
+        month = QString("%1 %2").arg(mName).arg(day);
+    }
+
     if (dt.date().year() != currentDate.year()) {
-        str = QString("%1, %2 %3, %4:%5")
+        str = QString("%1, %2, %3:%4")
                   .arg(dt.date().year())
-                  .arg(MONTHS[dt.date().month() - 1]).arg(dt.date().day())
+                  .arg(month)
                   .arg(dt.time().hour(), 2, 10, QChar('0'))
                   .arg(dt.time().minute(), 2, 10, QChar('0'));
 
@@ -23,8 +34,8 @@ QString Formatter::timestampToReadableDateTime(long timestamp) {
     }
 
     if (dt.date().day() != currentDate.day() || dt.date().month() != currentDate.month()) {
-        str = QString("%1 %2, %3:%4")
-                  .arg(MONTHS[dt.date().month() - 1]).arg(dt.date().day())
+        str = QString("%1, %2:%3")
+                  .arg(month)
                   .arg(dt.time().hour(), 2, 10, QChar('0'))
                   .arg(dt.time().minute(), 2, 10, QChar('0'));
 
@@ -52,4 +63,8 @@ QString Formatter::removePathPrefix(QString path) {
     }
 
     return path;
+}
+
+void Formatter::setMonthNames(QStringList names) {
+    _monthNames = names;
 }

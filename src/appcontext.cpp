@@ -16,17 +16,20 @@
 
 using namespace cryptonotes;
 
-AppContext::AppContext(bool isAnotherInstanceRunning) : _listModel(&_noteList), _backupPathListModel(&_pathList) {
+AppContext::AppContext(AppConfig* config, bool isAnotherInstanceRunning) : _listModel(&_noteList), _backupPathListModel(&_pathList) {
+    _config = config;
+
+    updateTranslations();
     _isAnotherInstanceRunning = isAnotherInstanceRunning;
 
     _searchTimer.setSingleShot(true);
     connect(&_searchTimer, &QTimer::timeout, this, &AppContext::onSearchDelayTimeout);
 
-    _windowMaximized = _config.windowMaximized();
-    _windowWidth = _config.windowWidth();
-    _windowHeight = _config.windowHeight();
+    _windowMaximized = _config->windowMaximized();
+    _windowWidth = _config->windowWidth();
+    _windowHeight = _config->windowHeight();
 
-    _pathList = _config.backupPaths();
+    _pathList = _config->backupPaths();
     _pathList.removeDuplicates();
 }
 
@@ -35,7 +38,7 @@ void AppContext::onPasswordValidated(QString password) {
 
     char* errMsg;
 
-    QFileInfo pathInfo(_config.dbPath());
+    QFileInfo pathInfo(_config->dbPath());
 
     if (!pathInfo.dir().exists()) {
         pathInfo.dir().mkpath(".");
@@ -45,18 +48,18 @@ void AppContext::onPasswordValidated(QString password) {
     auto isFileOpen = file.open(QFile::OpenModeFlag::ReadWrite);
 
     if (!file.isOpen() || !file.isWritable() || !isFileOpen) {
-        emit dbConnectionFail("The current database path cannot be used");
+        emit dbConnectionFail(tr("The current database path cannot be used"));
         file.close();
         return;
     }
 
     file.close();
 
-    db.open(_config.dbPath().toStdString().c_str(), password.toStdString());
+    db.open(_config->dbPath().toStdString().c_str(), password.toStdString());
     db.makeSureTableNotesExists(&errMsg);
 
     if (errMsg) {
-        emit dbConnectionFail("Wrong password or corrupted file");
+        emit dbConnectionFail(tr("Wrong password or corrupted file"));
         db.close();
 
         return;
@@ -66,7 +69,7 @@ void AppContext::onPasswordValidated(QString password) {
     _noteList = *db.getRecentNotes(code);
 
     if (!db.isCodeSuccessful(code)) {
-        emit dbConnectionFail("Fetching notes from the database resulted in an error");
+        emit dbConnectionFail(tr("Fetching notes from the database resulted in an error"));
         return;
     }
 
@@ -95,7 +98,7 @@ void AppContext::onSearchDelayTimeout() {
     }
 
     if (!db.isCodeSuccessful(code)) {
-        emit abort("Unable to perform search");
+        emit abort(tr("Unable to perform search"));
         return;
     }
 
@@ -108,7 +111,7 @@ void AppContext::onNoteRequested(size_t index, bool shortcut) {
     auto note = db.getNoteById(_noteList.at(index).id());
 
     if (!note.has_value()) {
-        emit abort("Unable to fetch note");
+        emit abort(tr("Unable to fetch note"));
         return;
     }
 
@@ -118,7 +121,7 @@ void AppContext::onNoteRequested(size_t index, bool shortcut) {
         QString::fromStdString(note->title()),
         QString::fromStdString(note->summary()),
         QString::fromStdString(note->content()),
-        Formatter::timestampToReadableDateTime(note->timestamp()),
+        Formatter::timestampToReadableDateTime(note->timestamp(), tr("en") == "ru"),
         shortcut
     );
 }
@@ -126,21 +129,21 @@ void AppContext::onNoteRequested(size_t index, bool shortcut) {
 void AppContext::onPasswordUpdateRequested(QString oldPassword, QString newPassword) {
     if (db.isOpen()) return;
 
-    db.open(_config.dbPath().toStdString().c_str(), oldPassword.toStdString());
+    db.open(_config->dbPath().toStdString().c_str(), oldPassword.toStdString());
 
     char* errMsg;
     db.makeSureTableNotesExists(&errMsg);
 
     if (errMsg) {
         db.close();
-        emit passwordUpdateResult("Password update failed. Double check your password", false);
+        emit passwordUpdateResult(tr("Password update failed. Double check your password"), false);
         return;
     }
 
     db.rekey(newPassword.toStdString());
     db.close();
 
-    emit passwordUpdateResult("Success", true);
+    emit passwordUpdateResult(tr("Success"), true);
 }
 
 void AppContext::onCopyToClipboardRequest(QString value) {
@@ -162,7 +165,7 @@ void AppContext::onNoteUpdateRequested(long id, QString title, QString summary, 
     }
 
     if (!db.isCodeSuccessful(code)) {
-        emit abort("Unable to add or update note");
+        emit abort(tr("Unable to add or update note"));
         return;
     }
 
@@ -171,7 +174,7 @@ void AppContext::onNoteUpdateRequested(long id, QString title, QString summary, 
 
 void AppContext::onBackupPathRemovalRequested(size_t idx) {
     _backupPathListModel.remove(idx);
-    _config.updateBackupPaths(_pathList);
+    _config->updateBackupPaths(_pathList);
 }
 
 bool AppContext::onBackupPathAdditionRequested(QString path) {
@@ -182,7 +185,7 @@ bool AppContext::onBackupPathAdditionRequested(QString path) {
     }
 
     _backupPathListModel.push(path);
-    _config.updateBackupPaths(_pathList);
+    _config->updateBackupPaths(_pathList);
     return true;
 }
 
@@ -194,7 +197,7 @@ void AppContext::onBackupPathChangeRequested(size_t idx, QString newPath) {
     }
 
     _backupPathListModel.update(idx, newPath);
-    _config.updateBackupPaths(_pathList);
+    _config->updateBackupPaths(_pathList);
 
     
 }
@@ -208,8 +211,8 @@ void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
 
 void AppContext::onAppAboutToQuit() {
     if (_isAnotherInstanceRunning) return;
-    _config.setWindowSize(_windowWidth, _windowHeight);
-    _config.setWindowMaximized(_windowMaximized);
+    _config->setWindowSize(_windowWidth, _windowHeight);
+    _config->setWindowMaximized(_windowMaximized);
 }
 
 void AppContext::onWindowHeightChanged(int value) {
@@ -250,7 +253,7 @@ void AppContext::onNoteRemovalRequested(size_t index) {
     int code = db.deleteNote(note.id());
 
     if (!db.isCodeSuccessful(code)) {
-        emit abort("Unable to delete note");
+        emit abort(tr("Unable to delete note"));
         return;
     }
 
@@ -259,7 +262,7 @@ void AppContext::onNoteRemovalRequested(size_t index) {
 }
 
 QString AppContext::dbPath() {
-    auto dir = QDir(_config.dbPath());
+    auto dir = QDir(_config->dbPath());
     return dir.path();
 }
 
@@ -296,7 +299,7 @@ QString AppContext::appVersion() {
 
 void AppContext::onNewDbPathSelected(QString folder) {
     folder = Formatter::removePathPrefix(folder);
-    _config.setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
+    _config->setDbPath(folder + (folder.endsWith("/") ? "" : "/") + "notes.edb");
     emit dbPathUpdated();
 }
 
@@ -317,7 +320,7 @@ bool AppContext::isAnotherInstanceRunning() {
 
 void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {
     if (!dbFound) {
-        emit error("Database file is not found");
+        emit error(tr("Database file is not found"));
         emit backupCompleted(_pathList);
         return;
     }
@@ -328,3 +331,15 @@ void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {
 void AppContext::finishRestoration(bool success) {
     emit restorationCompleted(success);
 }   
+
+void AppContext::updateTranslations() {
+    QStringList monthNames = {
+        tr("Jan"), tr("Feb"), 
+        tr("Mar"), tr("Apr"), tr("May"), 
+        tr("Jun"), tr("Jul"), tr("Aug"), 
+        tr("Sep"), tr("Oct"), tr("Nov"), 
+        tr("Dec")
+    };
+
+    Formatter::setMonthNames(monthNames);
+}
