@@ -110,6 +110,10 @@ Item {
                 onActivated: {
                     appCtx.onLanguageChange(currentValue, true);
                     appEngine.uiLanguageChanged();
+
+                    if (errorMessage.state === "visible") {
+                        errorMessage.hide();
+                    }
                 }
             }
         }
