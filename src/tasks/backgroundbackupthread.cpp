@@ -50,6 +50,11 @@ void BackgroundBackupThread::backup() {
 
     for (int i = 0; i < _backupPaths.size(); i++) {
         auto path = _backupPaths.at(i);
+
+#ifdef UNIX
+        if (!path.startsWith("/")) path.prepend("/");
+#endif
+
         auto backupDir = QDir(path);
 
         if (!backupDir.exists()) {
