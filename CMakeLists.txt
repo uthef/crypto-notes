@@ -62,7 +62,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE APP_VERSION="${PROJECT_VERSIO
 target_compile_definitions(${PROJECT_NAME} PRIVATE APP_ID="${APP_ID}")
 target_compile_definitions(${PROJECT_NAME} PRIVATE APP_UUID="${APP_UUID}")
 
-if (UNIX)
+if (UNIX AND NOT CYGWIN)
     target_compile_definitions(${PROJECT_NAME} PRIVATE UNIX=${UNIX})
 endif()
 

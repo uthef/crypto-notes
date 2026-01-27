@@ -84,7 +84,7 @@ void BackgroundBackupThread::restore() {
     auto fixedRestorationPath = _restorationPath.replace("file:///", "");
 
 #ifdef UNIX
-    fixedRestorationPath.prepend("/");
+    if (!fixedRestorationPath.startsWith("/")) fixedRestorationPath.prepend("/");
 #endif
 
     auto backupFile = QFile(fixedRestorationPath);
