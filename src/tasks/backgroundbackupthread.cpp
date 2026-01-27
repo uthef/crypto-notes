@@ -76,8 +76,14 @@ void BackgroundBackupThread::backup() {
 void BackgroundBackupThread::restore() {
     auto dbFile = QFile(_dbPath);
     auto dbFileInfo = QFileInfo(_dbPath);
-    auto backupFile = QFile(_restorationPath.replace("file:///", ""));
-    
+    auto fixedRestorationPath = _restorationPath.replace("file:///", "");
+
+#ifdef UNIX
+    fixedRestorationPath.prepend("/");
+#endif
+
+    auto backupFile = QFile(fixedRestorationPath);
+
     if (!backupFile.exists()) {
         emit restorationResultReady(false);
         return;
