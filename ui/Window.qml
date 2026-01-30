@@ -22,6 +22,11 @@ ApplicationWindow {
     property string currentItem: stackView.currentItem.item.name
     property bool stackViewTransitionAllowed: false
 
+    function getPathWithFilePrefix(p) {
+        if (p.startsWith("/")) return "file://" + p;
+        else return "file:///" + p;
+    }
+
     function visibilityChangeHandler(e) {
         if (e === Window.Maximized) {
             appCtx.onWindowVisibilityChanged(true);
@@ -44,7 +49,7 @@ ApplicationWindow {
         }
         else {
             if (appCtx.windowWidth() > 0) width = appCtx.windowWidth();
-            if (appCtx.windowHeight() > 0) height = appCtx.windowHeight(); 
+            if (appCtx.windowHeight() > 0) height = appCtx.windowHeight();
 
             x = Screen.width / 2 - width / 2;
             y = Screen.height / 2 - height / 2;
@@ -60,7 +65,7 @@ ApplicationWindow {
             if (stackView.currentItem.item.name === "list") goToAuthRequest();
             else goBackRequest();
         }
-    }   
+    }
 
     Text {
         text: ""

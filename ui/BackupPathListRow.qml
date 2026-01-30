@@ -21,7 +21,7 @@ Row {
     states: [
         State {
             name: "backup_unknown"
-            PropertyChanges { 
+            PropertyChanges {
                 row {
                     stateIndex: 0
                 }
@@ -29,15 +29,15 @@ Row {
         },
         State {
             name: "backup_error"
-            PropertyChanges { 
+            PropertyChanges {
                 row {
-                    stateIndex: 1 
+                    stateIndex: 1
                 }
             }
         },
         State {
             name: "backup_success"
-            PropertyChanges { 
+            PropertyChanges {
                 row {
                     stateIndex: 2
                 }
@@ -79,7 +79,7 @@ Row {
                     Layout.preferredHeight: 18
                     Layout.preferredWidth: 18
                     currentIndex: row.stateIndex
-                    
+
                     Item {
 
                     }
@@ -108,7 +108,7 @@ Row {
                     focusPolicy: Qt.NoFocus
                     onClicked: {
                         pathListView.currentIndex = model.index;
-                        Qt.openUrlExternally("file:///" + row.path);
+                        Qt.openUrlExternally(appWindow.getPathWithFilePrefix(row.path));
                     }
 
                     ToolTip.visible: hovered | focus
@@ -129,7 +129,7 @@ Row {
                     focusPolicy: Qt.NoFocus
                     onClicked: {
                         pathListView.currentIndex = model.index;
-                        fileDialog.currentFolder = "file:///" + row.path;
+                        fileDialog.currentFolder = appWindow.getPathWithFilePrefix(row.path);
                         fileDialog.open();
                     }
 

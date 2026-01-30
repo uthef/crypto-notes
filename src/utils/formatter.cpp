@@ -62,6 +62,10 @@ QString Formatter::removePathPrefix(QString path) {
         path.remove("file:///");
     }
 
+#ifdef UNIX
+    if (!path.startsWith("/")) path.prepend("/");
+#endif
+
     return path;
 }
 

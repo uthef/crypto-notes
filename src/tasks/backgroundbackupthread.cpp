@@ -1,6 +1,7 @@
 #include "tasks/backgroundbackupthread.h"
 #include <QDir>
 #include <QUuid>
+#include <utils/formatter.h>
 
 using namespace cryptonotes;
 
@@ -51,10 +52,6 @@ void BackgroundBackupThread::backup() {
     for (int i = 0; i < _backupPaths.size(); i++) {
         auto path = _backupPaths.at(i);
 
-#ifdef UNIX
-        if (!path.startsWith("/")) path.prepend("/");
-#endif
-
         auto backupDir = QDir(path);
 
         if (!backupDir.exists()) {
@@ -81,11 +78,7 @@ void BackgroundBackupThread::backup() {
 void BackgroundBackupThread::restore() {
     auto dbFile = QFile(_dbPath);
     auto dbFileInfo = QFileInfo(_dbPath);
-    auto fixedRestorationPath = _restorationPath.replace("file:///", "");
-
-#ifdef UNIX
-    if (!fixedRestorationPath.startsWith("/")) fixedRestorationPath.prepend("/");
-#endif
+    auto fixedRestorationPath = Formatter::removePathPrefix(_restorationPath);
 
     auto backupFile = QFile(fixedRestorationPath);
 

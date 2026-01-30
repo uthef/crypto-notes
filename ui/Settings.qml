@@ -55,7 +55,7 @@ ColumnLayout {
         rightPadding: appWindow.margin * 2
         contentWidth: availableWidth
         ScrollBar.vertical.policy: Qt.ScrollBarAlwaysOn
-        
+
         Binding {
             target: settingsScrollView.contentItem
             property: "boundsBehavior"
@@ -84,7 +84,7 @@ ColumnLayout {
                     Layout.preferredHeight: pathField.height + 10
                     onClicked: folderDialog.openForChangingDbPath()
                 }
-                
+
                 Button {
                     id: showInExplorerButton
                     icon.source: "icons/folder.svg"
@@ -242,7 +242,7 @@ ColumnLayout {
                     onStateChanged: state => enabled = !(backupPreloader.running = (state === "loading"));
                 }
             }
-            
+
             Item {
                 Layout.fillWidth: true
             }
@@ -250,7 +250,7 @@ ColumnLayout {
             Button {
                 id: addPathButton
                 text: qsTr("Add a directory")
-                icon.source: "icons/plus.svg" 
+                icon.source: "icons/plus.svg"
                 Layout.alignment: Qt.AlignRight
                 Layout.preferredHeight: pathField.height + 10
                 onClicked: folderDialog.openForAddingBackupPath()
@@ -282,7 +282,7 @@ ColumnLayout {
                         }
 
                         appCtx.initiateBackup(backupFileNameHintField.text)
-                        settings.setUiEnabled(false);                        
+                        settings.setUiEnabled(false);
                         backupPreloader.running = true;
                     }
                 }
@@ -315,7 +315,7 @@ ColumnLayout {
         nameFilters: ["*.edb"]
 
         onAccepted: {
-            appWindow.popupRequest("settings", 
+            appWindow.popupRequest("settings",
                 qsTr("THIS ACTION IS IRREVERSIBLE.") + "\n" + qsTr("PLEASE, DO A BACKUP FIRST IF YOU WANT TO PREVENT DATA LOSS.") + "\n\n" +
                 qsTr("Are you sure you want to replace your current database file with the selected one?"),
                 true);
@@ -363,7 +363,7 @@ ColumnLayout {
             postAction = "changeBackupPath";
             title = qsTr("Choose another backup directory");
             pathIdx = idx;
-            currentFolder = "file:///" + p;
+            currentFolder = appWindow.getPathWithFilePrefix(p);
             open();
         }
 
@@ -390,7 +390,7 @@ ColumnLayout {
         }
 
         function onBackupCompleted(failedPaths) {
-            settings.setUiEnabled(true);    
+            settings.setUiEnabled(true);
             backupPreloader.running = false;
 
             for (let i = 0; i < pathListView.count; i++) {

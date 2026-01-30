@@ -20,7 +20,7 @@ AppContext::AppContext(QGuiApplication* app, bool isAnotherInstanceRunning) : _l
     _app = app;
     _isAnotherInstanceRunning = isAnotherInstanceRunning;
     _langCode = _config.language();
-    
+
     onLanguageChange(_langCode, false);
 
     _searchTimer.setSingleShot(true);
@@ -192,13 +192,13 @@ bool AppContext::onBackupPathAdditionRequested(QString path) {
 
 void AppContext::onBackupPathChangeRequested(size_t idx, QString newPath) {
     newPath = Formatter::removePathPrefix(newPath);
-    
+
     if (_pathList.indexOf(newPath) != -1) {
         return;
     }
 
     _backupPathListModel.update(idx, newPath);
-    _config.updateBackupPaths(_pathList);   
+    _config.updateBackupPaths(_pathList);
 }
 
 void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
@@ -349,14 +349,14 @@ void AppContext::finishBackup(QStringList failedPaths, bool dbFound) {
 
 void AppContext::finishRestoration(bool success) {
     emit restorationCompleted(success);
-}   
+}
 
 void AppContext::updateTranslations() {
     QStringList monthNames = {
-        tr("Jan"), tr("Feb"), 
-        tr("Mar"), tr("Apr"), tr("May"), 
-        tr("Jun"), tr("Jul"), tr("Aug"), 
-        tr("Sep"), tr("Oct"), tr("Nov"), 
+        tr("Jan"), tr("Feb"),
+        tr("Mar"), tr("Apr"), tr("May"),
+        tr("Jun"), tr("Jul"), tr("Aug"),
+        tr("Sep"), tr("Oct"), tr("Nov"),
         tr("Dec")
     };
 
