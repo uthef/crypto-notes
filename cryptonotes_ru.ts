@@ -90,6 +90,7 @@
     <message>
         <location filename="build/cryptonotes/ui/Auth.qml" line="33"/>
         <location filename="ui/Auth.qml" line="33"/>
+        <location filename="src/cli/main.cpp" line="45"/>
         <source>Master password</source>
         <translation>Мастер-пароль</translation>
     </message>
@@ -135,6 +136,24 @@
     </message>
 </context>
 <context>
+    <name>CLI</name>
+    <message>
+        <location filename="src/cli/terminal.cpp" line="153"/>
+        <source>Commands</source>
+        <translation>Команды</translation>
+    </message>
+    <message>
+        <location filename="src/cli/terminal.cpp" line="162"/>
+        <source>Column visibility flags</source>
+        <translation>Флаги видимости столбцов</translation>
+    </message>
+    <message>
+        <location filename="src/cli/main.cpp" line="99"/>
+        <source>Cannot open file</source>
+        <translation type="unfinished">Не удалось открыть файл</translation>
+    </message>
+</context>
+<context>
     <name>Editor</name>
     <message>
         <location filename="build/cryptonotes/ui/Editor.qml" line="35"/>
@@ -163,6 +182,7 @@
     <message>
         <location filename="build/cryptonotes/ui/Editor.qml" line="102"/>
         <location filename="ui/Editor.qml" line="102"/>
+        <location filename="src/cli/terminal.cpp" line="143"/>
         <source>Note</source>
         <translation>Текст</translation>
     </message>
@@ -238,18 +258,24 @@
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="120"/>
         <location filename="ui/List.qml" line="120"/>
+        <location filename="src/cli/terminal.cpp" line="81"/>
+        <location filename="src/cli/terminal.cpp" line="130"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="121"/>
         <location filename="ui/List.qml" line="121"/>
+        <location filename="src/cli/terminal.cpp" line="82"/>
+        <location filename="src/cli/terminal.cpp" line="137"/>
         <source>Summary</source>
         <translation>Краткое описание</translation>
     </message>
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="122"/>
         <location filename="ui/List.qml" line="122"/>
+        <location filename="src/cli/terminal.cpp" line="85"/>
+        <location filename="src/cli/terminal.cpp" line="120"/>
         <source>Last updated</source>
         <translation>Последнее обновление</translation>
     </message>
@@ -386,74 +412,75 @@
 <context>
     <name>Window</name>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="36"/>
-        <location filename="ui/Window.qml" line="36"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="41"/>
+        <location filename="ui/Window.qml" line="41"/>
         <source>Another instance of the application appears to be running right now. Exiting...</source>
         <translation>Похоже, что приложение уже запущено в другом окне. Прекращение работы…</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="75"/>
-        <location filename="ui/Window.qml" line="75"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="80"/>
+        <location filename="ui/Window.qml" line="80"/>
         <source>Database</source>
         <translation>База данных</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="79"/>
-        <location filename="ui/Window.qml" line="79"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="84"/>
+        <location filename="ui/Window.qml" line="84"/>
         <source>Configure…</source>
         <translation>Настроить…</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="96"/>
-        <location filename="ui/Window.qml" line="96"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="101"/>
+        <location filename="ui/Window.qml" line="101"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="105"/>
-        <location filename="ui/Window.qml" line="105"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="110"/>
+        <location filename="ui/Window.qml" line="110"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="109"/>
-        <location filename="ui/Window.qml" line="109"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="114"/>
+        <location filename="ui/Window.qml" line="114"/>
         <source>About</source>
         <translation>О приложении</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="268"/>
-        <location filename="ui/Window.qml" line="268"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="273"/>
+        <location filename="ui/Window.qml" line="273"/>
         <source>Password cannot be blank</source>
         <translation>Пароль не может быть пустым</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="344"/>
-        <location filename="ui/Window.qml" line="344"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="349"/>
+        <location filename="ui/Window.qml" line="349"/>
+        <location filename="src/cli/main.cpp" line="53"/>
         <source>Database connection error.</source>
         <translation>Ошибка соединения с базой данных.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="348"/>
-        <location filename="ui/Window.qml" line="348"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="353"/>
+        <location filename="ui/Window.qml" line="353"/>
         <source>An error occurred.</source>
         <translation>Произошла ошибка.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="393"/>
-        <location filename="ui/Window.qml" line="393"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="398"/>
+        <location filename="ui/Window.qml" line="398"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="393"/>
-        <location filename="ui/Window.qml" line="393"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="398"/>
+        <location filename="ui/Window.qml" line="398"/>
         <source>Ok</source>
         <translation>Ок</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Window.qml" line="402"/>
-        <location filename="ui/Window.qml" line="402"/>
+        <location filename="build/cryptonotes/ui/Window.qml" line="407"/>
+        <location filename="ui/Window.qml" line="407"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
@@ -579,6 +606,8 @@
 <context>
     <name>cryptonotes::NoteListModel</name>
     <message>
+        <location filename="src/cli/terminal.cpp" line="101"/>
+        <location filename="src/cli/terminal.cpp" line="123"/>
         <location filename="src/models/notelistmodel.cpp" line="21"/>
         <source>en</source>
         <translation>ru</translation>

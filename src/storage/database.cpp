@@ -170,6 +170,21 @@ std::unique_ptr<NoteList> Database::getRecentNotes(int& code) {
     return listPtr;
 }
 
+void Database::forEachNote(const std::function<void(Note*)>& func, int& code) {
+    assert(isOpen());
+
+    sqlite3_stmt* stmt;
+    sqlite3_prepare(_db, SELECT_ALL_NOTES_Q, len(SELECT_ALL_NOTES_Q), &stmt, nullptr);
+
+    while ((code = sqlite3_step(stmt)) == SQLITE_ROW) {
+        if (sqlite3_column_count(stmt) != NOTES_COL_COUNT) break;
+        auto note = constructNote(stmt, true);
+        func(&note);
+    }
+
+    sqlite3_finalize(stmt);
+}
+
 std::unique_ptr<NoteList> Database::find(const char* query, int& code) {
     assert(isOpen());
 
@@ -211,4 +226,23 @@ bool Database::isOpen() const {
 
 bool Database::isCodeSuccessful(int code) const {
     return code == SQLITE_OK || code == SQLITE_DONE;
+}
+
+size_t Database::countNotes(int& code) const {
+    assert(isOpen());
+
+    sqlite3_stmt* stmt = 0;
+    sqlite3_prepare(_db, COUNT_NOTES_Q, len(COUNT_NOTES_Q), &stmt, nullptr);
+    int result = sqlite3_step(stmt);
+
+    if (result != SQLITE_ROW || sqlite3_column_count(stmt) != 1) {
+        code = SQLITE_ERROR;
+        return 0;
+    }
+
+    size_t count = sqlite3_column_int64(stmt, 0);
+
+    sqlite3_finalize(stmt);
+
+    return count;
 }

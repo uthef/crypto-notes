@@ -41,11 +41,19 @@ namespace cryptonotes {
         limit 200
     )";
 
+    constexpr const char* SELECT_ALL_NOTES_Q = R"(
+        select * from notes
+    )";
+
     constexpr const char* SEARCH_NOTES_Q = R"(
         select id, title, summary, timestamp from notes
         where title like '%' || ? || '%' escape '!' or summary like '%' || ? || '%' escape '!'
         order by timestamp desc
         limit 200
+    )";
+
+    constexpr const char* COUNT_NOTES_Q = R"(
+        select count(*) from notes
     )";
 
     constexpr size_t len(const char* query) {

@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(crypto-notes LANGUAGES CXX)
+set(CRYPTO_NOTES_GUI crypto-notes)
+set(CRYPTO_NOTES_CLI crypto-notes-cli)
+
+project(${CRYPTO_NOTES_GUI} LANGUAGES CXX)
+project(${CRYPTO_NOTES_CLI} LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -15,7 +19,8 @@ set(APP_ID "com.uthef.cryptonotes")
 set(APP_UUID "f712d6c2-75a8-4fc0-82ce-33e962dc6c56")
 set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
 
-find_package(Qt6 REQUIRED COMPONENTS Quick LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 COMPONENTS Quick LinguistTools)
 find_package(OpenSSL REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SQLCipher REQUIRED sqlcipher)
@@ -25,11 +30,37 @@ include_directories(
     ${SQLCipher_INCLUDE_DIRS}
 )
 
+add_executable(${CRYPTO_NOTES_CLI}
+    res.qrc
+    src/cli/main.cpp
+    src/cli/terminal.cpp
+    src/cli/tablerow.cpp
+    src/cli/tablecell.cpp
+    src/cli/parsearguments.cpp
+    src/storage/appconfig.cpp
+
+    src/storage/database.cpp
+    src/storage/note.cpp
+    src/storage/notelist.cpp
+    src/utils/formatter.cpp
+
+    include/tasks/backgroundbackupthread.h
+    src/tasks/backgroundbackupthread.cpp
+
+    src/utils/passwordgenerator.cpp
+)
+
+target_link_libraries(${CRYPTO_NOTES_CLI} PRIVATE
+    Qt6::Core
+    OpenSSL::SSL
+    ${SQLCipher_LINK_LIBRARIES}
+)
+
 qt_standard_project_setup()
 
 qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} cryptonotes_ru.ts)
 
-qt_add_executable(${PROJECT_NAME}
+qt_add_executable(${CRYPTO_NOTES_GUI}
     ${QM_FILES}
     ${app_icon_resource_windows}
     res.qrc
@@ -58,18 +89,20 @@ qt_add_executable(${PROJECT_NAME}
     src/models/backuppathlistmodel.cpp
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE APP_VERSION="${PROJECT_VERSION}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE APP_ID="${APP_ID}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE APP_UUID="${APP_UUID}")
+target_compile_definitions(${CRYPTO_NOTES_GUI} PRIVATE APP_VERSION="${PROJECT_VERSION}")
+target_compile_definitions(${CRYPTO_NOTES_CLI} PRIVATE APP_VERSION="${PROJECT_VERSION}")
+target_compile_definitions(${CRYPTO_NOTES_GUI} PRIVATE APP_ID="${APP_ID}")
+target_compile_definitions(${CRYPTO_NOTES_GUI} PRIVATE APP_UUID="${APP_UUID}")
 
 if (UNIX AND NOT CYGWIN)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE UNIX=${UNIX})
+    target_compile_definitions(${CRYPTO_NOTES_GUI} PRIVATE UNIX=${UNIX})
+    target_compile_definitions(${CRYPTO_NOTES_CLI} PRIVATE UNIX)
 endif()
 
 qt_policy(SET QTP0001 NEW)
 qt_policy(SET QTP0004 NEW)
 
-qt_add_qml_module(${PROJECT_NAME}
+qt_add_qml_module(${CRYPTO_NOTES_GUI}
     URI cryptonotes
     VERSION 1.0
     QML_FILES
@@ -100,13 +133,13 @@ qt_add_qml_module(${PROJECT_NAME}
         ui/icons/folder.svg
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${CRYPTO_NOTES_GUI} PRIVATE
     Qt6::Quick
     OpenSSL::SSL
     ${SQLCipher_LINK_LIBRARIES}
 )
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
+set_target_properties(${CRYPTO_NOTES_GUI} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER ${APP_ID}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -116,14 +149,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 include(GNUInstallDirs)
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${CRYPTO_NOTES_GUI}
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 qt_generate_deploy_qml_app_script(
-    TARGET ${PROJECT_NAME}
+    TARGET ${CRYPTO_NOTES_GUI}
     OUTPUT_SCRIPT deploy_script
     NO_UNSUPPORTED_PLATFORM_ERROR
 )

@@ -72,3 +72,11 @@ QString Formatter::removePathPrefix(QString path) {
 void Formatter::setMonthNames(QStringList names) {
     _monthNames = names;
 }
+
+QString Formatter::makePrintSafeString(QString str) {
+    return str.replace("\n", "\\n").replace("\r", "\\r").replace("\b", "\\b");
+}
+
+QString Formatter::identLineBreaks(QString str) {
+    return str.replace("\n", "\n\t\t").replace("\r", "\\r").replace("\b", "\\b");
+}

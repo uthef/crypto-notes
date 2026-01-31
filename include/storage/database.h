@@ -9,6 +9,7 @@
 #include <sqlcipher/sqlite3.h>
 #include <optional>
 #include <storage/notelist.h>
+#include <functional>
 
 namespace cryptonotes {
     class Database final {
@@ -21,11 +22,13 @@ namespace cryptonotes {
         int updateNote(Note& note, int flags, bool updateTimestamp);
         int deleteNote(long id);
         std::unique_ptr<NoteList> getRecentNotes(int& code);
+        void forEachNote(const std::function<void(Note*)>& func, int& code);
         std::unique_ptr<NoteList> find(const char* query, int& code);
         void rekey(std::string newKey);
         void close();
         bool isOpen() const;
         bool isCodeSuccessful(int code) const;
+        size_t countNotes(int& code) const;
     private:
         Note constructNote(sqlite3_stmt* stmt, bool includeContent);
         void selectNotes(sqlite3_stmt* stmt, NoteList& list, int& code, bool includeContent);
