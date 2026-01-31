@@ -233,7 +233,7 @@ void AppContext::onLanguageChange(QString code, bool save) {
         _langCode = code;
         if (save) _config.setLanguage(code);
     }
-    else if (_translator.load(QString(":/cryptonotes_").append(code))) {
+    else if (_translator.load(QString(":/translations/cryptonotes_").append(code))) {
         _langCode = code;
         _app->installTranslator(&_translator);
         if (save) _config.setLanguage(code);

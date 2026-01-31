@@ -3,6 +3,6 @@
   <qresource prefix="/">
     <file>ui/icons/note.png</file>
     <file>qtquickcontrols2.conf</file>
-    <file>cryptonotes_ru.qm</file>
+    <file>translations/cryptonotes_ru.qm</file>
   </qresource>
 </RCC>

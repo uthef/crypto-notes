@@ -58,7 +58,7 @@ target_link_libraries(${CRYPTO_NOTES_CLI} PRIVATE
 
 qt_standard_project_setup()
 
-qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} cryptonotes_ru.ts)
+qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} translations/cryptonotes_ru.ts)
 
 qt_add_executable(${CRYPTO_NOTES_GUI}
     ${QM_FILES}

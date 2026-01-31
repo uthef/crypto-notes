@@ -146,8 +146,10 @@ int main(int argc, char** argv) {
 
 
 void setupTranslation(AppConfig& config, QCoreApplication& app, QTranslator& translator) {
-    if (config.language() == "ru") {
-        if (translator.load(":/cryptonotes_ru.qm"))
+    QString lang = config.language();
+
+    if (lang != "en") {
+        if (translator.load(QString(":/translations/cryptonotes_%1.qm").arg(lang)))
             app.installTranslator(&translator);
     }
 
