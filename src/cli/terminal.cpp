@@ -43,7 +43,7 @@ std::string Terminal::readLine(std::string hint, bool redact) {
 
     if (redact && GetConsoleMode(hStdin, &mode)) {
         SetConsoleMode(hStdin, mode & ~ENABLE_ECHO_INPUT);
-    }   
+    }
 #endif
 
     if (!hint.empty()) printf("%s: ", hint.c_str());
@@ -191,13 +191,13 @@ void Terminal::printNote(FILE* stream, QCoreApplication& app, Note& note, int fl
 }
 
 void Terminal::printHelpMessage(QCoreApplication& app) {
-    printf("Crypto Notes v%s\n", APP_VERSION);
+    printf("Crypto Notes v%s\n\n", APP_VERSION);
 
     printf(
-        "%s:\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\n",
+        "%s:\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n",
         app.translate("CLI", "Commands").toStdString().c_str(),
         "help",
-        "dump <file>"
+        "dump <file>",
         "recent",
         "find <query>",
         "details <id>"
