@@ -18,6 +18,8 @@ using namespace cryptonotescli;
 void setupTranslation(AppConfig& config, QCoreApplication& app, QTranslator& translator);
 
 int main(int argc, char** argv) {
+    Terminal::init();
+
     char* errMsg = 0;
     int sqlCode = 0;
 

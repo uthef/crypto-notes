@@ -18,6 +18,7 @@ namespace cryptonotescli {
             LAST_UPDATED_COL_VISIBLE = 0b00001000,
         };
 
+        static void init();
         static std::string readLine(std::string hint, bool redact = false);
         static std::string readLine();
         static void printLine(QString value);
@@ -27,6 +28,8 @@ namespace cryptonotescli {
         static void printNote(QCoreApplication& app, Note& note, int flags);
         static void printNote(FILE* stream, QCoreApplication& app, Note& note, int flags);
         static void printHelpMessage(QCoreApplication& app);
+    private:
+        static int getChar();
     };
 };
 

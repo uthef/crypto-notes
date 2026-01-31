@@ -99,6 +99,11 @@ if (UNIX AND NOT CYGWIN)
     target_compile_definitions(${CRYPTO_NOTES_CLI} PRIVATE UNIX)
 endif()
 
+if (WIN32)
+    target_compile_definitions(${CRYPTO_NOTES_CLI} PRIVATE WIN32)
+    target_compile_definitions(${CRYPTO_NOTES_GUI} PRIVATE WIN32)
+endif()
+
 qt_policy(SET QTP0001 NEW)
 qt_policy(SET QTP0004 NEW)
 

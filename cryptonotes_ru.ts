@@ -90,7 +90,7 @@
     <message>
         <location filename="build/cryptonotes/ui/Auth.qml" line="33"/>
         <location filename="ui/Auth.qml" line="33"/>
-        <location filename="src/cli/main.cpp" line="45"/>
+        <location filename="src/cli/main.cpp" line="47"/>
         <source>Master password</source>
         <translation>Мастер-пароль</translation>
     </message>
@@ -138,17 +138,17 @@
 <context>
     <name>CLI</name>
     <message>
-        <location filename="src/cli/terminal.cpp" line="153"/>
+        <location filename="src/cli/terminal.cpp" line="198"/>
         <source>Commands</source>
         <translation>Команды</translation>
     </message>
     <message>
-        <location filename="src/cli/terminal.cpp" line="162"/>
+        <location filename="src/cli/terminal.cpp" line="207"/>
         <source>Column visibility flags</source>
         <translation>Флаги видимости столбцов</translation>
     </message>
     <message>
-        <location filename="src/cli/main.cpp" line="99"/>
+        <location filename="src/cli/main.cpp" line="101"/>
         <source>Cannot open file</source>
         <translation type="unfinished">Не удалось открыть файл</translation>
     </message>
@@ -182,7 +182,7 @@
     <message>
         <location filename="build/cryptonotes/ui/Editor.qml" line="102"/>
         <location filename="ui/Editor.qml" line="102"/>
-        <location filename="src/cli/terminal.cpp" line="143"/>
+        <location filename="src/cli/terminal.cpp" line="188"/>
         <source>Note</source>
         <translation>Текст</translation>
     </message>
@@ -258,24 +258,24 @@
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="120"/>
         <location filename="ui/List.qml" line="120"/>
-        <location filename="src/cli/terminal.cpp" line="81"/>
-        <location filename="src/cli/terminal.cpp" line="130"/>
+        <location filename="src/cli/terminal.cpp" line="126"/>
+        <location filename="src/cli/terminal.cpp" line="175"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="121"/>
         <location filename="ui/List.qml" line="121"/>
-        <location filename="src/cli/terminal.cpp" line="82"/>
-        <location filename="src/cli/terminal.cpp" line="137"/>
+        <location filename="src/cli/terminal.cpp" line="127"/>
+        <location filename="src/cli/terminal.cpp" line="182"/>
         <source>Summary</source>
         <translation>Краткое описание</translation>
     </message>
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="122"/>
         <location filename="ui/List.qml" line="122"/>
-        <location filename="src/cli/terminal.cpp" line="85"/>
-        <location filename="src/cli/terminal.cpp" line="120"/>
+        <location filename="src/cli/terminal.cpp" line="130"/>
+        <location filename="src/cli/terminal.cpp" line="165"/>
         <source>Last updated</source>
         <translation>Последнее обновление</translation>
     </message>
@@ -456,7 +456,7 @@
     <message>
         <location filename="build/cryptonotes/ui/Window.qml" line="349"/>
         <location filename="ui/Window.qml" line="349"/>
-        <location filename="src/cli/main.cpp" line="53"/>
+        <location filename="src/cli/main.cpp" line="55"/>
         <source>Database connection error.</source>
         <translation>Ошибка соединения с базой данных.</translation>
     </message>
@@ -606,8 +606,8 @@
 <context>
     <name>cryptonotes::NoteListModel</name>
     <message>
-        <location filename="src/cli/terminal.cpp" line="101"/>
-        <location filename="src/cli/terminal.cpp" line="123"/>
+        <location filename="src/cli/terminal.cpp" line="146"/>
+        <location filename="src/cli/terminal.cpp" line="168"/>
         <location filename="src/models/notelistmodel.cpp" line="21"/>
         <source>en</source>
         <translation>ru</translation>

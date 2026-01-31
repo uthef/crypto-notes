@@ -4,14 +4,27 @@
 #include <cli/tablecell.h>
 #include <cli/tablerow.h>
 #include <utils/formatter.h>
+#include <iostream>
 
 #ifdef UNIX
 #include <termios.h>
 #include <unistd.h>
 #endif
 
+#ifdef WIN32
+#include <windows.h>
+#include <conio.h>
+#endif
+
 using namespace cryptonotescli;
 using namespace cryptonotes;
+
+void Terminal::init() {
+#ifdef WIN32
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+#endif
+}
 
 std::string Terminal::readLine(std::string hint, bool redact) {
 #ifdef UNIX
@@ -24,27 +37,53 @@ std::string Terminal::readLine(std::string hint, bool redact) {
     }
 #endif
 
+#ifdef WIN32
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD mode;
+
+    if (redact && GetConsoleMode(hStdin, &mode)) {
+        SetConsoleMode(hStdin, mode & ~ENABLE_ECHO_INPUT);
+    }   
+#endif
+
     if (!hint.empty()) printf("%s: ", hint.c_str());
 
-    std::stringstream ss;
-    int c = getc(stdin);
+    QString str;
+    QByteArray charBuffer;
+
+    int c = getChar();
     int charCount = 0;
 
-    while (c && c != '\n') {
+    if (c == 0x18 || c == 0x03) abort();
+
+    while (c && c != '\n' && c != '\r') {
+        if (c == 0x18 || c == 0x03) {
+            abort();
+            break;
+        }
+
         if ((c == 127 || c == 8)) {
             if (charCount > 0) {
-                printf("\b \b");
                 charCount--;
-                ss << "\b \b";
+                printf("\b \b");
+                str.erase(str.end() - 1);
             }
         }
         else {
-            if (redact) putchar('*');
-            charCount++;
-            ss << (char)c;
+            charBuffer.append(c);
+
+            if (charBuffer.isValidUtf8()) {
+                str += QString(charBuffer);
+                charBuffer.clear();
+
+                if (redact) putchar('*');
+                charCount++;
+            }
+
+            if (!redact) putchar(c);
         }
 
-        c = getc(stdin);
+        c = getChar();
     }
 
     if (redact) printf("\n");
@@ -56,7 +95,13 @@ std::string Terminal::readLine(std::string hint, bool redact) {
     }
 #endif
 
-    return ss.str();
+#ifdef WIN32
+    if (redact && GetConsoleMode(hStdin, &mode)) {
+        SetConsoleMode(hStdin, mode | ENABLE_ECHO_INPUT);
+    }
+#endif
+
+    return str.toStdString();
 }
 
 std::string Terminal::readLine() {
@@ -165,4 +210,12 @@ void Terminal::printHelpMessage(QCoreApplication& app) {
         "-summary",
         "-time"
     );
+}
+
+int Terminal::getChar() {
+#ifdef WIN32
+    return _getch();
+#else
+    return getc(stdin);
+#endif
 }
