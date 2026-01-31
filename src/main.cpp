@@ -7,6 +7,7 @@
 #include <QtQml/qqmlregistration.h>
 #include "filters/mouseeventfilter.h"
 #include <QSharedMemory>
+#include <QQuickStyle>
 
 using namespace cryptonotes;
 
@@ -15,12 +16,8 @@ static QObject* newMouseEventFilterSingleton(QQmlEngine* engine, QJSEngine* jsEn
 }
 
 int main(int argc, char** argv) {
-    // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
-    // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
-    // qputenv("QT_QUICK_CONTROLS_MATERIAL_ACCENT", QByteArray("Blue"));
-    // qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArray("Dense"));
-
     QGuiApplication app(argc, argv);
+    QQuickStyle::setStyle("Material");
 
     bool isAppAlreadyRunning = false;
 
@@ -33,7 +30,7 @@ int main(int argc, char** argv) {
     else {
         isAppAlreadyRunning = true;
     }
-    
+
     AppContext context(&app, isAppAlreadyRunning);
 
     QObject::connect(&app, &QGuiApplication::aboutToQuit, &context, &AppContext::onAppAboutToQuit);

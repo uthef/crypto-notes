@@ -20,7 +20,7 @@ set(APP_UUID "f712d6c2-75a8-4fc0-82ce-33e962dc6c56")
 set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
 
 find_package(Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt6 COMPONENTS Quick LinguistTools)
+find_package(Qt6 COMPONENTS Quick LinguistTools QuickControls2)
 find_package(OpenSSL REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SQLCipher REQUIRED sqlcipher)
@@ -140,6 +140,7 @@ qt_add_qml_module(${CRYPTO_NOTES_GUI}
 
 target_link_libraries(${CRYPTO_NOTES_GUI} PRIVATE
     Qt6::Quick
+    Qt6::QuickControls2
     OpenSSL::SSL
     ${SQLCipher_LINK_LIBRARIES}
 )
