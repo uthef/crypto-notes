@@ -367,44 +367,44 @@
         <translation>Вернуться назад</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="320"/>
-        <location filename="ui/Settings.qml" line="320"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="321"/>
+        <location filename="ui/Settings.qml" line="321"/>
         <source>THIS ACTION IS IRREVERSIBLE.</source>
         <translation>ЭТО ДЕЙСТВИЕ НЕЛЬЗЯ ОТМЕНИТЬ.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="320"/>
-        <location filename="ui/Settings.qml" line="320"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="321"/>
+        <location filename="ui/Settings.qml" line="321"/>
         <source>PLEASE, DO A BACKUP FIRST IF YOU WANT TO PREVENT DATA LOSS.</source>
         <translation>ПОЖАЛУЙСТА, СДЕЛАЙТЕ РЕЗЕРВНУЮ КОПИЮ ДЛЯ ПРЕДОТВРАЩЕНИЯ ПОТЕРИ ДАННЫХ.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="321"/>
-        <location filename="ui/Settings.qml" line="321"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="322"/>
+        <location filename="ui/Settings.qml" line="322"/>
         <source>Are you sure you want to replace your current database file with the selected one?</source>
         <translation>Вы уверены, что хотите заменить Вашу текущую базу данных на выбранную?</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="357"/>
-        <location filename="ui/Settings.qml" line="357"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="358"/>
+        <location filename="ui/Settings.qml" line="358"/>
         <source>Choose a new database directory</source>
         <translation>Выберите новую директорию базы данных</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="365"/>
-        <location filename="ui/Settings.qml" line="365"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="366"/>
+        <location filename="ui/Settings.qml" line="366"/>
         <source>Choose another backup directory</source>
         <translation>Выберите другую директорию резервного копирования</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="375"/>
-        <location filename="ui/Settings.qml" line="375"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="376"/>
+        <location filename="ui/Settings.qml" line="376"/>
         <source>Adding a new backup directory</source>
         <translation>Добавление новой директории резервного копирования</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="413"/>
-        <location filename="ui/Settings.qml" line="413"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="414"/>
+        <location filename="ui/Settings.qml" line="414"/>
         <source>An error occurred. The program could not rewrite your database file</source>
         <translation>Произошла ошибка. Программа не смогла перезаписать Вашу базу данных</translation>
     </message>
