@@ -83,13 +83,15 @@ std::string Terminal::readLine(std::string hint, bool redact) {
                 charBuffer.clear();
             }
 
+#ifdef WIN32
             if (!redact) putchar(c);
+#endif
         }
 
         c = getChar();
     }
 
-    if (redact) printf("\n");
+    printf("\n");
 
 #ifdef UNIX
     if (redact) {

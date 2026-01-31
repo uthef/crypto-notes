@@ -138,12 +138,12 @@
 <context>
     <name>CLI</name>
     <message>
-        <location filename="src/cli/terminal.cpp" line="201"/>
+        <location filename="src/cli/terminal.cpp" line="203"/>
         <source>Commands</source>
         <translation>Команды</translation>
     </message>
     <message>
-        <location filename="src/cli/terminal.cpp" line="210"/>
+        <location filename="src/cli/terminal.cpp" line="212"/>
         <source>Column visibility flags</source>
         <translation>Флаги видимости столбцов</translation>
     </message>
@@ -182,7 +182,7 @@
     <message>
         <location filename="build/cryptonotes/ui/Editor.qml" line="102"/>
         <location filename="ui/Editor.qml" line="102"/>
-        <location filename="src/cli/terminal.cpp" line="191"/>
+        <location filename="src/cli/terminal.cpp" line="193"/>
         <source>Note</source>
         <translation>Текст</translation>
     </message>
@@ -258,24 +258,24 @@
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="120"/>
         <location filename="ui/List.qml" line="120"/>
-        <location filename="src/cli/terminal.cpp" line="129"/>
-        <location filename="src/cli/terminal.cpp" line="178"/>
+        <location filename="src/cli/terminal.cpp" line="131"/>
+        <location filename="src/cli/terminal.cpp" line="180"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="121"/>
         <location filename="ui/List.qml" line="121"/>
-        <location filename="src/cli/terminal.cpp" line="130"/>
-        <location filename="src/cli/terminal.cpp" line="185"/>
+        <location filename="src/cli/terminal.cpp" line="132"/>
+        <location filename="src/cli/terminal.cpp" line="187"/>
         <source>Summary</source>
         <translation>Краткое описание</translation>
     </message>
     <message>
         <location filename="build/cryptonotes/ui/List.qml" line="122"/>
         <location filename="ui/List.qml" line="122"/>
-        <location filename="src/cli/terminal.cpp" line="133"/>
-        <location filename="src/cli/terminal.cpp" line="168"/>
+        <location filename="src/cli/terminal.cpp" line="135"/>
+        <location filename="src/cli/terminal.cpp" line="170"/>
         <source>Last updated</source>
         <translation>Последнее обновление</translation>
     </message>
@@ -606,8 +606,8 @@
 <context>
     <name>cryptonotes::NoteListModel</name>
     <message>
-        <location filename="src/cli/terminal.cpp" line="149"/>
-        <location filename="src/cli/terminal.cpp" line="171"/>
+        <location filename="src/cli/terminal.cpp" line="151"/>
+        <location filename="src/cli/terminal.cpp" line="173"/>
         <location filename="src/models/notelistmodel.cpp" line="21"/>
         <source>en</source>
         <translation>ru</translation>
