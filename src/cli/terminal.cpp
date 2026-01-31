@@ -79,6 +79,9 @@ std::string Terminal::readLine(std::string hint, bool redact) {
                 if (redact) putchar('*');
                 charCount++;
             }
+            else if (charBuffer.size() >= 4) {
+                charBuffer.clear();
+            }
 
             if (!redact) putchar(c);
         }
