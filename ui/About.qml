@@ -50,7 +50,7 @@ ColumnLayout {
 
         Text {
             color: Material.foreground
-            font.pixelSize: 14 
+            font.pixelSize: 14
             text: qsTr("GitHub repository:")
         }
 
@@ -89,7 +89,7 @@ ColumnLayout {
         rightPadding: appWindow.margin * 2
         contentWidth: availableWidth
         ScrollBar.vertical.policy: Qt.ScrollBarAlwaysOn
-        
+
         Binding {
             target: settingsScrollView.contentItem
             property: "boundsBehavior"
@@ -133,6 +133,7 @@ ColumnLayout {
             Pane {
                 Material.elevation: 3
                 Layout.fillWidth: true
+                Layout.rightMargin: 8
 
                 background: Item {
                     RectangularShadow {
@@ -175,6 +176,8 @@ ColumnLayout {
             Pane {
                 Material.elevation: 3
                 Layout.fillWidth: true
+                Layout.rightMargin: 8
+                Layout.bottomMargin: 8
 
                 background: Item {
                     RectangularShadow {
@@ -225,7 +228,7 @@ ColumnLayout {
         Layout.bottomMargin: 0
         color: Material.dividerColor
     }
-    
+
     Button {
         Layout.leftMargin: appWindow.margin
         Layout.rightMargin: appWindow.margin

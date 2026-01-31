@@ -313,6 +313,7 @@ ColumnLayout {
     FileDialog {
         id: fileDialog
         nameFilters: ["*.edb"]
+        modality: "ApplicationModal"
 
         onAccepted: {
             appWindow.popupRequest("settings",
@@ -347,7 +348,7 @@ ColumnLayout {
                 }
             }
 
-            postAction = ""
+            postAction = "";
         }
 
         function openForChangingDbPath() {
@@ -369,6 +370,7 @@ ColumnLayout {
 
         function openForAddingBackupPath() {
             if (visible) return;
+
             postAction = "addBackupPath";
             title = qsTr("Adding a new backup directory");
             currentFolder = "";

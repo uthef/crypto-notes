@@ -40,38 +40,38 @@
         <translation>Список заметок</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/About.qml" line="162"/>
-        <location filename="ui/About.qml" line="162"/>
+        <location filename="build/cryptonotes/ui/About.qml" line="163"/>
+        <location filename="ui/About.qml" line="163"/>
         <source>remove a note from the list</source>
         <translation>удалить заметку из списка</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/About.qml" line="162"/>
-        <location filename="ui/About.qml" line="162"/>
+        <location filename="build/cryptonotes/ui/About.qml" line="163"/>
+        <location filename="ui/About.qml" line="163"/>
         <source>copy note summary</source>
         <translation>скопировать краткое описание заметки</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/About.qml" line="162"/>
-        <location filename="ui/About.qml" line="162"/>
+        <location filename="build/cryptonotes/ui/About.qml" line="163"/>
+        <location filename="ui/About.qml" line="163"/>
         <source>copy note content</source>
         <translation>скопировать текст заметки</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/About.qml" line="172"/>
-        <location filename="ui/About.qml" line="172"/>
+        <location filename="build/cryptonotes/ui/About.qml" line="173"/>
+        <location filename="ui/About.qml" line="173"/>
         <source>Editor</source>
         <translation>Редактор</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/About.qml" line="204"/>
-        <location filename="ui/About.qml" line="204"/>
+        <location filename="build/cryptonotes/ui/About.qml" line="207"/>
+        <location filename="ui/About.qml" line="207"/>
         <source>generate a secure password and insert it into the content field</source>
         <translation>сгенерировать безопасный пароль и вставить его в поле текста</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/About.qml" line="235"/>
-        <location filename="ui/About.qml" line="235"/>
+        <location filename="build/cryptonotes/ui/About.qml" line="238"/>
+        <location filename="ui/About.qml" line="238"/>
         <source>Go back</source>
         <translation>Вернуться назад</translation>
     </message>
@@ -367,44 +367,44 @@
         <translation>Вернуться назад</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="319"/>
-        <location filename="ui/Settings.qml" line="319"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="320"/>
+        <location filename="ui/Settings.qml" line="320"/>
         <source>THIS ACTION IS IRREVERSIBLE.</source>
         <translation>ЭТО ДЕЙСТВИЕ НЕЛЬЗЯ ОТМЕНИТЬ.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="319"/>
-        <location filename="ui/Settings.qml" line="319"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="320"/>
+        <location filename="ui/Settings.qml" line="320"/>
         <source>PLEASE, DO A BACKUP FIRST IF YOU WANT TO PREVENT DATA LOSS.</source>
         <translation>ПОЖАЛУЙСТА, СДЕЛАЙТЕ РЕЗЕРВНУЮ КОПИЮ ДЛЯ ПРЕДОТВРАЩЕНИЯ ПОТЕРИ ДАННЫХ.</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="320"/>
-        <location filename="ui/Settings.qml" line="320"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="321"/>
+        <location filename="ui/Settings.qml" line="321"/>
         <source>Are you sure you want to replace your current database file with the selected one?</source>
         <translation>Вы уверены, что хотите заменить Вашу текущую базу данных на выбранную?</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="356"/>
-        <location filename="ui/Settings.qml" line="356"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="357"/>
+        <location filename="ui/Settings.qml" line="357"/>
         <source>Choose a new database directory</source>
         <translation>Выберите новую директорию базы данных</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="364"/>
-        <location filename="ui/Settings.qml" line="364"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="365"/>
+        <location filename="ui/Settings.qml" line="365"/>
         <source>Choose another backup directory</source>
         <translation>Выберите другую директорию резервного копирования</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="373"/>
-        <location filename="ui/Settings.qml" line="373"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="375"/>
+        <location filename="ui/Settings.qml" line="375"/>
         <source>Adding a new backup directory</source>
         <translation>Добавление новой директории резервного копирования</translation>
     </message>
     <message>
-        <location filename="build/cryptonotes/ui/Settings.qml" line="411"/>
-        <location filename="ui/Settings.qml" line="411"/>
+        <location filename="build/cryptonotes/ui/Settings.qml" line="413"/>
+        <location filename="ui/Settings.qml" line="413"/>
         <source>An error occurred. The program could not rewrite your database file</source>
         <translation>Произошла ошибка. Программа не смогла перезаписать Вашу базу данных</translation>
     </message>
