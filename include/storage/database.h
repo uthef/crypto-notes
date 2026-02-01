@@ -15,9 +15,9 @@ namespace cryptonotes {
     class Database final {
     public:
         void open(const char* filePath, std::string password);
-        void makeSureTableNotesExists(char** errMsg);
+        void makeSureTableNotesExists(std::string& error);
         int addNote(Note& note);
-        void loadExtension(const char* filePath, char** errMsg);
+        void loadExtension(const char* filePath, std::string& error);
         std::optional<Note> getNoteById(long id);
         int updateNote(Note& note, int flags, bool updateTimestamp);
         int deleteNote(long id);

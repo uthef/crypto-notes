@@ -12,18 +12,32 @@ void Database::open(const char* filePath, std::string password) {
     sqlite3_key(_db, password.c_str(), password.length());
 }
 
-void Database::loadExtension(const char* filePath, char** errMsg) {
+void Database::loadExtension(const char* filePath, std::string& error) {
     assert(isOpen());
+
+    char* errMsg = 0;
 
     sqlite3_enable_load_extension(_db, 1);
-    sqlite3_load_extension(_db, filePath, 0, errMsg);
+    sqlite3_load_extension(_db, filePath, 0, &errMsg);
     sqlite3_enable_load_extension(_db, 0);
+
+    if (errMsg) {
+        error = std::string(errMsg);
+        sqlite3_free(errMsg);
+    }
 }
 
-void Database::makeSureTableNotesExists(char** errMsg) {
+void Database::makeSureTableNotesExists(std::string& error) {
     assert(isOpen());
 
-    sqlite3_exec(_db, CREATE_TABLE_NOTES_Q, 0, 0, errMsg);
+    char* errMsg = 0;
+
+    sqlite3_exec(_db, CREATE_TABLE_NOTES_Q, 0, 0, &errMsg);
+
+    if (errMsg) {
+        error = std::string(errMsg);
+        sqlite3_free(errMsg);
+    }
 }
 
 void Database::rekey(std::string newKey) {

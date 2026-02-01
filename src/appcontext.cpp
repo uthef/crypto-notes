@@ -37,7 +37,7 @@ AppContext::AppContext(QGuiApplication* app, bool isAnotherInstanceRunning) : _l
 void AppContext::onPasswordValidated(QString password) {
     if (db.isOpen()) return;
 
-    char* errMsg;
+    std::string error;
 
     QFileInfo pathInfo(_config.dbPath());
 
@@ -57,9 +57,9 @@ void AppContext::onPasswordValidated(QString password) {
     file.close();
 
     db.open(_config.dbPath().toStdString().c_str(), password.toStdString());
-    db.makeSureTableNotesExists(&errMsg);
+    db.makeSureTableNotesExists(error);
 
-    if (errMsg) {
+    if (!error.empty()) {
         emit dbConnectionFail(tr("Wrong password or corrupted file"));
         db.close();
 
@@ -132,10 +132,10 @@ void AppContext::onPasswordUpdateRequested(QString oldPassword, QString newPassw
 
     db.open(_config.dbPath().toStdString().c_str(), oldPassword.toStdString());
 
-    char* errMsg;
-    db.makeSureTableNotesExists(&errMsg);
+    std::string error;
+    db.makeSureTableNotesExists(error);
 
-    if (errMsg) {
+    if (!error.empty()) {
         db.close();
         emit passwordUpdateResult(tr("Password update failed. Double check your password"), false);
         return;

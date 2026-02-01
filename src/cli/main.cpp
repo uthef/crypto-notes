@@ -20,7 +20,7 @@ void setupTranslation(AppConfig& config, QCoreApplication& app, QTranslator& tra
 int main(int argc, char** argv) {
     Terminal::init();
 
-    char* errMsg = 0;
+    std::string error;
     int sqlCode = 0;
 
     CLI_ACTION action = NO_ACTION;
@@ -49,9 +49,9 @@ int main(int argc, char** argv) {
 
     Terminal::printLine();
 
-    database.makeSureTableNotesExists(&errMsg);
+    database.makeSureTableNotesExists(error);
 
-    if (errMsg) {
+    if (!error.empty()) {
         Terminal::printLine(app.translate("Window", "Database connection error."));
         database.close();
         return -1;
