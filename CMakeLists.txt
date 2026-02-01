@@ -30,35 +30,21 @@ include_directories(
     ${SQLCipher_INCLUDE_DIRS}
 )
 
-add_executable(${CRYPTO_NOTES_CLI}
-    res.qrc
-    src/cli/main.cpp
-    src/cli/terminal.cpp
-    src/cli/tablerow.cpp
-    src/cli/tablecell.cpp
-    src/cli/parsearguments.cpp
-    src/storage/appconfig.cpp
-
-    src/storage/database.cpp
-    src/storage/note.cpp
-    src/storage/notelist.cpp
-    src/utils/formatter.cpp
-
-    include/tasks/backgroundbackupthread.h
-    src/tasks/backgroundbackupthread.cpp
-
-    src/utils/passwordgenerator.cpp
-)
-
-target_link_libraries(${CRYPTO_NOTES_CLI} PRIVATE
-    Qt6::Core
-    OpenSSL::SSL
-    ${SQLCipher_LINK_LIBRARIES}
-)
-
 qt_standard_project_setup()
 
-qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} translations/cryptonotes_ru.ts)
+qt_add_translations(${CRYPTO_NOTES_GUI}
+    TS_FILES
+        translations/cryptonotes_ru.ts
+    RESOURCE_PREFIX "/translations"
+    ${CMAKE_SOURCE_DIR}
+)
+
+qt_add_translations(${CRYPTO_NOTES_CLI}
+    TS_FILES
+        translations/cryptonotes_ru.ts
+    RESOURCE_PREFIX "/translations"
+    ${CMAKE_SOURCE_DIR}
+)
 
 qt_add_executable(${CRYPTO_NOTES_GUI}
     ${QM_FILES}
@@ -87,6 +73,27 @@ qt_add_executable(${CRYPTO_NOTES_GUI}
     src/tasks/backgroundbackupthread.cpp
     include/models/backuppathlistmodel.h
     src/models/backuppathlistmodel.cpp
+)
+
+add_executable(${CRYPTO_NOTES_CLI}
+    ${QM_FILES}
+    res.qrc
+    src/cli/main.cpp
+    src/cli/terminal.cpp
+    src/cli/tablerow.cpp
+    src/cli/tablecell.cpp
+    src/cli/parsearguments.cpp
+    src/storage/appconfig.cpp
+
+    src/storage/database.cpp
+    src/storage/note.cpp
+    src/storage/notelist.cpp
+    src/utils/formatter.cpp
+
+    include/tasks/backgroundbackupthread.h
+    src/tasks/backgroundbackupthread.cpp
+
+    src/utils/passwordgenerator.cpp
 )
 
 target_compile_definitions(${CRYPTO_NOTES_GUI} PRIVATE APP_VERSION="${PROJECT_VERSION}")
@@ -141,6 +148,12 @@ qt_add_qml_module(${CRYPTO_NOTES_GUI}
 target_link_libraries(${CRYPTO_NOTES_GUI} PRIVATE
     Qt6::Quick
     Qt6::QuickControls2
+    OpenSSL::SSL
+    ${SQLCipher_LINK_LIBRARIES}
+)
+
+target_link_libraries(${CRYPTO_NOTES_CLI} PRIVATE
+    Qt6::Core
     OpenSSL::SSL
     ${SQLCipher_LINK_LIBRARIES}
 )

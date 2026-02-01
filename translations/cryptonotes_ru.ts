@@ -150,7 +150,7 @@
     <message>
         <location filename="../src/cli/main.cpp" line="101"/>
         <source>Cannot open file</source>
-        <translation type="unfinished">Не удалось открыть файл</translation>
+        <translation>Не удалось открыть файл</translation>
     </message>
 </context>
 <context>
