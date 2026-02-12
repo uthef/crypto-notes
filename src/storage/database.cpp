@@ -1,19 +1,18 @@
 #include "storage/database.h"
-#include <cassert>
 #include <cstring>
 #include "storage/queries.h"
 
 using namespace cryptonotes;
 
 void Database::open(const char* filePath, std::string password) {
-    assert(!isOpen());
+    if (isOpen()) return;
 
     sqlite3_open(filePath, &_db);
     sqlite3_key(_db, password.c_str(), password.length());
 }
 
 void Database::loadExtension(const char* filePath, std::string& error) {
-    assert(isOpen());
+    if (!isOpen()) return;
 
     char* errMsg = 0;
 
@@ -28,7 +27,7 @@ void Database::loadExtension(const char* filePath, std::string& error) {
 }
 
 void Database::makeSureTableNotesExists(std::string& error) {
-    assert(isOpen());
+    if (!isOpen()) return;
 
     char* errMsg = 0;
 
@@ -41,7 +40,7 @@ void Database::makeSureTableNotesExists(std::string& error) {
 }
 
 void Database::rekey(std::string newKey) {
-    assert(isOpen());
+    if (!isOpen()) return;
     sqlite3_rekey(_db, newKey.c_str(), newKey.length());
 }
 
@@ -56,7 +55,7 @@ Note Database::constructNote(sqlite3_stmt* stmt, bool includeContent) {
 }
 
 int Database::addNote(Note& note) {
-    assert(isOpen());
+    if (!isOpen()) return SQLITE_ERROR;
 
     sqlite3_stmt* stmt;
 
@@ -77,7 +76,7 @@ int Database::addNote(Note& note) {
 }
 
 int Database::deleteNote(long id) {
-    assert(isOpen());
+    if (!isOpen()) return SQLITE_ERROR;
 
     sqlite3_stmt* stmt;
     sqlite3_prepare(_db, DELETE_NOTE_Q, len(DELETE_NOTE_Q), &stmt, nullptr);
@@ -90,7 +89,7 @@ int Database::deleteNote(long id) {
 }
 
 std::optional<Note> Database::getNoteById(long id) {
-    assert(isOpen());
+    if (!isOpen()) return std::nullopt;
 
     sqlite3_stmt* stmt;
 
@@ -112,7 +111,7 @@ std::optional<Note> Database::getNoteById(long id) {
 }
 
 int Database::updateNote(Note& note, int flags, bool updateTimestamp) {
-    assert(isOpen());
+    if (!isOpen()) return SQLITE_ERROR;
 
     std::string sql = "update notes set ";
 
@@ -133,7 +132,9 @@ int Database::updateNote(Note& note, int flags, bool updateTimestamp) {
         sql.append("content = ?");
     }
 
-    assert(columnCount != 0);
+    if (columnCount == 0) {
+        return SQLITE_ERROR;
+    }
 
     if (updateTimestamp) {
         sql.append(", timestamp = unixepoch()");
@@ -171,7 +172,7 @@ int Database::updateNote(Note& note, int flags, bool updateTimestamp) {
 }
 
 std::unique_ptr<NoteList> Database::getRecentNotes(int& code) {
-    assert(isOpen());
+    if (!isOpen()) return nullptr;
 
     auto listPtr = std::make_unique<NoteList>();
     sqlite3_stmt* stmt;
@@ -185,7 +186,7 @@ std::unique_ptr<NoteList> Database::getRecentNotes(int& code) {
 }
 
 void Database::forEachNote(const std::function<void(Note*)>& func, int& code) {
-    assert(isOpen());
+    if (!isOpen()) return;
 
     sqlite3_stmt* stmt;
     sqlite3_prepare(_db, SELECT_ALL_NOTES_Q, len(SELECT_ALL_NOTES_Q), &stmt, nullptr);
@@ -200,7 +201,10 @@ void Database::forEachNote(const std::function<void(Note*)>& func, int& code) {
 }
 
 std::unique_ptr<NoteList> Database::find(const char* query, int& code) {
-    assert(isOpen());
+    if (!isOpen()) {
+        code = SQLITE_ERROR;
+        return nullptr;
+    }
 
     auto listPtr = std::make_unique<NoteList>();
     sqlite3_stmt* stmt;
@@ -228,7 +232,7 @@ void Database::selectNotes(sqlite3_stmt* stmt, NoteList& list, int& code, bool i
 }
 
 void Database::close() {
-    assert(isOpen());
+    if (!isOpen()) return;
 
     sqlite3_close(_db);
     _db = 0;
@@ -243,7 +247,10 @@ bool Database::isCodeSuccessful(int code) const {
 }
 
 size_t Database::countNotes(int& code) const {
-    assert(isOpen());
+    if (!isOpen()) {
+        code = SQLITE_ERROR;
+        return 0;
+    }
 
     sqlite3_stmt* stmt = 0;
     sqlite3_prepare(_db, COUNT_NOTES_Q, len(COUNT_NOTES_Q), &stmt, nullptr);
