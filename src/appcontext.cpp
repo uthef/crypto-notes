@@ -209,6 +209,9 @@ void AppContext::onDatabaseFileRestorationRequested(QString filePath) {
 }
 
 void AppContext::onAppAboutToQuit() {
+    if (db.isOpen())
+        db.close();
+
     if (_isAnotherInstanceRunning) return;
     _config.setWindowSize(_windowWidth, _windowHeight);
     _config.setWindowMaximized(_windowMaximized);

@@ -49,7 +49,7 @@ QString Formatter::timestampToReadableDateTime(long timestamp, bool monthNameLas
 
 QString Formatter::escapeQuery(QString query, char escapeChar) {
     for (size_t i = 0; i < query.length(); i++) {
-        if (query[i] == '%' || query[i] == '_') {
+        if (query[i] == '%' || query[i] == '_' || query[i] == escapeChar) {
             query = query.insert(i++, escapeChar);
         }
     }

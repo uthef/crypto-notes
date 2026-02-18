@@ -287,6 +287,7 @@ ApplicationWindow {
         if (!appWindow.stackViewTransitionAllowed) return;
         if (stackView.currentItem.item.name === "auth") return;
 
+        appCtx.searchQuery = "";
         appCtx.onDbDisconnectionRequest();
 
         while (stackView.depth > 1) {
